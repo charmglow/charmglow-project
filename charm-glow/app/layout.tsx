@@ -14,7 +14,9 @@ export const metadata = {
 const RootLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="en">
     <body className={inter.className}>
-      <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+      <StyledComponentsRegistry>
+        {children}
+      </StyledComponentsRegistry>
     </body>
   </html>
 );
