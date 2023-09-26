@@ -1,13 +1,55 @@
 'use client'
-import { Form, Input, Button, Space, Col, Row, Card, ConfigProvider, Typography, Avatar, FormInstance } from 'antd';
+import { Form, Input, Button, Space, Col, Row, Card, ConfigProvider, Typography, Avatar, FormInstance, notification, message } from 'antd';
 import theme from '@/theme/themeConfig';
 import { AntDesignOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { useRef } from 'react';
 import SubmitBtn from './SubmitBtn';
+import axios from 'axios';
+import React from 'react';
+import { useRouter } from 'next/navigation';
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
+
 const Login = () => {
+  const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
-  const onFinish = (values: any) => {
-    console.log('Received values:', values);
+  const { push } = useRouter();
+  const onFinish = async (values: any) => {
+    try {
+      const response = await axios.post('http://localhost:3001/api/login', values);
+      // Handle successful login response (e.g., store tokens or redirect)
+      console.log('Login success:', response.data);
+      messageApi.open({
+        key: "updatable",
+        type: 'loading',
+        content: 'Loading...',
+      });
+      setTimeout(() => {
+        messageApi.open({
+          key: "updatable",
+          type: 'success',
+          content: "admin login successfully",
+          duration: 2,
+        });
+      }, 1000);
+      push('admin/dashboard');
+    } catch (error: any) {
+      // Handle login error (e.g., display error message)
+      messageApi.open({
+        key: "updatable",
+        type: 'loading',
+        content: 'Loading...',
+      });
+      setTimeout(() => {
+        messageApi.open({
+          key: "updatable",
+          type: 'error',
+          content: error.response?.data?.message,
+          duration: 2,
+        });
+      }, 1000);
+      // error(error.response?.data || error.message)
+
+    }
   };
   const formRef = useRef<FormInstance>(null);
   const { Title, Text } = Typography;
@@ -19,6 +61,7 @@ const Login = () => {
   };
   return (
     <ConfigProvider theme={theme}>
+      {contextHolder}
       <Row style={{ display: 'flex', minHeight: '10vh', minWidth: '100vw', backgroundColor: '#876553', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
         <Col xs={24} xl={8}>
           <Title level={3} style={{ color: '#fff' }}>CHARM GLOW</Title>
@@ -32,8 +75,17 @@ const Login = () => {
         /></Col>
         <Col xs={24} xl={8}>
           <Card title="ADMIN LOGIN" bordered={false} headStyle={{ backgroundColor: '#876553', color: '#fff', width: 300 }} size="default">
-            <Form form={form} name="validateOnly" layout="vertical" autoComplete="off">
-              <Form.Item name="email" label="Email" rules={[{ required: true, message: 'Please enter email' }]}>
+            <Form form={form} name="validateOnly" layout="vertical" autoComplete="off" onFinish={onFinish}>
+              <Form.Item name="email" label="Email" rules={[
+                {
+                  required: true,
+                  message: 'Please enter your email!',
+                },
+                {
+                  type: 'email',
+                  message: 'Please enter a valid email address!',
+                },
+              ]}>
                 <Input prefix={<MailOutlined />} placeholder='Enter username or email' />
               </Form.Item>
               <Form.Item name="password" label="Password" rules={[{ required: true, message: 'Please enter password' }]}>

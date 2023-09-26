@@ -14,7 +14,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import theme from '@/theme/themeConfig';
 const { Header, Content, Footer, Sider } = Layout;
-
+import Link from 'next/link';
 
 const { Title, Text } = Typography;
 type MenuItem = Required<MenuProps>['items'][number];
@@ -68,10 +68,12 @@ const itemsDropdown: MenuProps['items'] = [
     {
         key: '3',
         label: (
-            <Space style={{ padding: '5px 0px' }}>
-                <LogoutOutlined color='red' />
-                <Text type="danger">Logout</Text>
-            </Space>
+            <Link href="/admin" prefetch={false} className='text-red-600'>
+                <Space style={{ padding: '5px 0px' }}>
+                    <LogoutOutlined color='red' />
+                    <Text type="danger" style={{ paddingLeft: 10 }}>Logout</Text>
+                </Space>
+            </Link>
         ),
     },
 ];
