@@ -1,56 +1,59 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 'use client'
 import { Form, Input, Button, Space, Col, Row, Card, ConfigProvider, Typography, Avatar, FormInstance, notification, message } from 'antd';
 import theme from '@/theme/themeConfig';
 import { AntDesignOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { useRef } from 'react';
 import SubmitBtn from './SubmitBtn';
-import axios from 'axios';
-import React from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react';
+import { redirect, useRouter } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { loginAsync } from "@/store/action/auth/authSlice"
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 const Login = () => {
   const [messageApi, contextHolder] = message.useMessage();
+  const dispatch = useAppDispatch();
+  const { loading, user, error } = useAppSelector(state => state.auth)
   const [form] = Form.useForm();
   const { push } = useRouter();
-  const onFinish = async (values: any) => {
+  useEffect(() => {
+    if (!user) {
+      redirect("/admin/dashboard")
+    }
+  }, []);
+
+  const onFinish = async (values: {
+    email: string,
+    password: string,
+  }) => {
     try {
-      const response = await axios.post('http://localhost:3001/api/login', values);
-      // Handle successful login response (e.g., store tokens or redirect)
-      console.log('Login success:', response.data);
-      messageApi.open({
-        key: "updatable",
-        type: 'loading',
-        content: 'Loading...',
-      });
-      setTimeout(() => {
+      await dispatch(loginAsync(values)).unwrap().then((originalPromiseResult) => {
+        // handle result here
+        console.log("originalPromiseResult", originalPromiseResult)
         messageApi.open({
           key: "updatable",
           type: 'success',
-          content: "admin login successfully",
-          duration: 2,
+          content: originalPromiseResult?.msgStatus,
         });
-      }, 1000);
-      push('admin/dashboard');
-    } catch (error: any) {
-      // Handle login error (e.g., display error message)
-      messageApi.open({
-        key: "updatable",
-        type: 'loading',
-        content: 'Loading...',
-      });
-      setTimeout(() => {
+        setTimeout(() => {
+          push('admin/dashboard');
+        }, 500);
+      }).catch((rejectedValueOrSerializedError) => {
+        //   handle error here
         messageApi.open({
           key: "updatable",
           type: 'error',
-          content: error.response?.data?.message,
-          duration: 2,
+          content: rejectedValueOrSerializedError,
         });
-      }, 1000);
-      // error(error.response?.data || error.message)
+      });
 
+      // user && push('admin/dashboard');
+    } catch (error: any) {
+      console.log(error);
     }
   };
+
   const formRef = useRef<FormInstance>(null);
   const { Title, Text } = Typography;
   const onReset = () => {
