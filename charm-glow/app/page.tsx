@@ -32,8 +32,7 @@ const HomePage = () => {
   return (
     <ConfigProvider theme={theme}>
       <div className="App">
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: '0px 20px' }} className='deskmenu'>
-
+        <span className='deskmenu'>
           <Avatar
             style={{ marginTop: 10 }}
             size={{ xs: 40, sm: 40, md: 40, lg: 40, xl: 40, xxl: 40 }}
@@ -46,7 +45,7 @@ const HomePage = () => {
             <UserOutlined style={{ fontSize: 20 }} />
             <ShoppingCartOutlined style={{ fontSize: 20, padding: '0px 10px' }} />
           </Space>
-        </div>
+        </span>
         <div style={{ width: '100vw', padding: '0px 20px' }} className='drawermenu'>
 
           <MenuOutlined onClick={() => setOpenMenu(true)} />

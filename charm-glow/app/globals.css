@@ -6,3 +6,16 @@ body { margin: 0; padding: 0; }
 }
 
     
+@media (max-width: 580px) {
+    .deskmenu {
+        display: none;
+    }
+}
+
+.deskmenu  {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    display: flex;
+}

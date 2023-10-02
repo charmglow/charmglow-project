@@ -1,8 +1,8 @@
 import React from 'react';
 import './globals.css';
 import { Inter } from 'next/font/google';
-
 import StyledComponentsRegistry from '../lib/AntdRegistry';
+import Providers from './Providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,9 +14,11 @@ export const metadata = {
 const RootLayout = ({ children }: React.PropsWithChildren) => (
   <html lang="en">
     <body className={inter.className}>
-      <StyledComponentsRegistry>
-        {children}
-      </StyledComponentsRegistry>
+      <Providers>
+        <StyledComponentsRegistry>
+          {children}
+        </StyledComponentsRegistry>
+      </Providers>
     </body>
   </html>
 );

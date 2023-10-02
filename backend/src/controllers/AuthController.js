@@ -9,15 +9,15 @@ async function login(req, res) {
     if (!(username || email) || !password) {
       return res
         .status(422)
-        .json({ message: 'Username and password are required fields.' });
+        .json({ msgStatus: 'Username and password are required fields.' });
     }
     const user = await User.findOne().or([{ username }, { email }]);
     if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials!' });
+      return res.status(401).json({ msgStatus: 'Invalid credentials!' });
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid credentials!' });
+      return res.status(401).json({ msgStatus: 'Invalid credentials!' });
     }
     const token = jwt.sign(
       {
@@ -31,13 +31,13 @@ async function login(req, res) {
     );
     delete user._doc.password;
     res.json({
-      message: 'User login successfully',
+      msgStatus: 'User login successfully',
       token,
       ...user._doc,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error', validation: error });
+    res.status(500).json({ msgStatus: 'Server error', validation: error });
   }
 }
 async function signup(req, res) {
@@ -54,17 +54,17 @@ async function signup(req, res) {
     if (existingUser) {
       return res
         .status(409)
-        .json({ message: 'Username or email already exists' });
+        .json({ msgStatus: 'Username or email already exists' });
     }
     const savedUser = await newUser.save();
 
     res.status(201).json({
-      message: 'User account has been created successfully',
+      msgStatus: 'User account has been created successfully',
       user: savedUser,
     });
   } catch (error) {
     const validationError = JSON.parse(error.message);
-    res.status(422).json({ message: validationError });
+    res.status(422).json({ msgStatus: validationError });
   }
 }
 

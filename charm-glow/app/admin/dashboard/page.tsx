@@ -15,6 +15,7 @@ import { useState } from 'react';
 import theme from '@/theme/themeConfig';
 const { Header, Content, Footer, Sider } = Layout;
 import Link from 'next/link';
+import { useAppSelector } from '@/store/hooks';
 
 const { Title, Text } = Typography;
 type MenuItem = Required<MenuProps>['items'][number];
@@ -79,6 +80,7 @@ const itemsDropdown: MenuProps['items'] = [
 ];
 const DashboardPage: React.FC = () => {
     const [collapsed, setCollapsed] = useState(true);
+    const { user } = useAppSelector(state => state.auth);
     return (
         <ConfigProvider theme={theme}>
             <Layout style={{ minHeight: '100vh', margin: 0 }}>
@@ -89,7 +91,7 @@ const DashboardPage: React.FC = () => {
                 <Layout>
                     <Header style={{ padding: '0px 20px' }} >
                         <Space style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Title level={2} italic>Welcome Admin</Title>
+                            <Title level={2} italic>Welcome {user?.email}</Title>
                             <Dropdown menu={{ items: itemsDropdown }} placement="bottom" arrow>
                                 <Avatar
                                     size={{ xs: 24, sm: 30, md: 35, lg: 48, xl: 48, xxl: 48 }}
