@@ -18,8 +18,10 @@ const Login = () => {
   const [form] = Form.useForm();
   const { push } = useRouter();
   useEffect(() => {
-    if (!user) {
+    if (user) {
       redirect("/admin/dashboard")
+    } else {
+      redirect("/admin")
     }
   }, []);
 

@@ -18,4 +18,12 @@ export interface User {
     // Add other user properties here
 }
 
-
+export interface Product {
+    _id: string,
+    title: string,
+    price: number,
+    category: string,
+    productImage?: string,
+    createdAt?: string,
+    __v?: number
+}

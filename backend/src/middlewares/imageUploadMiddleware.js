@@ -29,4 +29,4 @@ function imageUploadMiddleware(req, res, next) {
   });
 }
 
-module.exports = { imageUploadMiddleware };
+module.exports = { imageUploadMiddleware, upload };

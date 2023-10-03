@@ -5,14 +5,14 @@ import thunk from 'redux-thunk'; // Import Redux Thunk
 import coounterSlice from './action/counter/coounterSlice';
 import { persistStore } from 'redux-persist';
 
-
+import productsSlice from './action/products/productsSlice';
 const store = configureStore({
     reducer: {
         auth: authSlice,
-        counter: coounterSlice
+        counter: coounterSlice,
+        products: productsSlice
         // Add other reducers if you have more slices
     },
-    devTools: true,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(thunk, logger), // Add the logger middleware to the middleware array
 

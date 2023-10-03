@@ -25,9 +25,6 @@ async function login(req, res) {
         username: user.username,
       },
       process.env.SECRET_KEY,
-      {
-        expiresIn: '1h',
-      },
     );
     delete user._doc.password;
     res.json({
