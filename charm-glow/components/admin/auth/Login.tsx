@@ -70,7 +70,7 @@ const Login = () => {
         <Col xs={24} xl={8}><Avatar
           size={{ xs: 90, sm: 90, md: 90, lg: 90, xl: 90, xxl: 90 }}
           icon={<AntDesignOutlined />}
-          src={"https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg"}
+          src={"/logo.jpeg"}
         /></Col>
         <Col xs={24} xl={8}>
           <Card title="ADMIN LOGIN" bordered={false} headStyle={{ backgroundColor: '#876553', color: '#fff', width: 300 }} size="default">

@@ -40,8 +40,7 @@ const items: MenuItem[] = [
     getItem('Customers', '/dashboard/customers', <DesktopOutlined />),
     getItem('Orders', '/dashboard/orders', <UserOutlined />),
     getItem('Products', '/dashboard/products', <DesktopOutlined />),
-    getItem('Category', '/dashboard/category', <TeamOutlined />, [getItem('Necklace', '6'), getItem('Rings', '8')]),
-    getItem('Setting', '/dashboard/setting', <FileOutlined />),
+    getItem('Setting', '/dashboard/settings', <FileOutlined />),
 ];
 
 
@@ -99,8 +98,7 @@ const NavBar = ({ children }: { children: React.ReactNode }) => {
                             <Dropdown menu={{ items: itemsDropdown }} placement="bottom" arrow>
                                 <Avatar
                                     size={{ xs: 24, sm: 30, md: 35, lg: 48, xl: 48, xxl: 48 }}
-                                    icon={<AntDesignOutlined />}
-                                    src={"https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg"}
+                                    icon={<UserOutlined />}
                                 />
                             </Dropdown>
 
@@ -109,7 +107,7 @@ const NavBar = ({ children }: { children: React.ReactNode }) => {
                     <Content style={{ margin: '0 16px' }}>
                         <div>{children}</div>
                     </Content>
-                    <Footer style={{ textAlign: 'center' }}>©2023 Created by Charm Glow</Footer>
+                    <Footer style={{ textAlign: 'center' }}></Footer>
                 </Layout>
             </Layout>
         </ConfigProvider>
