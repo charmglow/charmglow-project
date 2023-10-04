@@ -15,8 +15,9 @@ import { useState } from 'react';
 import theme from '@/theme/themeConfig';
 const { Header, Content, Footer, Sider } = Layout;
 import Link from 'next/link';
-import { useAppSelector } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { redirect, useRouter } from 'next/navigation'
+import { logout } from '@/store/action/auth/authSlice';
 const { Title, Text } = Typography;
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -43,45 +44,47 @@ const items: MenuItem[] = [
     getItem('Setting', '/dashboard/setting', <FileOutlined />),
 ];
 
-const itemsDropdown: MenuProps['items'] = [
-    {
-        key: '1',
-        label: (
-            <Space style={{ padding: '5px 0px' }}>
-                <UserOutlined />
-                <div>
-                    Account
-                </div>
-            </Space>
-        ),
-    },
-    {
-        key: '2',
-        label: (
-            <Space style={{ padding: '5px 0px' }}>
-                <SettingOutlined />
-                <div>
-                    Setting
-                </div>
-            </Space>
-        ),
-    },
-    {
-        key: '3',
-        label: (
-            <Link href="/admin" prefetch={false} className='text-red-600'>
-                <Space style={{ padding: '5px 0px' }}>
-                    <LogoutOutlined color='red' />
-                    <Text type="danger" style={{ paddingLeft: 10 }}>Logout</Text>
-                </Space>
-            </Link>
-        ),
-    },
-];
+
 const NavBar = ({ children }: { children: React.ReactNode }) => {
     const [collapsed, setCollapsed] = useState(true);
     const { user } = useAppSelector(state => state.auth);
-    const router = useRouter()
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+    const itemsDropdown: MenuProps['items'] = [
+        {
+            key: '1',
+            label: (
+                <Space style={{ padding: '5px 0px' }}>
+                    <UserOutlined />
+                    <div>
+                        Account
+                    </div>
+                </Space>
+            ),
+        },
+        {
+            key: '2',
+            label: (
+                <Space style={{ padding: '5px 0px' }}>
+                    <SettingOutlined />
+                    <div>
+                        Setting
+                    </div>
+                </Space>
+            ),
+        },
+        {
+            key: '3',
+            label: (
+                <Link href="/admin" prefetch={false} className='text-red-600' onClick={() => dispatch(logout())}>
+                    <Space style={{ padding: '5px 0px' }}>
+                        <LogoutOutlined color='red' />
+                        <Text type="danger" style={{ paddingLeft: 10 }}>Logout</Text>
+                    </Space>
+                </Link>
+            ),
+        },
+    ];
     return (
         <ConfigProvider theme={theme}>
             <Layout style={{ minHeight: '100vh', margin: 0 }}>
@@ -106,7 +109,7 @@ const NavBar = ({ children }: { children: React.ReactNode }) => {
                     <Content style={{ margin: '0 16px' }}>
                         <div>{children}</div>
                     </Content>
-                    <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
+                    <Footer style={{ textAlign: 'center' }}>©2023 Created by Charm Glow</Footer>
                 </Layout>
             </Layout>
         </ConfigProvider>

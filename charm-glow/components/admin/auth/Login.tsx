@@ -17,13 +17,7 @@ const Login = () => {
   const { loading, user, error } = useAppSelector(state => state.auth)
   const [form] = Form.useForm();
   const { push } = useRouter();
-  useEffect(() => {
-    if (user) {
-      redirect("/admin/dashboard")
-    } else {
-      redirect("/admin")
-    }
-  }, []);
+
 
   const onFinish = async (values: {
     email: string,

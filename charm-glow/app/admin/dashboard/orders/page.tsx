@@ -1,7 +1,8 @@
+import withAuth from "@/components/admin/auth/withAuth";
 import React from "react";
 
 const OrdersPage = () => {
     return <div>OrdersPage</div>;
 };
 
-export default OrdersPage;
+export default withAuth(OrdersPage);

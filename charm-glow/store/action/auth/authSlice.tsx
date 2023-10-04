@@ -33,7 +33,14 @@ export const loginAsync = createAsyncThunk(
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      // Reset the authentication state to its initial values
+      state.user = null;
+      state.loading = false;
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(loginAsync.pending, (state) => {
       state.loading = true;
@@ -55,4 +62,5 @@ const rootPersistConfig = {
   storage: storage,
   blacklist: ['auth']
 }
+export const { logout } = authSlice.actions;
 export default persistReducer(rootPersistConfig, authSlice.reducer);
