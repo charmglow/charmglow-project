@@ -11,7 +11,7 @@ import { addProductAsync, deleteProductAsync, getProductsAsync, updateProductAsy
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Product } from '@/store/types';
 import { Typography } from 'antd';
-import withAuth from '@/components/admin/auth/withAuth';
+import withAdminAuth from '@/components/admin/auth/withAdminAuth';
 
 const { Title, Text } = Typography;
 
@@ -387,4 +387,4 @@ const ProductsPage = () => {
     );
 };
 
-export default withAuth(ProductsPage);
+export default withAdminAuth(ProductsPage);

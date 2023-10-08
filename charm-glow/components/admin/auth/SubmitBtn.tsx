@@ -19,7 +19,7 @@ const SubmitBtn = ({ form }: { form: FormInstance }) => {
   }, [values]);
 
   return (
-    <Button type="primary" htmlType="submit" disabled={!submittable}>
+    <Button type="primary" htmlType="submit" disabled={!submittable} className='bg-[#876553]'>
       Submit
     </Button>
   );

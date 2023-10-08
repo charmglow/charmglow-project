@@ -27,14 +27,21 @@ const Login = () => {
       await dispatch(loginAsync(values)).unwrap().then((originalPromiseResult) => {
         // handle result here
         console.log("originalPromiseResult", originalPromiseResult)
-        messageApi.open({
-          key: "updatable",
-          type: 'success',
-          content: originalPromiseResult?.msgStatus,
-        });
-        setTimeout(() => {
+        if (originalPromiseResult?.isAdmin) {
+
           push('admin/dashboard');
-        }, 500);
+          messageApi.open({
+            key: "updatable",
+            type: 'success',
+            content: originalPromiseResult?.msgStatus,
+          });
+        } else {
+          messageApi.open({
+            key: "updatable",
+            type: 'error',
+            content: "Invalid Credientials",
+          });
+        }
       }).catch((rejectedValueOrSerializedError) => {
         //   handle error here
         messageApi.open({
@@ -70,7 +77,7 @@ const Login = () => {
         <Col xs={24} xl={8}><Avatar
           size={{ xs: 90, sm: 90, md: 90, lg: 90, xl: 90, xxl: 90 }}
           icon={<AntDesignOutlined />}
-          src={"/logo.jpeg"}
+          src={"/charm-logo.png"}
         /></Col>
         <Col xs={24} xl={8}>
           <Card title="ADMIN LOGIN" bordered={false} headStyle={{ backgroundColor: '#876553', color: '#fff', width: 300 }} size="default">

@@ -1,5 +1,5 @@
 "use client"
-import withAuth from "@/components/admin/auth/withAuth";
+import withAdminAuth from "@/components/admin/auth/withAdminAuth";
 import { ArrowDownOutlined, ArrowUpOutlined, UserOutlined } from "@ant-design/icons";
 import { Card, Col, Row, Statistic } from "antd";
 import Image from "next/image";
@@ -31,4 +31,4 @@ const DashboardPage = () => {
     </Row>)
 };
 
-export default withAuth(DashboardPage);
+export default withAdminAuth(DashboardPage);

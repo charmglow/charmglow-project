@@ -14,7 +14,9 @@ const store = configureStore({
         // Add other reducers if you have more slices
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(thunk, logger), // Add the logger middleware to the middleware array
+        getDefaultMiddleware({
+            serializableCheck: false
+        }).concat(thunk, logger), // Add the logger middleware to the middleware array
 
 })
 
