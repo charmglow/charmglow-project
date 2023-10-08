@@ -1,9 +1,10 @@
 "use client"
-import withAuth from "@/components/admin/auth/withAuth";
+import withAdminAuth from "@/components/admin/auth/withAdminAuth";
+import CustomersTable from "@/components/admin/customers/CustomersTable";
 import React from "react";
 
 const CustomersPage = () => {
-    return <div>CustomersPage</div>;
+    return <div className="mt-5"><CustomersTable /></div>;
 };
 
-export default withAuth(CustomersPage);
+export default withAdminAuth(CustomersPage);

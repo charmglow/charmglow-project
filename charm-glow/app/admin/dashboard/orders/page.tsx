@@ -1,9 +1,9 @@
 "use client"
-import withAuth from "@/components/admin/auth/withAuth";
+import withAdminAuth from "@/components/admin/auth/withAdminAuth";
 import React from "react";
 
 const OrdersPage = () => {
     return <div>OrdersPage</div>;
 };
 
-export default withAuth(OrdersPage);
+export default withAdminAuth(OrdersPage);

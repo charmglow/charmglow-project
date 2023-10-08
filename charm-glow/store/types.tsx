@@ -15,6 +15,7 @@ export interface User {
     username: string;
     email: string;
     __v: number;
+    isAdmin: boolean
     // Add other user properties here
 }
 
