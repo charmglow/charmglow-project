@@ -6,22 +6,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Name is required!'],
   },
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    minlength: 3,
-    maxlength: 20,
-    validate: {
-      validator: function (value) {
-        const usernameRegex = /^[a-zA-Z0-9._-]+$/;
-        return usernameRegex.test(value);
-      },
-      message: 'Invalid username format',
-    },
-    unique: true,
-  },
   email: {
     type: String,
     required: [true, 'Email is required!'],
@@ -39,16 +23,6 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    minlength: 8,
-    validate: {
-      validator: function (value) {
-        const passwordRegex =
-          /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
-        return passwordRegex.test(value);
-      },
-      message:
-        'Password must be at least 8 characters long and contain at least one uppercase letter, one digit, and one special character (@ $ ! % * ? &)',
-    },
   },
   shippingAddress: {
     street: {
@@ -67,6 +41,10 @@ const userSchema = new mongoose.Schema({
       type: String,
       default: '',
     },
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
   },
 });
 

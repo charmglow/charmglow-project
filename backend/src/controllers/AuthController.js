@@ -3,17 +3,12 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 async function login(req, res) {
-  const { username, password, email } = req.body;
+  const { password, email } = req.body;
   console.log(req.body);
   try {
-    if (!(username || email) || !password) {
-      return res
-        .status(422)
-        .json({ msgStatus: 'Username and password are required fields.' });
-    }
-    const user = await User.findOne().or([{ username }, { email }]);
+    const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ msgStatus: 'Invalid credentials!' });
+      return res.status(404).json({ msgStatus: 'User account not found' });
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
@@ -22,7 +17,7 @@ async function login(req, res) {
     const token = jwt.sign(
       {
         userId: user._id,
-        username: user.username,
+        email: user.email,
       },
       process.env.SECRET_KEY,
     );
@@ -38,20 +33,17 @@ async function login(req, res) {
   }
 }
 async function signup(req, res) {
-  const { username, email, password, name } = req.body;
+  console.log(req.body);
+  const { email, password, name } = req.body;
   try {
     const newUser = new User({
-      username,
       email,
       password,
       name,
     });
-    await newUser.validate();
-    const existingUser = await User.findOne().or([{ username }, { email }]);
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res
-        .status(409)
-        .json({ msgStatus: 'Username or email already exists' });
+      return res.status(409).json({ msgStatus: 'Email is already exists' });
     }
     const savedUser = await newUser.save();
 
