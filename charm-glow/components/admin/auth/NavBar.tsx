@@ -18,7 +18,12 @@ import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { redirect, useRouter } from 'next/navigation'
 import { logout } from '@/store/action/auth/authSlice';
+import { FiUsers } from 'react-icons/fi'
+import { PiShoppingCartLight } from 'react-icons/pi'
+import { SlSettings } from 'react-icons/sl'
+import { BsBoxSeam } from 'react-icons/bs'
 const { Title, Text } = Typography;
+
 type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
@@ -37,10 +42,10 @@ function getItem(
 
 const items: MenuItem[] = [
     getItem('Dashboard', '/dashboard', <PieChartOutlined />),
-    getItem('Customers', '/dashboard/customers', <DesktopOutlined />),
-    getItem('Orders', '/dashboard/orders', <UserOutlined />),
-    getItem('Products', '/dashboard/products', <DesktopOutlined />),
-    getItem('Setting', '/dashboard/settings', <FileOutlined />),
+    getItem('Customers', '/dashboard/customers', <FiUsers />),
+    getItem('Orders', '/dashboard/orders', <PiShoppingCartLight />),
+    getItem('Products', '/dashboard/products', <BsBoxSeam className="text-3xl" />),
+    getItem('Setting', '/dashboard/settings', <SlSettings />),
 ];
 
 

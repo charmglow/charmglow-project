@@ -260,7 +260,7 @@ const ProductsPage = () => {
                             Delete
                         </Button>
                     </Popconfirm>
-                    <Button type="primary" className='uppercase' icon={<EditOutlined />} onClick={() => showAddModal("Update", record)}>
+                    <Button type="primary" className='uppercase bg-[#876553]' icon={<EditOutlined />} onClick={() => showAddModal("Update", record)} >
                         Update
                     </Button>
                 </Space>
