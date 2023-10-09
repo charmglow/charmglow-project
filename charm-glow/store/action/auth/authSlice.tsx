@@ -59,6 +59,7 @@ const authSlice = createSlice({
       state.error = null;
     })
     builder.addCase(loginAsync.fulfilled, (state, action: PayloadAction<User>) => {
+      localStorage.setItem("userToken", action.payload.token)
       state.loading = false;
       state.user = action.payload;
       state.error = null;

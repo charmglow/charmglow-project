@@ -6,11 +6,13 @@ import coounterSlice from './action/counter/coounterSlice';
 import { persistStore } from 'redux-persist';
 
 import productsSlice from './action/products/productsSlice';
+import customersSlice from './action/customers/customersSlice';
 const store = configureStore({
     reducer: {
         auth: authSlice,
         counter: coounterSlice,
-        products: productsSlice
+        products: productsSlice,
+        customers: customersSlice,
         // Add other reducers if you have more slices
     },
     middleware: (getDefaultMiddleware) =>

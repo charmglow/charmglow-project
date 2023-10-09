@@ -1,52 +1,37 @@
 import { SearchOutlined } from '@ant-design/icons';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Highlighter from 'react-highlight-words';
 import type { InputRef } from 'antd';
-import { Button, Input, Space, Table } from 'antd';
+import { Button, Input, Space, Table, message } from 'antd';
 import type { ColumnType, ColumnsType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
+import { User } from '@/store/types';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { fetchCustomersAsync } from '@/store/action/customers/customersSlice';
 
-interface DataType {
-    key: string;
-    name: string;
-    age: number;
-    address: string;
-}
 
-type DataIndex = keyof DataType;
 
-const data: DataType[] = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-    },
-    {
-        key: '2',
-        name: 'Joe Black',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-    },
-    {
-        key: '3',
-        name: 'Jim Green',
-        age: 32,
-        address: 'Sydney No. 1 Lake Park',
-    },
-    {
-        key: '4',
-        name: 'Jim Red',
-        age: 32,
-        address: 'London No. 2 Lake Park',
-    },
-];
 
 const CustomersTable: React.FC = () => {
+    const [messageApi, contextHolder] = message.useMessage();
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef<InputRef>(null);
-
+    const { customers, loading } = useAppSelector((state) => state.customers)
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        async function fetchCustomers() {
+            await dispatch(fetchCustomersAsync()).unwrap().then((originalPromiseResult) => {
+                messageApi.success("Customers retrieved successfully")
+            }).catch((rejectedValueOrSerializedError) => {
+                //   handle error here
+                messageApi.error(rejectedValueOrSerializedError?.msgStatus)
+            })
+        }
+        fetchCustomers()
+    }, [])
+    type DataIndex = keyof User;
+    var data: User[] = customers;
     const handleSearch = (
         selectedKeys: string[],
         confirm: (param?: FilterConfirmProps) => void,
@@ -62,7 +47,7 @@ const CustomersTable: React.FC = () => {
         setSearchText('');
     };
 
-    const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<DataType> => ({
+    const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<User> => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
             <div style={{ padding: 8 }} onKeyDown={(e) => e.stopPropagation()}>
                 <Input
@@ -140,7 +125,7 @@ const CustomersTable: React.FC = () => {
             ),
     });
 
-    const columns: ColumnsType<DataType> = [
+    const columns: ColumnsType<User> = [
         {
             title: 'Name',
             dataIndex: 'name',
@@ -149,23 +134,30 @@ const CustomersTable: React.FC = () => {
             ...getColumnSearchProps('name'),
         },
         {
-            title: 'Age',
-            dataIndex: 'age',
-            key: 'age',
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
             width: '20%',
-            ...getColumnSearchProps('age'),
+            ...getColumnSearchProps('email'),
         },
         {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
-            ...getColumnSearchProps('address'),
-            sorter: (a, b) => a.address.length - b.address.length,
-            sortDirections: ['descend', 'ascend'],
+            title: 'shipping Address',
+            dataIndex: 'shippingAddress',
+            key: 'shippingAddress',
+            ...getColumnSearchProps('shippingAddress'),
+            render: (text) => (
+                <div>
+                    {Object.values(text).every(value => typeof value === 'string' && value === '') ? 'Not Updated' : Object.values(text).filter(value => typeof value === 'string' && value !== '').join(' ')}
+                </div>
+            )
         },
     ];
 
-    return <Table columns={columns} dataSource={data} />;
+    return (<>
+        {contextHolder}
+        <Table columns={columns} dataSource={data} rowKey="_id" loading={loading} />
+    </>
+    );
 };
 
 export default CustomersTable;
