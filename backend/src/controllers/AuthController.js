@@ -34,12 +34,13 @@ async function login(req, res) {
 }
 async function signup(req, res) {
   console.log(req.body);
-  const { email, password, name } = req.body;
+  const { email, password, name, shippingAddress } = req.body;
   try {
     const newUser = new User({
       email,
       password,
       name,
+      shippingAddress,
     });
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -56,5 +57,24 @@ async function signup(req, res) {
     res.status(422).json({ msgStatus: validationError });
   }
 }
-
-module.exports = { login, signup };
+async function nonAdminUsers(rq, res, next) {
+  try {
+    // Use the find method to get users where isAdmin is false
+    const nonAdminUsers = await User.find({ isAdmin: false }).select(
+      '-password',
+    );
+    if (nonAdminUsers.length == 0) {
+      res.status(404).json({
+        msgStatus: 'No customer found',
+        users: nonAdminUsers,
+      });
+    }
+    res.status(200).json({
+      msgStatus: 'Customers retrieve successfully',
+      Users: nonAdminUsers,
+    });
+  } catch (error) {
+    res.status(500).json({ msgStatus: 'Error fetching non-admin users' });
+  }
+}
+module.exports = { login, signup, nonAdminUsers };

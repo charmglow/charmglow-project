@@ -78,9 +78,6 @@ const ProductsPage = () => {
             form.resetFields()
         } else {
             setIsUpdate(true);
-            console.log('====================================');
-            console.log("record: ", record);
-            console.log('====================================');
             setUpdateId(record)
             form.setFieldsValue(
                 record
@@ -271,8 +268,6 @@ const ProductsPage = () => {
         }
     ];
     const onFinish = async (values: any) => {
-
-        console.log("values ==>", values, fileList)
         values.userToken = userToken;
         if (!isUpdate) {
             dispatch(addProductAsync(
@@ -292,20 +287,13 @@ const ProductsPage = () => {
             dispatch(updateProductAsync(
                 values
             )).unwrap().then((originalPromiseResult) => {
-                // handle result here
-                console.log('====================================');
-                console.log("originalPromiseResult: ", originalPromiseResult);
-                console.log('====================================');
+
                 message.success(originalPromiseResult?.message)
                 setFileList([]);
                 setOpen(false);
                 form.resetFields()
             }).catch((rejectedValueOrSerializedError) => {
                 //   handle error here
-
-                console.log('====================================');
-                console.log("rejectedValueOrSerializedError: ", rejectedValueOrSerializedError);
-                console.log('====================================');
             });
 
         }
