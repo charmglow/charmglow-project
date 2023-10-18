@@ -44,7 +44,7 @@ const SubmitButton = ({ form, btnText }: { form: FormInstance, btnText: string }
         );
     }, [values]);
     return (
-        <Button type="primary" htmlType="submit" disabled={!submittable}>
+        <Button className='uppercase bg-[#876553]' htmlType="submit" disabled={!submittable} type="primary">
             {btnText}
         </Button>
     );
@@ -98,20 +98,17 @@ const ProductsPage = () => {
     };
     var data: DataType[] = products;
     useEffect(() => {
-        if (userToken) {
-            dispatch(getProductsAsync(userToken))
-        }
+        dispatch(getProductsAsync())
     }, [dispatch]);
     const handleDelete = async (record: DataType) => {
         // Filter out the record to be deleted
         // const newData = data.filter((item) => item._id !== record._id);
-        if (userToken) {
-            dispatch(deleteProductAsync({
-                userToken,
-                id: record._id
-            }))
-            dispatch(getProductsAsync(userToken))
-        }
+
+        dispatch(deleteProductAsync({
+            id: record._id
+        }))
+        dispatch(getProductsAsync())
+
         message.success('Record deleted successfully');
     };
     const handleSearch = (
@@ -256,7 +253,7 @@ const ProductsPage = () => {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <Button type="default" danger icon={<DeleteOutlined />} loading={loading}>
+                        <Button type="default" danger icon={<DeleteOutlined />}>
                             Delete
                         </Button>
                     </Popconfirm>
@@ -268,32 +265,27 @@ const ProductsPage = () => {
         }
     ];
     const onFinish = async (values: any) => {
-        values.userToken = userToken;
         if (!isUpdate) {
             dispatch(addProductAsync(
                 values
             )).unwrap().then((originalPromiseResult) => {
-
-                // handle result here
                 message.success(originalPromiseResult?.message)
                 setFileList([]);
                 setOpen(false);
                 form.resetFields()
             }).catch((rejectedValueOrSerializedError) => {
-                //   handle error here
             });
         } else {
-            values.id = updateId?._id
+            values.id = updateId._id
             dispatch(updateProductAsync(
                 values
             )).unwrap().then((originalPromiseResult) => {
-
                 message.success(originalPromiseResult?.message)
                 setFileList([]);
                 setOpen(false);
                 form.resetFields()
             }).catch((rejectedValueOrSerializedError) => {
-                //   handle error here
+
             });
 
         }
@@ -365,7 +357,7 @@ const ProductsPage = () => {
                     </Form>
                 </Modal>
                 <Title level={4} className='uppercase'>Products</Title>
-                <Button type="primary" className='uppercase' onClick={() => showAddModal("Add")}>
+                <Button type="primary" className='uppercase bg-[#876553]' onClick={() => showAddModal("Add")}>
                     Add
                 </Button>
             </Space>

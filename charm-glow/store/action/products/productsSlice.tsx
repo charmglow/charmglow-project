@@ -1,3 +1,4 @@
+import { axiosAdminInstance } from "@/store/axios";
 import { PayloadAction, createAsyncThunk, createSlice, isRejectedWithValue } from "@reduxjs/toolkit";
 import axios from "axios";
 interface Product {
@@ -23,9 +24,9 @@ const initialState: ProductState = {
 
 export const getProductsAsync = createAsyncThunk(
     'products/fetch',
-    async (userToken: string) => {
+    async () => {
         try {
-            const response = await axios.get('http://localhost:3001/api/products/all', { headers: { "Authorization": `Bearer ${userToken}` } });
+            const response = await axiosAdminInstance.get('/products/all');
             return response.data?.products;
         } catch (error: any) {
             return isRejectedWithValue(error.response?.data?.error);
@@ -41,7 +42,7 @@ export const addProductAsync = createAsyncThunk("products/add", async (data: any
         formData.append("description", data.description);
         formData.append('price', data.price);
         formData.append('category', data.category);
-        const response = await axios.post('http://localhost:3001/api/products/add', formData, { headers: { "Authorization": `Bearer ${data?.userToken}`, 'Content-Type': 'multipart/form-data' } });
+        const response = await axiosAdminInstance.post('/products/add', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
         return response.data;
     } catch (error: any) {
         return isRejectedWithValue(error.response?.data?.error);
@@ -50,10 +51,7 @@ export const addProductAsync = createAsyncThunk("products/add", async (data: any
 
 export const updateProductAsync = createAsyncThunk("products/update", async (data: any) => {
     try {
-        console.log('====================================');
-        console.log("data:", data);
-        console.log('====================================');
-        const response = await axios.put(`http://localhost:3001/api/products/${data.id}`, data, { headers: { "Authorization": `Bearer ${data?.userToken}` } });
+        const response = await axiosAdminInstance.put(`/products/${data.id}`, data);
         return response.data;
     } catch (error: any) {
         return isRejectedWithValue(error.response?.data?.error);
@@ -63,23 +61,16 @@ export const updateProductAsync = createAsyncThunk("products/update", async (dat
 export const deleteProductAsync = createAsyncThunk(
     'products/delete',
     async (data: {
-        userToken: string,
         id: string
     }) => {
         try {
-            const headers = {
-                Authorization: `Bearer ${data?.userToken}`,
-            };
-            const response = await axios.delete(`http://localhost:3001/api/products/${data.id}`, { headers });
+            const response = await axiosAdminInstance.delete(`/products/${data.id}`);
             return response.data?.data as Product;
         } catch (error: any) {
             return isRejectedWithValue(error.response?.data?.error);
         }
     }
 );
-interface GetProductsFulfilledAction {
-    payload: Product[];
-}
 const productsSlice = createSlice({
     name: "products",
     initialState,

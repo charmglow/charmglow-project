@@ -1,10 +1,7 @@
 'use client'
 import {
-    DesktopOutlined,
-    FileOutlined,
     PieChartOutlined,
     SettingOutlined,
-    TeamOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
@@ -16,8 +13,8 @@ import theme from '@/theme/themeConfig';
 const { Header, Content, Footer, Sider } = Layout;
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { redirect, useRouter } from 'next/navigation'
-import { logout } from '@/store/action/auth/authSlice';
+import { useRouter } from 'next/navigation'
+import { adminLogout } from '@/store/action/auth/authSlice';
 import { FiUsers } from 'react-icons/fi'
 import { PiShoppingCartLight } from 'react-icons/pi'
 import { SlSettings } from 'react-icons/sl'
@@ -51,7 +48,7 @@ const items: MenuItem[] = [
 
 const NavBar = ({ children }: { children: React.ReactNode }) => {
     const [collapsed, setCollapsed] = useState(true);
-    const { user } = useAppSelector(state => state.auth);
+    const { admin } = useAppSelector(state => state.auth);
     const dispatch = useAppDispatch();
     const router = useRouter();
     const itemsDropdown: MenuProps['items'] = [
@@ -80,7 +77,7 @@ const NavBar = ({ children }: { children: React.ReactNode }) => {
         {
             key: '3',
             label: (
-                <Link href="/admin" prefetch={false} className='text-red-600' onClick={() => dispatch(logout())}>
+                <Link href="/admin" prefetch={false} className='text-red-600' onClick={() => dispatch(adminLogout())}>
                     <Space style={{ padding: '5px 0px' }}>
                         <LogoutOutlined color='red' />
                         <Text type="danger" style={{ paddingLeft: 10 }}>Logout</Text>
@@ -99,7 +96,7 @@ const NavBar = ({ children }: { children: React.ReactNode }) => {
                 <Layout>
                     <Header style={{ padding: '0px 20px' }} >
                         <Space style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Title level={2} italic>Welcome {user?.name} Admin</Title>
+                            <Title level={2} italic>Welcome {admin?.name}</Title>
                             <Dropdown menu={{ items: itemsDropdown }} placement="bottom" arrow>
                                 <Avatar
                                     size={{ xs: 24, sm: 30, md: 35, lg: 48, xl: 48, xxl: 48 }}

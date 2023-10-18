@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-const userSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Name is required!'],
@@ -24,27 +24,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  shippingAddress: {
-    street: {
-      type: String,
-      default: '',
-    },
-    city: {
-      type: String,
-      default: '',
-    },
-    state: {
-      type: String,
-      default: '',
-    },
-    country: {
-      type: String,
-      default: '',
-    },
-  },
 });
 
-userSchema.pre('save', async function (next) {
+adminSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
   }
@@ -62,7 +44,7 @@ userSchema.pre('save', async function (next) {
     next(error);
   }
 });
-userSchema.post('validate', function (error, doc, next) {
+adminSchema.post('validate', function (error, doc, next) {
   if (error) {
     const validationErrors = {};
 
@@ -76,9 +58,9 @@ userSchema.post('validate', function (error, doc, next) {
   }
 });
 
-userSchema.methods.comparePassword = async function comparePassword(data) {
+adminSchema.methods.comparePassword = async function comparePassword(data) {
   console.log(data);
   console.log(this.password);
   return bcrypt.compare(data, this.password);
 };
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Admin', adminSchema);

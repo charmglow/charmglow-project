@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('../../models/User');
 
 async function login(req, res) {
   const { password, email } = req.body;
@@ -23,7 +23,7 @@ async function login(req, res) {
     );
     delete user._doc.password;
     res.json({
-      msgStatus: 'User login successfully',
+      msgStatus: `Welcome ${user._doc.name}`,
       token,
       ...user._doc,
     });
@@ -57,24 +57,4 @@ async function signup(req, res) {
     res.status(422).json({ msgStatus: validationError });
   }
 }
-async function nonAdminUsers(rq, res, next) {
-  try {
-    // Use the find method to get users where isAdmin is false
-    const nonAdminUsers = await User.find({ isAdmin: false }).select(
-      '-password',
-    );
-    if (nonAdminUsers.length == 0) {
-      res.status(404).json({
-        msgStatus: 'No customer found',
-        users: nonAdminUsers,
-      });
-    }
-    res.status(200).json({
-      msgStatus: 'Customers retrieve successfully',
-      Users: nonAdminUsers,
-    });
-  } catch (error) {
-    res.status(500).json({ msgStatus: 'Error fetching non-admin users' });
-  }
-}
-module.exports = { login, signup, nonAdminUsers };
+module.exports = { login, signup };

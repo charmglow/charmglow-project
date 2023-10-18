@@ -1,6 +1,6 @@
-const { deleteImageFile } = require('../helpers/utils');
-const { upload } = require('../middlewares/imageUploadMiddleware');
-const Product = require('../models/Product');
+const { deleteImageFile } = require('../../helpers/utils');
+const { upload } = require('../../middlewares/imageUploadMiddleware');
+const Product = require('../../models/Product');
 
 async function AddProduct(req, res, next) {
   const { title, price, category, description } = req.body;

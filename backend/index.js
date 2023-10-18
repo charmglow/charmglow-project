@@ -14,11 +14,18 @@ app.use('/uploads', express.static('uploads'));
 // Simple Usage (Enable All CORS Requests)
 app.use(cors());
 
-// Login route
-app.use('/api', routes.authRoutes);
+// USER auth routes
+app.use('/api', routes.authUserRoutes);
+// Admin auth routes
+app.use('/api', routes.authAdminRoutes);
+
+// Admin Products auth routes
 app.use('/api', routes.productRoutes);
+// ADMIN DASHBOARD Routes
+app.use('/api', routes.dashboardAdminRoutes);
+
 app.get('/', (req, res) => {
-  res.send('Ali Hassan SERVER IS UP AND RUNNING');
+  res.send('CHARM GLOW SERVER IS UP AND RUNNING');
 });
 // Connect to MongoDB
 async function ConnectDb() {
