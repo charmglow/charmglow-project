@@ -1,6 +1,6 @@
+import { axiosAdminInstance } from "@/store/axios";
 import { User } from "@/store/types";
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 interface CustomersState {
     customers: User[] | [];
@@ -15,11 +15,7 @@ const initialState: CustomersState = {
 
 export const fetchCustomersAsync = createAsyncThunk('customers/fetch', async (_, { rejectWithValue }) => {
     try {
-        const userToken: any = localStorage.getItem('userToken');
-        const response = await axios.get('http://localhost:3001/api/customers', { headers: { "Authorization": `Bearer ${userToken}` } });
-        console.log('====================================');
-        console.log(response.data);
-        console.log('====================================');
+        const response = await axiosAdminInstance.get('/admin/customers');
         return response.data;
     } catch (error: any) {
         return rejectWithValue(error.response?.data?.msgStatus);
@@ -36,7 +32,7 @@ const customersSlice = createSlice({
         })
         builder.addCase(fetchCustomersAsync.fulfilled, (state, action: any) => {
             state.loading = false;
-            state.customers = action.payload?.Users;
+            state.customers = action.payload?.users;
             state.error = null;
         }).addCase(fetchCustomersAsync.rejected, (state, action: any) => {
             state.loading = false;

@@ -15,10 +15,15 @@ export interface User {
     username: string;
     email: string;
     __v: number;
-    isAdmin: boolean
-    // Add other user properties here
 }
-
+export interface Admin {
+    msgStatus: string;
+    token: string;
+    _id: string;
+    name: string;
+    email: string;
+    __v: number;
+}
 export interface Product {
     _id: string,
     title: string,
@@ -27,4 +32,10 @@ export interface Product {
     productImage?: string,
     createdAt?: string,
     __v?: number
+}
+
+
+export interface Analytics {
+    customerCount: number,
+    productCount: number,
 }

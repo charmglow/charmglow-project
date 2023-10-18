@@ -8,27 +8,24 @@ import SubmitBtn from './SubmitBtn';
 import React, { useEffect } from 'react';
 import { redirect, useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { loginAsync } from "@/store/action/auth/authSlice"
+import { adminLoginAsync, loginAsync } from "@/store/action/auth/authSlice"
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 const Login = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useAppDispatch();
-  const { loading, user, error } = useAppSelector(state => state.auth)
+  const { admin } = useAppSelector(state => state.auth)
   const [form] = Form.useForm();
   const { push } = useRouter();
-
-
   const onFinish = async (values: {
     email: string,
     password: string,
   }) => {
     try {
-      await dispatch(loginAsync(values)).unwrap().then((originalPromiseResult) => {
+      await dispatch(adminLoginAsync(values)).unwrap().then((originalPromiseResult) => {
         // handle result here
         console.log("originalPromiseResult", originalPromiseResult)
-        if (originalPromiseResult?.isAdmin) {
-
+        if (originalPromiseResult) {
           push('admin/dashboard');
           messageApi.open({
             key: "updatable",
@@ -50,8 +47,6 @@ const Login = () => {
           content: rejectedValueOrSerializedError,
         });
       });
-
-      // user && push('admin/dashboard');
     } catch (error: any) {
       console.log(error);
     }

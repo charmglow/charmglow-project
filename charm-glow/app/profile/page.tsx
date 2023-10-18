@@ -5,7 +5,6 @@ import React from "react";
 
 const ProfilePage = () => {
     const { user } = useAppSelector(state => state.auth)
-    console.log("hjgdsfgsfgds: ", user)
     return (
         <div>
             <NavBar />
