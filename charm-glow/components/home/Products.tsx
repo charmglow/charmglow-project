@@ -3,13 +3,14 @@
 import { Card, Image, List } from "antd";
 import React from "react";
 const getAllProuducts = async () => {
-    return fetch('https://dummyjson.com/products')
+    return fetch('https://fakestoreapi.com/products')
         .then(res => res.json())
+
 }
 const Products = () => {
     const [data, setData] = React.useState([]);
     React.useEffect(() => {
-        getAllProuducts().then(res => setData(res.products))
+        getAllProuducts().then(res => setData(res))
     })
     return <div className="mt-5">
         <List
@@ -18,7 +19,7 @@ const Products = () => {
             renderItem={(item, index) => (
                 <Card
                     hoverable
-                    title={item?.title} className="m-2" key={index} cover={<Image height={300} className="object-scale-down" src={item?.thumbnail} />}
+                    title={item?.title} className="m-2" key={index} cover={<Image height={300} className="object-scale-down" src={item?.image} />}
                 ></Card>
             )}
         />
