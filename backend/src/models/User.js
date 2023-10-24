@@ -77,8 +77,6 @@ userSchema.post('validate', function (error, doc, next) {
 });
 
 userSchema.methods.comparePassword = async function comparePassword(data) {
-  console.log(data);
-  console.log(this.password);
   return bcrypt.compare(data, this.password);
 };
 module.exports = mongoose.model('User', userSchema);

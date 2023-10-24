@@ -2,6 +2,7 @@
   "name": "charm-glow",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",

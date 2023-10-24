@@ -7,7 +7,6 @@ async function AddProduct(req, res, next) {
 
   // Create a new product instance
   try {
-    console.log(req);
     const newProduct = new Product({
       title,
       price,
@@ -96,9 +95,6 @@ async function deleteProductById(req, res) {
 async function updateProductById(req, res) {
   try {
     const { id } = req.params;
-    console.log('====================================');
-    console.log('req.body: ', req.body);
-    console.log('====================================');
     const { title, price, category, description } = req.body;
 
     // Check if the product with the specified ID exists

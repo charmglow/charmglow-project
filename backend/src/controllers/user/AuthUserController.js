@@ -4,7 +4,6 @@ const User = require('../../models/User');
 
 async function login(req, res) {
   const { password, email } = req.body;
-  console.log(req.body);
   try {
     const user = await User.findOne({ email });
     if (!user) {
@@ -33,7 +32,6 @@ async function login(req, res) {
   }
 }
 async function signup(req, res) {
-  console.log(req.body);
   const { email, password, name, shippingAddress } = req.body;
   try {
     const newUser = new User({

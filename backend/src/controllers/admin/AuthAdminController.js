@@ -27,7 +27,6 @@ async function loginAdmin(req, res) {
       ...admin._doc,
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ msgStatus: 'Server error', validation: error });
   }
 }
