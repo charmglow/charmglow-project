@@ -13,7 +13,6 @@ async function fetchDashboardAnalytics(req, res) {
       },
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ msgStatus: 'Server error' });
   }
 }

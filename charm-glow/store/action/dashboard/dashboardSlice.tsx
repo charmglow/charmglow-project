@@ -24,7 +24,7 @@ const initialState: AnalyticsState = {
 export const fetchAnalyticsAsync = createAsyncThunk('analytics/fetch', async (_, { rejectWithValue }) => {
     try {
         const userToken: any = localStorage.getItem('userToken');
-        const response = await axios.get('http://localhost:3001/api/dashboard/analytics', { headers: { "Authorization": `Bearer ${userToken}` } });
+        const response = await axios.get(`${process.env.BASE_URL_API}`, { headers: { "Authorization": `Bearer ${userToken}` } });
         return response.data;
     } catch (error: any) {
         return rejectWithValue(error.response?.data?.msgStatus);

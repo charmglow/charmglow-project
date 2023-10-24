@@ -59,8 +59,6 @@ adminSchema.post('validate', function (error, doc, next) {
 });
 
 adminSchema.methods.comparePassword = async function comparePassword(data) {
-  console.log(data);
-  console.log(this.password);
   return bcrypt.compare(data, this.password);
 };
 module.exports = mongoose.model('Admin', adminSchema);

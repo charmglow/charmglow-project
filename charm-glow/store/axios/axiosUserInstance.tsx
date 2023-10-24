@@ -3,7 +3,7 @@ import axios from 'axios';
 import { redirect } from 'next/navigation';
 
 const axiosUserInstance = axios.create({
-    baseURL: 'http://localhost:3001/api', // Your API base URL
+    baseURL: `${process.env.BASE_URL_API}`, // Your API base URL
 });
 
 // Add a request interceptor to inject the JWT token
