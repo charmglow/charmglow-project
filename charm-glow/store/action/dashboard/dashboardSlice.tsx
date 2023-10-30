@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Analytics } from '../../types';
 import axios from "axios";
-import { error } from "console";
+import { axiosAdminInstance } from "@/store/axios";
 interface AnalyticsState {
     analytics: Analytics | {
         customerCount: 0,
@@ -23,11 +23,10 @@ const initialState: AnalyticsState = {
 
 export const fetchAnalyticsAsync = createAsyncThunk('analytics/fetch', async (_, { rejectWithValue }) => {
     try {
-        const userToken: any = localStorage.getItem('userToken');
-        const response = await axios.get(`${process.env.BASE_URL_API}`, { headers: { "Authorization": `Bearer ${userToken}` } });
+        const response = await axiosAdminInstance.get(`/analytics`);
         return response.data;
     } catch (error: any) {
-        return rejectWithValue(error.response?.data?.msgStatus);
+        return rejectWithValue(error.response?.data?.error);
     }
 })
 
@@ -46,7 +45,7 @@ const dashboardSlice = createSlice({
             state.analytics = action.payload?.analytics;
         }).addCase(fetchAnalyticsAsync.rejected, (state, action: any) => {
             state.loading = false;
-            state.error = action.payload?.msgStatus;
+            state.error = action.payload?.error;
         })
     },
 });

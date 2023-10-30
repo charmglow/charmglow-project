@@ -3,7 +3,7 @@ import axios from 'axios';
 import { redirect } from 'next/navigation';
 
 const axiosAdminInstance = axios.create({
-    baseURL: `${process.env.BASE_URL_API}`, // Your API base URL
+    baseURL: `http://localhost:8080/api/admin`, // Your API base URL
 });
 
 // Add a request interceptor to inject the JWT token

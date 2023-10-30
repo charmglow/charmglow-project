@@ -7,12 +7,16 @@ import { persistStore } from 'redux-persist';
 
 import productsSlice from './action/products/productsSlice';
 import customersSlice from './action/customers/customersSlice';
+import dashboardSlice from './action/dashboard/dashboardSlice';
+import homeSlice from './action/home/homeSlice';
 const store = configureStore({
     reducer: {
         auth: authSlice,
         counter: coounterSlice,
         products: productsSlice,
         customers: customersSlice,
+        dashboardAdmin: dashboardSlice,
+        home: homeSlice,
         // Add other reducers if you have more slices
     },
     middleware: (getDefaultMiddleware) =>

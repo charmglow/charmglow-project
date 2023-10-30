@@ -30,7 +30,7 @@ const Login = () => {
           messageApi.open({
             key: "updatable",
             type: 'success',
-            content: originalPromiseResult?.msgStatus,
+            content: originalPromiseResult?.message,
           });
         } else {
           messageApi.open({

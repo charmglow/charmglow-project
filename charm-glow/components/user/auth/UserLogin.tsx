@@ -26,11 +26,13 @@ const UserLogin = () => {
         try {
             await dispatch(loginAsync(values)).unwrap().then((originalPromiseResult) => {
                 // handle result here
-
+                console.log('====================================');
+                console.log(originalPromiseResult);
+                console.log('====================================');
                 messageApi.open({
                     key: "updatable",
                     type: 'success',
-                    content: originalPromiseResult?.msgStatus,
+                    content: originalPromiseResult.message,
                 });
 
                 push('/profile');

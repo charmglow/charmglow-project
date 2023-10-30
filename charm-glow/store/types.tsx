@@ -7,7 +7,7 @@ export interface ShippingAddress {
 }
 
 export interface User {
-    msgStatus: string;
+    message: string;
     token: string;
     shippingAddress: ShippingAddress;
     _id: string;
@@ -17,7 +17,7 @@ export interface User {
     __v: number;
 }
 export interface Admin {
-    msgStatus: string;
+    message: string;
     token: string;
     _id: string;
     name: string;
@@ -29,7 +29,7 @@ export interface Product {
     title: string,
     price: number,
     category: string,
-    productImage?: string,
+    productImage?: string[],
     createdAt?: string,
     __v?: number
 }

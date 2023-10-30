@@ -25,7 +25,7 @@ const CustomersTable: React.FC = () => {
                 messageApi.success("Customers retrieved successfully")
             }).catch((rejectedValueOrSerializedError) => {
                 //   handle error here
-                messageApi.error(rejectedValueOrSerializedError?.msgStatus)
+                messageApi.error(rejectedValueOrSerializedError?.error)
             })
         }
         fetchCustomers()

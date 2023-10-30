@@ -1,25 +1,24 @@
 /* eslint-disable jsx-a11y/alt-text */
 "use client"
+import { fetchLatestProductsAsync } from "@/store/action/home/homeSlice";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Card, Image, List } from "antd";
 import React from "react";
-const getAllProuducts = async () => {
-    return fetch('https://fakestoreapi.com/products')
-        .then(res => res.json())
 
-}
 const Products = () => {
-    const [data, setData] = React.useState([]);
+    const dispatch = useAppDispatch();
+    const { latestProducts } = useAppSelector(state => state.home)
     React.useEffect(() => {
-        getAllProuducts().then(res => setData(res))
+        dispatch(fetchLatestProductsAsync())
     })
     return <div className="mt-5">
         <List
             grid={{ gutter: 0, column: 3 }}
-            dataSource={data}
+            dataSource={latestProducts}
             renderItem={(item, index) => (
                 <Card
                     hoverable
-                    title={item?.title} className="m-2" key={index} cover={<Image height={300} className="object-scale-down" src={item?.image} />}
+                    title={item?.title} className="m-2" key={index} cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} />}
                 ></Card>
             )}
         />

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { User, Admin } from '../../types'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import { axiosInstance } from '@/store/axios';
+import { axiosAdminInstance, axiosInstance } from '@/store/axios';
 
 interface AuthState {
   user: User | null;
@@ -28,7 +28,7 @@ export const loginAsync = createAsyncThunk(
       const response = await axiosInstance.post('/user/login', credentials);
       return response.data as User;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.msgStatus);
+      return rejectWithValue(error.response?.data?.error);
     }
   }
 );
@@ -41,7 +41,7 @@ export const registerAsync = createAsyncThunk(
       return response.data as User;
     } catch (error: any) {
       console.log("Error: ", error.response)
-      return rejectWithValue(error.response?.data?.msgStatus);
+      return rejectWithValue(error.response?.data?.error);
     }
   }
 );
@@ -49,11 +49,11 @@ export const registerAsync = createAsyncThunk(
 
 export const adminLoginAsync = createAsyncThunk('auth/adminLogin', async (credentials: { email: string, password: string }, { rejectWithValue }) => {
   try {
-    const response = await axiosInstance.post('/admin/login', credentials);
+    const response = await axiosAdminInstance.post('/login', credentials);
     return response.data as Admin;
   } catch (error: any) {
     console.log("Error: ", error.response)
-    return rejectWithValue(error.response?.data?.msgStatus);
+    return rejectWithValue(error.response?.data?.error);
   }
 })
 
@@ -61,10 +61,10 @@ export const adminRegisterAsync = createAsyncThunk(
   'auth/adminRegister',
   async (credentials: { email: string; password: string, name: string }, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post('/admin/signup', credentials);
+      const response = await axiosInstance.post('/signup', credentials);
       return response.data as Admin;
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.msgStatus);
+      return rejectWithValue(error.response?.data?.error);
     }
   }
 );

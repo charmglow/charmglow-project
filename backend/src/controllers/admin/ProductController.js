@@ -1,9 +1,35 @@
 const { deleteImageFile } = require('../../helpers/utils');
-const { upload } = require('../../middlewares/imageUploadMiddleware');
 const Product = require('../../models/Product');
+async function uploadImagesController(req, res) {
+  try {
+    console.log('====================================');
+    console.log(req.files);
+    console.log('====================================');
+    // Check if files were uploaded
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: 'No files were uploaded.' });
+    }
+
+    // Generate URLs for the uploaded files
+    const imageUrls = req.files.map((file) => {
+      return `${req.protocol}://${req.get(
+        'host',
+      )}/uploads/${file.filename.replace(/\s+/g, '-')}`;
+    });
+
+    // Respond with success message and image URLs
+    return res
+      .status(200)
+      .json({ message: 'Files uploaded successfully', images: imageUrls });
+  } catch (error) {
+    // Handle any potential errors here and return an appropriate response
+    console.error('Error in uploadImagesController:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+}
 
 async function AddProduct(req, res, next) {
-  const { title, price, category, description } = req.body;
+  const { title, price, category, description, productImage } = req.body;
 
   // Create a new product instance
   try {
@@ -12,7 +38,7 @@ async function AddProduct(req, res, next) {
       price,
       category,
       description,
-      productImage: req.file.path.replace(/\\/g, '/'), // Save the filename of the uploaded image
+      productImage, // Save the filename of the uploaded image
     });
 
     // Save the product to the database
@@ -72,10 +98,17 @@ async function deleteProductById(req, res) {
     if (!product) {
       return res.status(404).json({ error: 'Product not found.' });
     }
-
+    console.log('====================================');
+    console.log(product.productImage);
+    console.log('====================================');
     // Delete the associated image file
-    if (product.productImage) {
-      deleteImageFile(product.productImage);
+    if (product.productImage.length > 0) {
+      console.log('====================================');
+      console.log(product.productImage);
+      console.log('====================================');
+      for (let i = 0; i < product.productImage.length; i++) {
+        deleteImageFile(product.productImage[i]);
+      }
     }
 
     // Delete the product from the database
@@ -139,4 +172,5 @@ module.exports = {
   SearchProduct,
   deleteProductById,
   updateProductById,
+  uploadImagesController,
 };
