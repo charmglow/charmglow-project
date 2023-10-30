@@ -7,11 +7,11 @@ async function login(req, res) {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ msgStatus: 'User account not found' });
+      return res.status(404).json({ error: 'User account not found' });
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ msgStatus: 'Invalid credentials!' });
+      return res.status(401).json({ error: 'Invalid credentials!' });
     }
     const token = jwt.sign(
       {
@@ -22,13 +22,13 @@ async function login(req, res) {
     );
     delete user._doc.password;
     res.json({
-      msgStatus: `Welcome ${user._doc.name}`,
+      message: `Welcome ${user._doc.name}`,
       token,
       ...user._doc,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ msgStatus: 'Server error', validation: error });
+    res.status(500).json({ error: 'Server error', validation: error });
   }
 }
 async function signup(req, res) {
@@ -42,17 +42,17 @@ async function signup(req, res) {
     });
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).json({ msgStatus: 'Email is already exists' });
+      return res.status(409).json({ error: 'Email is already exists' });
     }
     const savedUser = await newUser.save();
 
     res.status(201).json({
-      msgStatus: 'User account has been created successfully',
+      message: 'User account has been created successfully',
       user: savedUser,
     });
   } catch (error) {
     const validationError = JSON.parse(error.message);
-    res.status(422).json({ msgStatus: validationError });
+    res.status(422).json({ error: validationError });
   }
 }
 module.exports = { login, signup };

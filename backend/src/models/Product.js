@@ -18,10 +18,12 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   description: String, // Description is optional in this example
-  productImage: {
-    type: String,
-    required: true,
-  },
+  productImage: [
+    {
+      type: String, // Assuming productImage is an array of image URLs (strings)
+      required: true,
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now, // Set the default value to the current date and time

@@ -15,10 +15,10 @@ const initialState: CustomersState = {
 
 export const fetchCustomersAsync = createAsyncThunk('customers/fetch', async (_, { rejectWithValue }) => {
     try {
-        const response = await axiosAdminInstance.get('/admin/customers');
+        const response = await axiosAdminInstance.get('/customers');
         return response.data;
     } catch (error: any) {
-        return rejectWithValue(error.response?.data?.msgStatus);
+        return rejectWithValue(error.response?.data?.error);
     }
 })
 const customersSlice = createSlice({

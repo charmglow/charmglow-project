@@ -23,6 +23,8 @@ app.use('/api', routes.authAdminRoutes);
 app.use('/api', routes.productRoutes);
 // ADMIN DASHBOARD Routes
 app.use('/api', routes.dashboardAdminRoutes);
+// home routes
+app.use('/api', routes.homeRoutes);
 
 app.get('/', (req, res) => {
   res.send('CHARM GLOW SERVER IS UP AND RUNNING');

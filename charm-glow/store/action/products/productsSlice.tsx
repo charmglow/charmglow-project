@@ -36,13 +36,7 @@ export const getProductsAsync = createAsyncThunk(
 
 export const addProductAsync = createAsyncThunk("products/add", async (data: any) => {
     try {
-        const formData = new FormData();
-        formData.append('productImage', data.productImage?.file);
-        formData.append('title', data.title);
-        formData.append("description", data.description);
-        formData.append('price', data.price);
-        formData.append('category', data.category);
-        const response = await axiosAdminInstance.post('/products/add', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+        const response = await axiosAdminInstance.post('/products/add', data, { headers: { 'Content-Type': 'multipart/form-data' } });
         return response.data;
     } catch (error: any) {
         return isRejectedWithValue(error.response?.data?.error);

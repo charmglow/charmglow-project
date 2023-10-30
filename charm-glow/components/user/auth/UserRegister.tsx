@@ -32,7 +32,7 @@ const UserRegister = () => {
                 messageApi.open({
                     key: "updatable",
                     type: 'success',
-                    content: originalPromiseResult?.msgStatus,
+                    content: originalPromiseResult?.message,
                 });
 
                 push('/login');
