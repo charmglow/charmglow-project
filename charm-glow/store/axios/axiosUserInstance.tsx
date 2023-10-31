@@ -4,6 +4,10 @@ import { redirect } from 'next/navigation';
 
 const axiosUserInstance = axios.create({
     baseURL: "http://api.charmglowjewelry.com/api", // Your API base URL
+    headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+    }
 });
 
 // Add a request interceptor to inject the JWT token
