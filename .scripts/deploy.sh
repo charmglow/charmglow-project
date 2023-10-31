@@ -12,4 +12,7 @@ echo "starting backend server..."
 echo "PM2 Reload"
 pm2 reload 0
 
+echo "Retsart Nginx"
+systemctl restart nginx
+
 echo "Deployment Finished!"
