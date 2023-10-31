@@ -15,7 +15,7 @@ const DashboardPage = () => {
     const { analytics } = useAppSelector(state => state.dashboardAdmin);
     React.useEffect(() => {
         dispatch(fetchAnalyticsAsync())
-    }, [])
+    }, [dispatch])
     return (<Row gutter={16} style={{ paddingTop: "20px" }}>
         <Col span={8}>
             <Card bordered={false}>

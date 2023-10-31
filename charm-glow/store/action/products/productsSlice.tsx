@@ -6,7 +6,7 @@ interface Product {
     title: string,
     price: number,
     category: string,
-    productImage?: string,
+    productImage: string[],
     createdAt?: string,
     __v?: number
 }
