@@ -8,7 +8,7 @@ git pull origin main
 echo "New changes copied to server !"
 
 echo "Navigate to backend folder!"
-cd /backend
+cd ../backend
 
 echo "Installing Dependencies..."
 npm install --yes
