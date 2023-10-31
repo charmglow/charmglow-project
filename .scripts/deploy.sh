@@ -7,9 +7,6 @@ echo "Deployment started..."
 git pull origin main
 echo "New changes copied to server !"
 
-echo "Navigate to backend folder!"
-cd ../backend
-
 echo "starting backend server..."
 
 echo "PM2 Reload"
