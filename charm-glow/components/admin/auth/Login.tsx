@@ -26,12 +26,16 @@ const Login = () => {
         console.log("originalPromiseResult", originalPromiseResult)
         if (originalPromiseResult) {
           push('admin/dashboard');
+
           alert(originalPromiseResult?.message)
         } else {
           alert("Invalid credientials")
         }
       }).catch((rejectedValueOrSerializedError) => {
         //   handle error here
+        console.log('====================================');
+        console.log(rejectedValueOrSerializedError);
+        console.log('====================================');
         alert(rejectedValueOrSerializedError)
       });
     } catch (error: any) {
