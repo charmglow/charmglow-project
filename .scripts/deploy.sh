@@ -10,9 +10,6 @@ echo "New changes copied to server !"
 echo "Navigate to backend folder!"
 cd ../backend
 
-echo "Installing Dependencies..."
-npm install --yes
-
 echo "starting backend server..."
 
 echo "PM2 Reload"
