@@ -12,7 +12,6 @@ import { adminLoginAsync, loginAsync } from "@/store/action/auth/authSlice"
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 const Login = () => {
-  const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useAppDispatch();
   const { admin } = useAppSelector(state => state.auth)
   const [form] = Form.useForm();
@@ -27,25 +26,13 @@ const Login = () => {
         console.log("originalPromiseResult", originalPromiseResult)
         if (originalPromiseResult) {
           push('admin/dashboard');
-          messageApi.open({
-            key: "updatable",
-            type: 'success',
-            content: originalPromiseResult?.message,
-          });
+          alert(originalPromiseResult?.message)
         } else {
-          messageApi.open({
-            key: "updatable",
-            type: 'error',
-            content: "Invalid Credientials",
-          });
+          alert("Invalid credientials")
         }
       }).catch((rejectedValueOrSerializedError) => {
         //   handle error here
-        messageApi.open({
-          key: "updatable",
-          type: 'error',
-          content: rejectedValueOrSerializedError,
-        });
+        alert(rejectedValueOrSerializedError)
       });
     } catch (error: any) {
       console.log(error);
@@ -62,7 +49,6 @@ const Login = () => {
   };
   return (
     <ConfigProvider theme={theme}>
-      {contextHolder}
       <Row style={{ display: 'flex', minHeight: '10vh', minWidth: '100vw', backgroundColor: '#876553', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
         <Col xs={24} xl={8}>
           <Title level={3} style={{ color: '#fff' }}>CHARM GLOW</Title>
