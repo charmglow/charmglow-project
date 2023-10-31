@@ -28,7 +28,7 @@ async function login(req, res) {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error', validation: error });
+    res.status(500).json({ error: 'Server error..', validation: error });
   }
 }
 async function signup(req, res) {
