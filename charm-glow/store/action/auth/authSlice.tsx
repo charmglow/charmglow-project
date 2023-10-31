@@ -49,7 +49,7 @@ export const registerAsync = createAsyncThunk(
 
 export const adminLoginAsync = createAsyncThunk('auth/adminLogin', async (credentials: { email: string, password: string }, { rejectWithValue }) => {
   try {
-    const response = await axiosAdminInstance.post('/login', credentials);
+    const response = await axiosInstance.post('/login', credentials);
     return response.data as Admin;
   } catch (error: any) {
     console.log("Error: ", error.response)
