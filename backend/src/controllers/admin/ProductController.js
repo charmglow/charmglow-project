@@ -14,7 +14,7 @@ async function uploadImagesController(req, res) {
     const imageUrls = req.files.map((file) => {
       return `${req.protocol}://${req.get(
         'host',
-      )}/uploads/${file.filename.replace(/\s+/g, '-')}`;
+      )}:8080/uploads/${file.filename.replace(/\s+/g, '-')}`;
     });
 
     // Respond with success message and image URLs
