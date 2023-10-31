@@ -1,5 +1,5 @@
 const User = require('../../models/User');
-const Product = require('../../models/Admin');
+const Product = require('../../models/Product');
 
 async function fetchDashboardAnalytics(req, res) {
   try {

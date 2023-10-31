@@ -29,7 +29,7 @@ const CustomersTable: React.FC = () => {
             })
         }
         fetchCustomers()
-    }, [])
+    }, [dispatch, messageApi])
     type DataIndex = keyof User;
     var data: User[] = customers;
     const handleSearch = (
