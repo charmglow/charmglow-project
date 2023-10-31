@@ -273,7 +273,7 @@ const ProductsPage = () => {
     };
     const props: UploadProps = {
         name: 'images',
-        action: `http://localhost:8080/api/admin/products/upload-images`,
+        action: `http://api.charmglowjewelry.com/api/admin/products/upload-images`,
         onChange(info) {
             if (info.file.status !== 'uploading') {
                 console.log(info.file, info.fileList);
