@@ -27,7 +27,7 @@ app.use('/api', routes.dashboardAdminRoutes);
 app.use('/api', routes.homeRoutes);
 
 app.get('/', (req, res) => {
-  res.send('CHARM GLOW SERVER IS UP AND RUNNING CI/CD TESTING ....');
+  res.send('CHARM GLOW SERVER IS UP AND RUNNING CI/CD TESTING ......');
 });
 // Connect to MongoDB
 async function ConnectDb() {
