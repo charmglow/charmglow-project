@@ -36,4 +36,17 @@ jobs:
           key: ${{ secrets.SSHKEY }}
           script: |
            cd /charmglow/charmglow-project/charm-glow
-           cd /charmglow/charmglow-project && ./.scripts/clientdeploy.sh
+           set -e
+           echo "Client Deployment started..."
+           echo "Installing Dependencies..."
+           npm install --yes
+
+           echo "Creating Production Build..."
+           npm run build
+           
+           echo "PM2 Reload"
+           pm2 reload 1
+           echo "Retsart Nginx"
+           systemctl restart nginx
+           
+           echo "Client Side Deployment Finished!"
