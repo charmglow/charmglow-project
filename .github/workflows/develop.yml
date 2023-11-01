@@ -27,10 +27,7 @@ jobs:
 
       - uses: actions/checkout@v3
       - name: client Side production build build
-        run: |
-          cd /charm-glow
-          npm install --yes
-          npm run build
-          cd ..
-          pm2 reload 1
-
+        uses: appleboy/ssh-action@master
+      
+        with:
+          script: "cd /charmglow/charmglow-project/charm-glow && ./.scripts/clientdeploy.sh"
