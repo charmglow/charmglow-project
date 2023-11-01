@@ -10,7 +10,7 @@ const Products = () => {
     const { latestProducts } = useAppSelector(state => state.home)
     React.useEffect(() => {
         dispatch(fetchLatestProductsAsync())
-    }, [])
+    }, [dispatch])
     return <div className="mt-5">
         <List
             grid={{ gutter: 0, column: 3 }}
