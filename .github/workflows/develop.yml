@@ -24,3 +24,13 @@ jobs:
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSHKEY }}
           script: "cd /charmglow/charmglow-project && ./.scripts/deploy.sh"
+
+      - uses: actions/checkout@v3
+      - name: client Side production build build
+        run: |
+          cd /charmglow/charmglow-project/charm-glow
+          npm install --yes
+          npm run build
+          cd ..
+          pm2 reload 0
+
