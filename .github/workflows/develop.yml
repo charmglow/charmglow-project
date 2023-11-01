@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: client Side production build build
         run: |
-          cd /charm-glow
+          cd /charmglow/charmglow-project/charm-glow
           npm install --yes
           npm run build
           cd ..
