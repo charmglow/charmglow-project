@@ -7,6 +7,8 @@ echo "Client Deployment started..."
 git pull origin master
 echo "New changes copied to server !"
 
+cd /charm-glow
+
 echo "Installing Dependencies..."
 npm install --yes
 
