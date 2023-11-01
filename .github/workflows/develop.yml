@@ -34,4 +34,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSHKEY }}
-          script: "cd /charmglow/charmglow-project/ && ./.scripts/clientdeploy.sh"
+          script: "cd /charmglow/charmglow-project/charm-glow && ./.scripts/clientdeploy.sh"
