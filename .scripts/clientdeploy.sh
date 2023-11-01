@@ -3,8 +3,6 @@ set -e
 
 echo "Client Deployment started..."
 
-cd /charm-glow
-
 echo "Installing Dependencies..."
 npm install --yes
 
