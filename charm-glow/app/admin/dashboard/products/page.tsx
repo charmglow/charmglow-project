@@ -14,6 +14,7 @@ import { Typography } from 'antd';
 import withAdminAuth from '@/components/admin/auth/withAdminAuth';
 import { UploadFile, UploadProps, RcFile } from 'antd/lib/upload/interface';
 import { jewelryCategories } from '@/utils/utils';
+import TextArea from 'antd/es/input/TextArea';
 
 const { Title, Text } = Typography;
 
@@ -125,6 +126,7 @@ const ProductsPage = () => {
                         icon={<SearchOutlined />}
                         size="small"
                         style={{ width: 90 }}
+                        className='bg-[#876553]'
                     >
                         Search
                     </Button>
@@ -204,8 +206,18 @@ const ProductsPage = () => {
         {
             title: 'Title',
             dataIndex: 'title',
-            width: '30%',
+            width: '12%',
             ...getColumnSearchProps('title'),
+        },
+
+        {
+            title: 'Description',
+            dataIndex: 'description',
+            ...getColumnSearchProps('description'),
+            render: (text) => (
+                <Text>${text}</Text>
+            )
+
         },
         {
             title: 'Price',
@@ -234,6 +246,13 @@ const ProductsPage = () => {
                         onConfirm={() => handleDelete(record)}
                         okText="Yes"
                         cancelText="No"
+                        okType="primary"
+                        okButtonProps={{
+                            style: {
+                                backgroundColor: 'red'
+                            }
+                        }}
+
                     >
                         <Button type="default" danger icon={<DeleteOutlined />}>
                             Delete
@@ -341,7 +360,7 @@ const ProductsPage = () => {
                             <Input />
                         </Form.Item>
                         <Form.Item name="description" label="Product Description" rules={[{ required: true }]}>
-                            <Input />
+                            <TextArea rows={4} />
                         </Form.Item>
                         <Form.Item name="price" label="Product Price" rules={[{ required: true }]}>
                             <InputNumber
