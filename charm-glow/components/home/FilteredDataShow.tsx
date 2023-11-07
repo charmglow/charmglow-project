@@ -6,10 +6,11 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 
 
 const FilteredDataShow = () => {
-    const { filterProducts } = useAppSelector(state => state.home)
+    const { filterProducts, loading } = useAppSelector(state => state.home)
     return (
         <div>
             <List
+                loading={loading}
                 grid={{ gutter: 0, column: 3 }}
                 dataSource={filterProducts.products}
                 renderItem={(item, index) => (
