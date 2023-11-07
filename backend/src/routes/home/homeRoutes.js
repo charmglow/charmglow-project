@@ -1,10 +1,10 @@
 const express = require('express');
 const {
   getLatestProducts,
-  getProductsByCategory,
+  getProductsByFilter,
 } = require('../../controllers/home/homeController');
 const router = express.Router();
 
 router.get('/products/latest', getLatestProducts);
-router.get('/products/category/:category', getProductsByCategory);
+router.get('/products/filter', getProductsByFilter);
 module.exports = router;

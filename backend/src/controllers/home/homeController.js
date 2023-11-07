@@ -16,16 +16,72 @@ const getLatestProducts = async (req, res) => {
   }
 };
 
-const getProductsByCategory = async (req, res) => {
-  const category = req.params.category; // Extract the category from the request parameters
-
+const getProductsByFilter = async (req, res) => {
   try {
-    const products = await Product.find({ category }); // Fetch products with the specified category
-    res.status(200).json(products); // Respond with the retrieved products
+    const { page = 1, limit = 10, category, minPrice, maxPrice } = req.query;
+
+    // Define the initial aggregation pipeline
+    const pipeline = [];
+
+    // Match stage for category and price filters
+    const matchStage = {
+      $match: {
+        category: category || { $exists: true }, // Add category filter
+        price: {
+          $gte: minPrice ? parseFloat(minPrice) : 0, // Add minPrice filter
+          $lte: maxPrice ? parseFloat(maxPrice) : Number.MAX_VALUE, // Add maxPrice filter
+        },
+      },
+    };
+
+    pipeline.push(matchStage);
+
+    // Pagination: skip and limit stages
+    const skipStage = {
+      $skip: (page - 1) * parseInt(limit),
+    };
+    const limitStage = {
+      $limit: parseInt(limit),
+    };
+
+    pipeline.push(skipStage, limitStage);
+
+    // Add the final aggregation stage to count the total matching documents
+    const countStage = {
+      $count: 'totalProducts',
+    };
+
+    pipeline.push(countStage);
+
+    // Execute the aggregation pipeline
+    const aggregationResult = await Product.aggregate(pipeline);
+
+    // Handle the case when the aggregation result is empty
+    if (aggregationResult.length === 0) {
+      return res.json({
+        message: 'No products found',
+        products: [],
+        currentPage: page,
+        totalPages: 0,
+        totalProducts: 0,
+      });
+    }
+
+    // Extract the products and totalProducts count from the aggregation result
+    const [products, totalProductsCount] = aggregationResult;
+
+    // Return the products and pagination details
+    return res.json({
+      message: 'Products found',
+      products,
+      currentPage: page,
+      totalPages: Math.ceil(totalProductsCount.totalProducts / limit),
+      totalProducts: totalProductsCount.totalProducts,
+    });
   } catch (error) {
-    console.error('Error in getProductsByCategory controller:', error);
-    res.status(500).json({ message: 'Internal server error' });
+    console.error(error);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
-module.exports = { getLatestProducts, getProductsByCategory };
+module.exports = { getLatestProducts, getProductsByFilter };
