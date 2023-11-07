@@ -12,7 +12,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/uploads', express.static('uploads'));
 // Simple Usage (Enable All CORS Requests)
-app.use(cors({ origin: 'http://charmglowjewelry.com' }));
+const allowedOrigins = ['http://charmglowjewelry.com', 'http://localhost:3000'];
+app.use(cors({ origin: allowedOrigins }));
 
 // USER auth routes
 app.use('/api', routes.authUserRoutes);
