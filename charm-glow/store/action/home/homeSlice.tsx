@@ -3,12 +3,22 @@ import { axiosInstance } from "@/store/axios";
 import { Product } from "@/store/types";
 interface HomeState {
     latestProducts: Product[];
+    filterProducts: {
+        currentPage?: number;
+        totalPages?: number;
+        totalProducts: Product[];
+    }
     error: string | null;
     loading: boolean;
 }
 
 const initialState: HomeState = {
     latestProducts: [],
+    filterProducts: {
+        currentPage: 1,
+        totalPages: 1,
+        totalProducts: [],
+    },
     error: null,
     loading: false
 
@@ -22,7 +32,21 @@ export const fetchLatestProductsAsync = createAsyncThunk('home/fetchlatestproduc
         return rejectWithValue(error.response?.data?.error);
     }
 })
-
+export const fetchFiterProductsAsync = createAsyncThunk('home/fetchfilterproducts', async (data: {
+    category?: string,
+    minPrice?: number,
+    maxPrice?: number
+}, { rejectWithValue }) => {
+    try {
+        const response = await axiosInstance.get(`/products/filter`, {
+            params: {
+            }
+        });
+        return response.data;
+    } catch (error: any) {
+        return rejectWithValue(error.response?.data?.error);
+    }
+})
 const homeSlice = createSlice({
     name: 'home',
     initialState,
@@ -37,6 +61,19 @@ const homeSlice = createSlice({
             state.error = null;
             state.latestProducts = action.payload?.latestProducts;
         }).addCase(fetchLatestProductsAsync.rejected, (state, action: any) => {
+            state.loading = false;
+            state.error = action.payload?.error;
+        })
+
+        builder.addCase(fetchFiterProductsAsync.pending, (state) => {
+            state.error = null;
+            state.loading = true;
+        })
+        builder.addCase(fetchFiterProductsAsync.fulfilled, (state, action: any) => {
+            state.loading = false;
+            state.error = null;
+            state.filterProducts = action.payload;
+        }).addCase(fetchFiterProductsAsync.rejected, (state, action: any) => {
             state.loading = false;
             state.error = action.payload?.error;
         })
