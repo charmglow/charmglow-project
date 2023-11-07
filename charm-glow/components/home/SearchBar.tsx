@@ -10,7 +10,7 @@ const SearchBar = () => {
     const dispatch = useAppDispatch();
     const [current, setCurrent] = React.useState(1);
     const { filterProducts } = useAppSelector(state => state.home)
-    const [value, setValue] = React.useState<string>('');
+    const [value, setValue] = React.useState<string>('all');
     const onChange: PaginationProps['onChange'] = (page) => {
         console.log(page);
         setCurrent(page);
@@ -21,9 +21,13 @@ const SearchBar = () => {
         console.log('====================================');
         setValue(newValue)
     }
+    const handleReset = () => {
+        setCurrent(1);
+        setValue('all');
+    }
     React.useEffect(() => {
         dispatch(fetchFiterProductsAsync({
-            category: value,
+            category: value == "all" ? '' : value,
             minPrice: 0,
             page: current
         }))
@@ -38,8 +42,9 @@ const SearchBar = () => {
                 placeholder="Please select"
                 treeDefaultExpandAll
                 onChange={onChangeCategory}
+                value={value}
             />
-            <Button type='primary' className='bg-[#876553]'>RESET</Button>
+            <Button type='primary' className='bg-[#876553]' onClick={() => handleReset()}>RESET</Button>
         </div>
         <div className='w-[95vw] justify-between flex items-center p-4 '>
             <Typography.Text>

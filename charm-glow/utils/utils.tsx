@@ -1,5 +1,9 @@
 export const jewelryCategories = [
     {
+        title: 'All',
+        value: 'all',
+    },
+    {
         title: 'Rings',
         value: 'rings',
     },
