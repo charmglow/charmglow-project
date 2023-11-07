@@ -54,7 +54,8 @@ const ProductsPage = () => {
         category: '',
         createdAt: '',
         productImage: [''],
-        title: ''
+        title: '',
+        description: '',
     });
     const showAddModal = (text: string, record?: any) => {
         if (text === "Add") {
@@ -274,6 +275,7 @@ const ProductsPage = () => {
     const props: UploadProps = {
         name: 'images',
         action: `http://api.charmglowjewelry.com/api/admin/products/upload-images`,
+        // action: `http://localhost:8080/api/admin/products/upload-images`,
         onChange(info) {
             if (info.file.status !== 'uploading') {
                 console.log(info.file, info.fileList);

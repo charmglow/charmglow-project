@@ -2,7 +2,7 @@
 "use client"
 import { fetchLatestProductsAsync } from "@/store/action/home/homeSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { Card, Image, List } from "antd";
+import { Card, Divider, Flex, Image, List, Typography } from "antd";
 import React from "react";
 
 const Products = () => {
@@ -19,7 +19,25 @@ const Products = () => {
                 <Card
                     hoverable
                     title={item?.title} className="m-2" key={index} cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} />}
-                ></Card>
+                >
+                    <Card.Meta
+                        title={
+                            <Typography.Paragraph>
+                                Price: ${item?.price}
+                            </Typography.Paragraph>
+                        }
+                        description={
+                            <>
+                                <Typography.Text className="capitalize">
+                                    Category: <strong>{item?.category}</strong>
+                                </Typography.Text>
+                                <Typography.Paragraph>
+                                    {item?.description}
+                                </Typography.Paragraph>
+                            </>
+                        }
+                    />
+                </Card>
             )}
         />
     </div>;
