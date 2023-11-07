@@ -10,6 +10,8 @@ const axiosUserInstance = axios.create({
     }
 });
 
+
+
 // Add a request interceptor to inject the JWT token
 axiosUserInstance.interceptors.request.use(
     (config) => {

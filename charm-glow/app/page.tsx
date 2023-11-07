@@ -4,6 +4,7 @@ import './globals.css';
 import NavBar from '@/components/navbar/NavBar';
 import Slider from '@/components/home/Slider';
 import Products from '@/components/home/Products';
+import Footer from '@/components/footer/Footer';
 
 
 const HomePage = () => {
@@ -13,6 +14,7 @@ const HomePage = () => {
       <NavBar />
       <Slider />
       <Products />
+      <Footer />
     </div>
   );
 }
