@@ -22,14 +22,6 @@ const FilteredDataShow = () => {
     }, [dispatch])
     return (
         <div>
-            <div className='w-[90vw] justify-between flex'>
-                <Typography.Text>
-                    Total products: <strong>{filterProducts.totalProducts}</strong>
-                </Typography.Text>
-                <Typography.Text>
-                    Page: <strong>{filterProducts.currentPage} of {filterProducts.totalPages}</strong>
-                </Typography.Text>
-            </div>
             <List
                 grid={{ gutter: 0, column: 3 }}
                 dataSource={filterProducts.products}
@@ -58,10 +50,6 @@ const FilteredDataShow = () => {
                     </Card>
                 )}
             />
-            <div className='justify-center items-center flex my-4'>
-
-                <Pagination current={current} onChange={onChange} total={50} />
-            </div>
         </div>
     );
 };
