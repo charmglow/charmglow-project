@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <footer>
             <Divider />
-            <div className="py-6">
+            <div className="py-6 bg-[#876553] text-white">
                 <div className="container mx-auto flex flex-col items-center lg:flex-row justify-between">
                     <div className="text-center lg:text-left mb-4 lg:mb-0">
                         <p className="text-2xl font-bold">Connect with Us</p>
