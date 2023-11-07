@@ -18,65 +18,52 @@ const getLatestProducts = async (req, res) => {
 
 const getProductsByFilter = async (req, res) => {
   try {
-    const { page = 1, limit = 10, category, minPrice, maxPrice } = req.query;
+    const { category, minPrice, maxPrice, page = 1, limit = 10 } = req.query;
 
-    // Define the initial aggregation pipeline
-    const pipeline = [];
-
-    // Match stage for category and price filters
-    const matchStage = {
+    // Create a match object for the aggregation pipeline based on provided filters
+    const match = {
       $match: {
-        category: category || { $exists: true }, // Add category filter
+        category: category || { $exists: true }, // Match category if provided
         price: {
-          $gte: minPrice ? parseFloat(minPrice) : 0, // Add minPrice filter
-          $lte: maxPrice ? parseFloat(maxPrice) : Number.MAX_VALUE, // Add maxPrice filter
+          $gte: minPrice ? parseFloat(minPrice) : 0, // Match minPrice if provided
+          $lte: maxPrice ? parseFloat(maxPrice) : Number.MAX_VALUE, // Match maxPrice if provided
         },
       },
     };
 
-    pipeline.push(matchStage);
+    // Calculate the number of documents to skip based on pagination
+    const skip = (page - 1) * parseInt(limit);
 
-    // Pagination: skip and limit stages
-    const skipStage = {
-      $skip: (page - 1) * parseInt(limit),
-    };
-    const limitStage = {
-      $limit: parseInt(limit),
-    };
+    // Add pagination stages to the aggregation pipeline
+    const skipStage = { $skip: skip };
+    const limitStage = { $limit: parseInt(limit) };
 
-    pipeline.push(skipStage, limitStage);
+    // Execute the aggregation pipeline to get the products and total count
+    const aggregationResult = await Product.aggregate([
+      match,
+      skipStage,
+      limitStage,
+      {
+        $group: {
+          _id: null,
+          total: { $sum: 1 },
+          products: { $push: '$$ROOT' },
+        },
+      },
+    ]);
 
-    // Add the final aggregation stage to count the total matching documents
-    const countStage = {
-      $count: 'totalProducts',
-    };
+    const totalProducts = aggregationResult[0].products;
+    const totalProductsCount = aggregationResult[0].total;
 
-    pipeline.push(countStage);
-
-    // Execute the aggregation pipeline
-    const aggregationResult = await Product.aggregate(pipeline);
-
-    // Handle the case when the aggregation result is empty
-    if (aggregationResult.length === 0) {
-      return res.json({
-        message: 'No products found',
-        products: [],
-        currentPage: page,
-        totalPages: 0,
-        totalProducts: 0,
-      });
-    }
-
-    // Extract the products and totalProducts count from the aggregation result
-    const [products, totalProductsCount] = aggregationResult;
+    // Calculate the total number of pages
+    const totalPages = Math.ceil(totalProductsCount / limit);
 
     // Return the products and pagination details
     return res.json({
-      message: 'Products found',
-      products,
+      products: totalProducts,
       currentPage: page,
-      totalPages: Math.ceil(totalProductsCount.totalProducts / limit),
-      totalProducts: totalProductsCount.totalProducts,
+      totalPages,
+      totalProducts: totalProductsCount,
     });
   } catch (error) {
     console.error(error);
