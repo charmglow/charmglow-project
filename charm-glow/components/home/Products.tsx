@@ -7,12 +7,13 @@ import React from "react";
 
 const Products = () => {
     const dispatch = useAppDispatch();
-    const { latestProducts } = useAppSelector(state => state.home)
+    const { latestProducts, loading } = useAppSelector(state => state.home)
     React.useEffect(() => {
         dispatch(fetchLatestProductsAsync())
     }, [dispatch])
     return <div className="mt-5">
         <List
+            loading={loading}
             grid={{ gutter: 0, column: 3 }}
             dataSource={latestProducts}
             renderItem={(item, index) => (

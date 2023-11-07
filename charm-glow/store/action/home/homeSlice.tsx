@@ -83,6 +83,7 @@ const homeSlice = createSlice({
         }).addCase(fetchFiterProductsAsync.rejected, (state, action: any) => {
             state.loading = false;
             state.error = action.payload?.error;
+            state.filterProducts = initialState.filterProducts
         })
     },
 });
