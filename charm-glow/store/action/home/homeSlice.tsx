@@ -6,7 +6,8 @@ interface HomeState {
     filterProducts: {
         currentPage?: number;
         totalPages?: number;
-        totalProducts: Product[];
+        totalProducts?: number;
+        products: Product[];
     }
     error: string | null;
     loading: boolean;
@@ -17,7 +18,8 @@ const initialState: HomeState = {
     filterProducts: {
         currentPage: 1,
         totalPages: 1,
-        totalProducts: [],
+        totalProducts: 0,
+        products: []
     },
     error: null,
     loading: false
@@ -40,6 +42,9 @@ export const fetchFiterProductsAsync = createAsyncThunk('home/fetchfilterproduct
     try {
         const response = await axiosInstance.get(`/products/filter`, {
             params: {
+                category: data?.category,
+                minPrice: data?.minPrice,
+                maxPrice: data?.maxPrice
             }
         });
         return response.data;
