@@ -37,14 +37,16 @@ export const fetchLatestProductsAsync = createAsyncThunk('home/fetchlatestproduc
 export const fetchFiterProductsAsync = createAsyncThunk('home/fetchfilterproducts', async (data: {
     category?: string,
     minPrice?: number,
-    maxPrice?: number
+    maxPrice?: number,
+    page?: number
 }, { rejectWithValue }) => {
     try {
         const response = await axiosInstance.get(`/products/filter`, {
             params: {
                 category: data?.category,
                 minPrice: data?.minPrice,
-                maxPrice: data?.maxPrice
+                maxPrice: data?.maxPrice,
+                page: data?.page
             }
         });
         return response.data;
