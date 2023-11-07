@@ -1,9 +1,10 @@
 "use client"
 import React from 'react';
 import type { PaginationProps } from 'antd';
-import { Card, Image, List, Pagination, Typography } from 'antd';
+import { Card, Image, List, Pagination, TreeSelect, Typography } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchFiterProductsAsync } from '@/store/action/home/homeSlice';
+import { jewelryCategories } from '@/utils/utils';
 
 const SearchBar = () => {
     const dispatch = useAppDispatch();
@@ -20,6 +21,15 @@ const SearchBar = () => {
         }))
     }, [dispatch])
     return <div>
+        <div >
+            <span> Category</span>
+            <TreeSelect
+                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                treeData={jewelryCategories}
+                placeholder="Please select"
+                treeDefaultExpandAll
+            />
+        </div>
         <div className='w-[95vw] justify-between flex items-center p-4 '>
             <Typography.Text>
                 Total products: <strong>{filterProducts.totalProducts}</strong>
