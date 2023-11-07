@@ -8,26 +8,36 @@ import { jewelryCategories } from '@/utils/utils';
 
 const SearchBar = () => {
     const dispatch = useAppDispatch();
-    const [current, setCurrent] = React.useState(3);
+    const [current, setCurrent] = React.useState(1);
     const { filterProducts } = useAppSelector(state => state.home)
+    const [value, setValue] = React.useState<string>('');
     const onChange: PaginationProps['onChange'] = (page) => {
         console.log(page);
         setCurrent(page);
     };
+    const onChangeCategory = (newValue: string) => {
+        console.log('====================================');
+        console.log(newValue);
+        console.log('====================================');
+        setValue(newValue)
+    }
     React.useEffect(() => {
         dispatch(fetchFiterProductsAsync({
-            category: '',
-            minPrice: 0
+            category: value,
+            minPrice: 0,
+            page: current
         }))
-    }, [dispatch])
+    }, [current, dispatch, value])
     return <div>
         <div >
             <span> Category</span>
             <TreeSelect
+                style={{ width: '20%' }}
                 dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
                 treeData={jewelryCategories}
                 placeholder="Please select"
                 treeDefaultExpandAll
+                onChange={onChangeCategory}
             />
         </div>
         <div className='w-[95vw] justify-between flex items-center p-4 '>
