@@ -29,7 +29,15 @@ async function uploadImagesController(req, res) {
 }
 
 async function AddProduct(req, res, next) {
-  const { title, price, category, description, productImage } = req.body;
+  const {
+    title,
+    price,
+    category,
+    description,
+    productImage,
+    discount,
+    finalPrice,
+  } = req.body;
 
   // Create a new product instance
   try {
@@ -39,6 +47,8 @@ async function AddProduct(req, res, next) {
       category,
       description,
       productImage, // Save the filename of the uploaded image
+      finalPrice,
+      discount,
     });
 
     // Save the product to the database
@@ -128,7 +138,8 @@ async function deleteProductById(req, res) {
 async function updateProductById(req, res) {
   try {
     const { id } = req.params;
-    const { title, price, category, description } = req.body;
+    const { title, price, category, description, discount, finalPrice } =
+      req.body;
 
     // Check if the product with the specified ID exists
     const existingProduct = await Product.findById(id);
@@ -141,6 +152,8 @@ async function updateProductById(req, res) {
     existingProduct.price = price;
     existingProduct.category = category;
     existingProduct.description = description;
+    existingProduct.finalPrice = finalPrice;
+    existingProduct.discount = discount;
 
     // Check if a new image file is provided
     if (req.file) {
