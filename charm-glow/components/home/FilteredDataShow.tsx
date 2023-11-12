@@ -16,7 +16,7 @@ const FilteredDataShow = () => {
                 renderItem={(item, index) => (
                     <Card
                         hoverable
-                        title={item?.title} className="m-2" key={index} cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} />}
+                        title={item?.title} className="m-2" key={index} cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} alt={item?.description} />}
                     >
                         <Card.Meta
                             title={
