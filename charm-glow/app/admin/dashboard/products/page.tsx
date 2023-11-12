@@ -13,7 +13,7 @@ import { Product } from '@/store/types';
 import { Typography } from 'antd';
 import withAdminAuth from '@/components/admin/auth/withAdminAuth';
 import { UploadFile, UploadProps, RcFile } from 'antd/lib/upload/interface';
-import { jewelryCategories } from '@/utils/utils';
+import { calculateFinalPrice, jewelryCategories } from '@/utils/utils';
 import TextArea from 'antd/es/input/TextArea';
 
 const { Title, Text } = Typography;
@@ -45,7 +45,7 @@ const ProductsPage = () => {
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef<InputRef>(null);
     const dispatch = useAppDispatch();
-    const { products } = useAppSelector(state => state.products);
+    const { products, loading } = useAppSelector(state => state.products);
     const [open, setOpen] = useState(false);
     const [form] = Form.useForm();
     const [isUpdate, setIsUpdate] = useState(false);
@@ -57,6 +57,8 @@ const ProductsPage = () => {
         productImage: [''],
         title: '',
         description: '',
+        finalPrice: 0,
+        discount: 0
     });
     const showAddModal = (text: string, record?: any) => {
         if (text === "Add") {
@@ -266,6 +268,7 @@ const ProductsPage = () => {
         }
     ];
     const onFinish = async (values: any) => {
+
         if (!isUpdate) {
             values.productImage = values.productImage.map((item: { response: { images: any[]; }; }, index: any) => (item.response.images[0]));
             dispatch(addProductAsync(
@@ -330,10 +333,14 @@ const ProductsPage = () => {
         //     })
         // }
     };
+    let productValue = Form.useWatch('price', form);
+    let discountValue = Form.useWatch('discount', form)
+    form.setFieldValue('finalPrice', calculateFinalPrice(productValue || 0, discountValue || 0))
     return (
         <>
             <Space direction='horizontal' style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0px' }}>
                 <Modal
+                    confirmLoading={loading}
                     title="Create Product"
                     open={open}
                     onOk={handleOk}
@@ -362,12 +369,31 @@ const ProductsPage = () => {
                         <Form.Item name="description" label="Product Description" rules={[{ required: true }]}>
                             <TextArea rows={4} />
                         </Form.Item>
-                        <Form.Item name="price" label="Product Price" rules={[{ required: true }]}>
-                            <InputNumber
-                                formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                                name='price'
-                            />
-                        </Form.Item>
+                        <div className='flex flex-row justify-between items-center'>
+                            <Form.Item name="price" label="Product Price" rules={[{ required: true }]}>
+                                <InputNumber
+                                    formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                    name='price'
+                                    min={0}
+                                />
+                            </Form.Item>
+                            <Form.Item name="discount" label="Discount" >
+                                <InputNumber
+                                    max={100}
+                                    min={0}
+                                    formatter={(value) => `% ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                    name='discount'
+                                />
+                            </Form.Item>
+                            <Form.Item name="finalPrice" label="Final Price">
+                                <InputNumber
+                                    disabled
+                                    formatter={(value) => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                    name='finalPrice'
+                                />
+                            </Form.Item>
+
+                        </div>
                         <Form.Item name="category" label="Product Category" rules={[{ required: true }]}>
                             <TreeSelect
                                 style={{ width: '100%' }}
