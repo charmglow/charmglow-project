@@ -28,6 +28,8 @@ export interface Product {
     _id: string,
     title: string,
     price: number,
+    finalPrice: number,
+    discount?: number,
     category: string,
     description: string,
     productImage: string[],

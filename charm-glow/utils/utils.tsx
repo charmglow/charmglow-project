@@ -89,3 +89,17 @@ export const jewelryCategories = [
     },
 ];
 
+export function calculateFinalPrice(productPrice: number, discountPercentage: number) {
+    // Ensure the input values are valid
+    if (isNaN(productPrice) || isNaN(discountPercentage)) {
+        return "Invalid input. Please enter valid numbers.";
+    }
+
+    // Calculate the discount amount
+    var discountAmount = (productPrice * discountPercentage) / 100;
+
+    // Calculate the final price after discount
+    var finalPrice = productPrice - discountAmount;
+
+    return finalPrice;
+}

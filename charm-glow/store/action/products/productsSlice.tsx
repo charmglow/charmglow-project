@@ -5,6 +5,8 @@ interface Product {
     _id: string,
     title: string,
     price: number,
+    discount?: number,
+    finalPrice: number,
     category: string,
     description: string,
     productImage: string[],
