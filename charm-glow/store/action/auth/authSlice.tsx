@@ -1,7 +1,7 @@
 // authSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { User, Admin } from '../../types'
+import { User, Admin, Cart } from '../../types'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { axiosAdminInstance, axiosInstance } from '@/store/axios';
@@ -9,6 +9,7 @@ import { axiosAdminInstance, axiosInstance } from '@/store/axios';
 interface AuthState {
   user: User | null;
   admin: Admin | null;
+  cart: Cart[] | [];
   loading: boolean;
   error: string | null;
 }
@@ -18,6 +19,7 @@ const initialState: AuthState = {
   admin: null,
   loading: false,
   error: null,
+  cart: []
 };
 
 // Define your async action using Redux Thunk for user login
@@ -85,6 +87,72 @@ const authSlice = createSlice({
       state.admin = null;
       state.loading = false;
       state.error = null;
+    },
+    addToCart: (state, action) => {
+      console.log('====================================');
+      console.log(action.payload);
+      console.log('====================================');
+      const existingProductIndex = state.cart
+        ? state.cart.findIndex((cart) => cart._id === action.payload._id)
+        : -1;
+      const quantity = 1; // Set your logic for quantity
+      const total = action.payload.price * quantity; // Calculate total based on price and quantity
+      if (existingProductIndex !== -1) {
+        // If the product already exists in the cart, update the quantity and total
+        const updatedProducts = [...state.cart];
+        updatedProducts[existingProductIndex] = {
+          ...updatedProducts[existingProductIndex],
+          quantity: updatedProducts[existingProductIndex].quantity + quantity,
+          total: updatedProducts[existingProductIndex].total + total,
+        };
+        return {
+          ...state,
+          cart: updatedProducts,
+        };
+      } else {
+        // If the product is not in the cart, add it
+        const newProduct = {
+          _id: action.payload._id,
+          quantity,
+          total,
+          price: action.payload.price,
+          productImage: action.payload.productImage,
+          // Add other properties from your payload
+        };
+
+        return {
+          ...state,
+          cart: state.cart ? [...state.cart, newProduct] : [newProduct],
+        };
+      }
+    },
+    changeCartItemQuantity: (state, action) => {
+      console.log('====================================');
+      console.log(action.payload);
+      console.log('====================================');
+      const updatedCart = state.cart.map(item => {
+        if (item._id === action.payload._id) {
+          return {
+            ...item,
+            quantity: action.payload.quantity,
+            total: action.payload.quantity * item.price, // Assuming price is constant for simplicity
+          };
+        }
+        return item;
+      });
+
+      return {
+        ...state,
+        cart: updatedCart,
+      };
+    },
+    removeItemFromCart: (state, action) => {
+      const updatedCart = state.cart.filter(item => item._id !== action.payload._id);
+
+      return {
+        ...state,
+        cart: updatedCart,
+      };
     }
   },
   extraReducers: (builder) => {
@@ -149,5 +217,5 @@ const rootPersistConfig = {
   storage: storage,
   blacklist: ['navigation', 'auth'],
 }
-export const { logout, adminLogout } = authSlice.actions;
+export const { logout, adminLogout, addToCart, changeCartItemQuantity, removeItemFromCart } = authSlice.actions;
 export default persistReducer(rootPersistConfig, authSlice.reducer);

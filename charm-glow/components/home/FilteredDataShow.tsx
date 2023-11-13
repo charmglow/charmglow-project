@@ -1,12 +1,21 @@
 "use client"
 import React from 'react';
-import type { PaginationProps } from 'antd';
-import { Badge, Button, Card, Image, List, Pagination, Typography } from 'antd';
+import { Badge, Button, Card, Image, List, Pagination, Typography, message } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { addToCart } from '@/store/action/auth/authSlice';
 
 
 const FilteredDataShow = () => {
-    const { filterProducts, loading } = useAppSelector(state => state.home)
+    const { filterProducts, loading } = useAppSelector(state => state.home);
+    const dispatch = useAppDispatch();
+    const handleAddToCart = (item: {
+        _id: string,
+        price: number,
+        productImage: string[];
+    }) => {
+        message.success('Item added successfully')
+        dispatch(addToCart(item))
+    }
     return (
         <div>
             <List
@@ -29,7 +38,11 @@ const FilteredDataShow = () => {
                             title={item?.title} key={index} cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} alt={item?.description} />}
                             actions={[
                                 <Button key={item._id} type="link">view detail</Button>,
-                                <Button key={item._id} type="primary" className='bg-[#876553]'>Add to Cart</Button>
+                                <Button key={item._id} type="primary" className='bg-[#876553]' onClick={() => handleAddToCart({
+                                    _id: item._id,
+                                    price: item.finalPrice,
+                                    productImage: item.productImage
+                                })}>Add to Cart</Button>
                             ]}
                         >
                             <Card.Meta

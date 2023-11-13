@@ -42,3 +42,12 @@ export interface Analytics {
     customerCount: number,
     productCount: number,
 }
+
+export interface Cart {
+
+    _id: string,
+    quantity: number,
+    total: number,
+    price: number,
+    productImage: string[],
+}
