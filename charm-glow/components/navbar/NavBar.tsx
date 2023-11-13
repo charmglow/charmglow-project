@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { logout } from '@/store/action/auth/authSlice';
 import { useRouter } from 'next/navigation';
+import AddToCart from '../home/AddToCart';
 const items: MenuProps['items'] = [
 
     {
@@ -90,9 +91,7 @@ const NavBar = () => {
                             </Dropdown>
                             : <div className='cursor-pointer text-blue-600' onClick={() => push('/login')}>LOGIN</div>
                     }
-                    <Badge count={1} overflowCount={10} size='small' color='#876553'>
-                        <ShoppingCartOutlined style={{ fontSize: 25, padding: '0px 10px' }} className='cursor-pointer' />
-                    </Badge>
+                    <AddToCart />
                 </Space>
             </span>
 
