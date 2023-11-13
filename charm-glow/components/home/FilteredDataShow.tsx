@@ -3,10 +3,12 @@ import React from 'react';
 import { Badge, Button, Card, Image, List, Pagination, Typography, message } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { addToCart } from '@/store/action/auth/authSlice';
+import { useRouter } from 'next/navigation';
 
 
 const FilteredDataShow = () => {
     const { filterProducts, loading } = useAppSelector(state => state.home);
+    const { push } = useRouter();
     const dispatch = useAppDispatch();
     const handleAddToCart = (item: {
         _id: string,
@@ -37,7 +39,7 @@ const FilteredDataShow = () => {
                             className='m-2'
                             title={item?.title} key={index} cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} alt={item?.description} />}
                             actions={[
-                                <Button key={item._id} type="link">view detail</Button>,
+                                <Button key={item._id} type="link" onClick={() => push(`/products/${item._id}`)}>view detail</Button>,
                                 <Button key={item._id} type="primary" className='bg-[#876553]' onClick={() => handleAddToCart({
                                     _id: item._id,
                                     price: item.finalPrice,

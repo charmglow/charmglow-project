@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import { Badge, Drawer, InputNumber, Table, Image, Popconfirm, message } from 'antd';
+import { Badge, Drawer, InputNumber, Table, Image, Popconfirm, message, Descriptions, Typography, Button } from 'antd';
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { MdDeleteOutline } from 'react-icons/md'
@@ -9,9 +9,6 @@ const AddToCart = () => {
     const [cartDrawerOpen, setCartDrawerOpen] = React.useState(false);
     const { cart } = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch();
-    const handleRemoveFromCart = (item: any) => {
-        message.success('Click on Yes');
-    };
     const handleChangeCartItemQuantity = (item: any) => {
         dispatch(changeCartItemQuantity(item));
     }
@@ -92,7 +89,45 @@ const AddToCart = () => {
                     ]}
                     dataSource={cart}
                     rowKey="_id"
+                // summary={(data) => {
+                //     const total = data.reduce((prev, current) => {
+                //         return prev + current.total;
+                //     }, 0)
+                //     return <span>Total: ${total}</span>;
+                // }}
                 />
+                {
+                    cart.length > 0 &&
+                    <>
+                        <Descriptions
+                            className="mt-2"
+                            title="Summary"
+                            bordered
+                            column={{ xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 }}
+                            items={[{
+                                label: 'Subtotal',
+                                children: `$${cart.reduce((prev, current) => {
+                                    return prev + current.total;
+                                }, 0)}`,
+                            },
+                            {
+                                label: 'Shipping Cost',
+                                children: '$15',
+                            },
+                            {
+                                label: 'Total',
+                                children: `$${cart.reduce((prev, current) => {
+                                    return prev + current.total;
+                                }, 0) + 15}`,
+                            }]}
+
+                        />
+                        <div className="w-full items-center justify-end flex mt-4">
+
+                            <Button type="primary" className='bg-[#876553]'>PROCEED TO CHECKOUT</Button>
+                        </div>
+                    </>
+                }
             </Drawer>
         </div>
     );

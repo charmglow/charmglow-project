@@ -23,7 +23,7 @@ const store = configureStore({
         getDefaultMiddleware({
             serializableCheck: false
             // }).concat(thunk, logger), // Add the logger middleware to the middleware array
-        }).concat(thunk, logger),
+        }).concat(thunk),
 })
 
 // Create a persisted store

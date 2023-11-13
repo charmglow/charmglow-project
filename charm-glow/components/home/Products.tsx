@@ -1,13 +1,22 @@
 /* eslint-disable jsx-a11y/alt-text */
 "use client"
+import { addToCart } from "@/store/action/auth/authSlice";
 import { fetchLatestProductsAsync } from "@/store/action/home/homeSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { Badge, Button, Card, Divider, Flex, Image, List, Typography } from "antd";
+import { Badge, Button, Card, Divider, Flex, Image, List, Typography, message } from "antd";
 import React from "react";
 
 const Products = () => {
     const dispatch = useAppDispatch();
     const { latestProducts, loading } = useAppSelector(state => state.home)
+    const handleAddToCart = (item: {
+        _id: string,
+        price: number,
+        productImage: string[];
+    }) => {
+        message.success('Item added successfully')
+        dispatch(addToCart(item))
+    }
     React.useEffect(() => {
         dispatch(fetchLatestProductsAsync())
     }, [dispatch])
@@ -32,7 +41,11 @@ const Products = () => {
                         }
                         actions={[
                             <Button key={item._id} type="link">view detail</Button>,
-                            <Button key={item._id} type="primary" className='bg-[#876553]'>Add to Cart</Button>
+                            <Button key={item._id} type="primary" className='bg-[#876553]' onClick={() => handleAddToCart({
+                                _id: item._id,
+                                price: item.finalPrice,
+                                productImage: item.productImage
+                            })}>Add to Cart</Button>
                         ]}
                     >
                         <Card.Meta
