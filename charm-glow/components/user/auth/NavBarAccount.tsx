@@ -1,0 +1,103 @@
+'use client'
+import {
+    LogoutOutlined,
+    PieChartOutlined,
+    SettingOutlined,
+    UserOutlined,
+} from '@ant-design/icons';
+import type { MenuProps } from 'antd';
+import { Layout, Menu, ConfigProvider, Avatar, Button, Dropdown, Space, Typography } from 'antd';
+import { useState } from 'react';
+import theme from '@/theme/themeConfig';
+const { Header, Content, Footer, Sider } = Layout;
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useRouter } from 'next/navigation'
+import { FiUsers } from 'react-icons/fi'
+import { FaRegUserCircle } from 'react-icons/fa';
+import { PiShoppingCartLight } from 'react-icons/pi';
+import Link from 'next/link';
+const { Title, Text } = Typography;
+
+type MenuItem = Required<MenuProps>['items'][number];
+
+function getItem(
+    label: React.ReactNode,
+    key: React.Key,
+    icon?: React.ReactNode,
+    children?: MenuItem[],
+): MenuItem {
+    return {
+        key,
+        icon,
+        children,
+        label,
+    } as MenuItem;
+}
+
+const items: MenuItem[] = [
+    getItem('Profile', '/', <FaRegUserCircle />),
+    getItem('Orders', '/orders', <PiShoppingCartLight />),
+];
+
+const NavBarAccount = ({ children }: { children: React.ReactNode }) => {
+    const [collapsed, setCollapsed] = useState(true);
+    const { user } = useAppSelector(state => state.auth);
+    const router = useRouter();
+    const itemsDropdown: MenuProps['items'] = [
+        {
+            key: '1',
+            label: (
+                <Link href="/profile">
+                    <Space style={{ padding: '5px 0px' }}>
+                        <UserOutlined />
+                        <div>
+                            Account
+                        </div>
+                    </Space>
+                </Link>
+            ),
+        },
+        {
+            key: '2',
+            label: (
+                <Link href="/login" prefetch={false} className='text-red-600' onClick={() => console.log("Logout")}>
+                    <Space style={{ padding: '5px 0px' }}>
+                        <LogoutOutlined color='red' />
+                        <div>
+                            Logout
+                        </div>
+                    </Space>
+                </Link>
+            ),
+        },
+    ];
+    return (
+        <ConfigProvider theme={theme}>
+            <Layout style={{ minHeight: '100vh', margin: 0 }}>
+                <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} style={{ backgroundClip: 'red' }} theme='light'>
+                    <div className="demo-logo-vertical" />
+                    <Menu theme="dark" defaultSelectedKeys={['/profile']} mode="inline" items={items} onClick={({ key }) => router.replace(`/profile${key}`)} className='h-full' />
+                </Sider>
+                <Layout>
+                    <Header style={{ padding: '0px 20px' }} >
+                        <Space style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Title level={2} italic>Welcome {user?.name}</Title>
+                            <Dropdown menu={{ items: itemsDropdown }} placement="bottom" arrow >
+                                <Avatar
+                                    size={{ xs: 24, sm: 30, md: 35, lg: 48, xl: 48, xxl: 48 }}
+                                    icon={<UserOutlined />}
+                                />
+                            </Dropdown>
+                        </Space>
+                    </Header>
+                    <Content style={{ margin: '0 16px' }}>
+                        <div>{children}</div>
+                    </Content>
+                    <Footer style={{ textAlign: 'center' }}></Footer>
+                </Layout>
+            </Layout>
+        </ConfigProvider>
+    );
+};
+
+export default NavBarAccount;

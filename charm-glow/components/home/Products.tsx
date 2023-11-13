@@ -2,7 +2,7 @@
 "use client"
 import { fetchLatestProductsAsync } from "@/store/action/home/homeSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { Card, Divider, Flex, Image, List, Typography } from "antd";
+import { Badge, Button, Card, Divider, Flex, Image, List, Typography } from "antd";
 import React from "react";
 
 const Products = () => {
@@ -14,31 +14,51 @@ const Products = () => {
     return <div className="mt-5">
         <List
             loading={loading}
-            grid={{ gutter: 0, column: 3 }}
+            grid={{
+                gutter: 0, xs: 1,
+                sm: 2,
+                md: 3,
+                lg: 3,
+                xl: 3,
+                xxl: 4,
+            }}
             dataSource={latestProducts}
             renderItem={(item, index) => (
-                <Card
-                    hoverable
-                    title={item?.title} className="m-2" key={index} cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} />}
-                >
-                    <Card.Meta
-                        title={
-                            <Typography.Paragraph>
-                                Price: ${item?.price}
-                            </Typography.Paragraph>
+                <Badge.Ribbon text={`${item.discount}% OFF`} className={`p-1 mx-2 ${item?.discount == 0 && "hidden"}`}>
+                    <Card
+                        hoverable
+                        title={item?.title} className="m-2" key={index}
+                        cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} />
                         }
-                        description={
-                            <>
-                                <Typography.Text className="capitalize">
-                                    Category: <strong>{item?.category}</strong>
-                                </Typography.Text>
+                        actions={[
+                            <Button key={item._id} type="link">view detail</Button>,
+                            <Button key={item._id} type="primary" className='bg-[#876553]'>Add to Cart</Button>
+                        ]}
+                    >
+                        <Card.Meta
+                            title={
                                 <Typography.Paragraph>
-                                    {item?.description}
+                                    Price: ${item?.finalPrice} {"  "}{
+                                        item?.discount ? <Typography.Text delete type='danger'>
+                                            ${item?.price}
+                                        </Typography.Text>
+                                            : null}
                                 </Typography.Paragraph>
-                            </>
-                        }
-                    />
-                </Card>
+                            }
+                            description={
+                                <>
+                                    <Typography.Text className="capitalize">
+                                        Category: <strong>{item?.category}</strong>
+                                    </Typography.Text>
+                                    <Typography.Paragraph>
+                                        {item?.description}
+                                    </Typography.Paragraph>
+                                </>
+                            }
+
+                        />
+                    </Card>
+                </Badge.Ribbon>
             )}
         />
     </div>;
