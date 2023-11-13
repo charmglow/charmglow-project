@@ -70,5 +70,20 @@ const getProductsByFilter = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+const getProductById = async (req, res) => {
+  const productId = req.params.id;
 
-module.exports = { getLatestProducts, getProductsByFilter };
+  try {
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.status(200).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+module.exports = { getLatestProducts, getProductsByFilter, getProductById };

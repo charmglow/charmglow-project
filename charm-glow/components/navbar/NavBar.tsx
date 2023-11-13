@@ -91,7 +91,7 @@ const NavBar = () => {
                             </Dropdown>
                             : <div className='cursor-pointer text-blue-600' onClick={() => push('/login')}>LOGIN</div>
                     }
-                    <AddToCart />
+                    <AddToCart></AddToCart>
                 </Space>
             </span>
 
