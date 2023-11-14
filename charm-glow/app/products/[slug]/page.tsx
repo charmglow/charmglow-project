@@ -163,7 +163,7 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
 
     }
     if (isNotfound) {
-        return notFound()
+        notFound()
     }
     return (
         <div className='overflow-hidden'>
