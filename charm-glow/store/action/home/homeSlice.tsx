@@ -54,6 +54,17 @@ export const fetchFiterProductsAsync = createAsyncThunk('home/fetchfilterproduct
         return rejectWithValue(error.response?.data?.error);
     }
 })
+
+export const fetchProductByIdAsync = createAsyncThunk('home/fetchlatestproducts', async (credientials: {
+    id: string
+}, { rejectWithValue }) => {
+    try {
+        const response = await axiosInstance.get(`/products/${credientials.id}`);
+        return response.data;
+    } catch (error: any) {
+        return rejectWithValue(error.response?.data?.error);
+    }
+})
 const homeSlice = createSlice({
     name: 'home',
     initialState,
