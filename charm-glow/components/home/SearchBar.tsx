@@ -16,9 +16,6 @@ const SearchBar = () => {
         setCurrent(page);
     };
     const onChangeCategory = (newValue: string) => {
-        console.log('====================================');
-        console.log(newValue);
-        console.log('====================================');
         setValue(newValue)
     }
     const handleReset = () => {
