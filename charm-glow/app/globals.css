@@ -34,3 +34,12 @@ body { margin: 0; padding: 0; }
     padding-right: 10px;
     border-bottom: 5px solid red;
 }
+.ant-carousel .slick-dots li button {
+    background: #ff4ef6;
+    opacity: 0.4;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+    opacity: 1;
+    background: #ff4ef6;
+}
