@@ -4,6 +4,7 @@ const dashboardAdminRoutes = require('./admin/dashboardAdminRoutes');
 const productRoutes = require('./admin/productRoutes');
 const homeRoutes = require('./home/homeRoutes');
 const stripeRoutes = require('./stripe/stripeRoutes');
+const orderRoutes = require('./order/orderRoutes');
 module.exports = {
   authUserRoutes,
   authAdminRoutes,
@@ -11,4 +12,5 @@ module.exports = {
   dashboardAdminRoutes,
   homeRoutes,
   stripeRoutes,
+  orderRoutes,
 };

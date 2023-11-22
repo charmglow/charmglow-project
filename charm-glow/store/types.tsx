@@ -36,8 +36,45 @@ export interface Product {
     createdAt?: string,
     __v?: number
 }
-
-
+export interface OrderProduct {
+    _id: string;
+    quantity: number;
+    total: number;
+    price: number;
+    title: string;
+    productImage: string[];
+}
+export interface Order {
+    _id: {
+        $oid: string;
+    };
+    userId: string;
+    customerId: string;
+    paymentIntentId: string;
+    products: OrderProduct[];
+    subtotal: number;
+    total: number;
+    shipping: {
+        address: {
+            postal_code: string;
+            line1: string;
+            line2: string | null;
+            city: string;
+            state: string;
+            country: string;
+        };
+        email: string;
+        name: string;
+        phone: string;
+        tax_exempt: string;
+        tax_ids: string[];
+    };
+    delivery_status: string;
+    payment_status: string;
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
+}
 export interface Analytics {
     customerCount: number,
     productCount: number,
