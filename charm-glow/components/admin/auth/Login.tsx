@@ -33,9 +33,6 @@ const Login = () => {
         }
       }).catch((rejectedValueOrSerializedError) => {
         //   handle error here
-        console.log('====================================');
-        console.log(rejectedValueOrSerializedError);
-        console.log('====================================');
         alert(rejectedValueOrSerializedError)
       });
     } catch (error: any) {
