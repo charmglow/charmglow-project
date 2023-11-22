@@ -70,6 +70,21 @@ const getProductsByFilter = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+const getDiscountedProducts = async (req, res) => {
+  try {
+    // Fetch products with a discount greater than 0
+    const discountedProducts = await Product.find({ discount: { $gt: 0 } })
+      .sort({ createdAt: -1 }) // Sort by createdAt field in descending order (latest first)
+      .limit(10); // Limit the number of results, adjust as needed
+    res.json({
+      message: 'latest discounted Products',
+      discountedProducts,
+    });
+  } catch (error) {
+    console.error('Error fetching discounted products:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 const getProductById = async (req, res) => {
   const productId = req.params.id;
 
@@ -86,4 +101,9 @@ const getProductById = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
-module.exports = { getLatestProducts, getProductsByFilter, getProductById };
+module.exports = {
+  getLatestProducts,
+  getProductsByFilter,
+  getProductById,
+  getDiscountedProducts,
+};
