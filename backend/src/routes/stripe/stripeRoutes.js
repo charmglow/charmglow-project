@@ -80,17 +80,43 @@ const createOrder = async (customer, data) => {
 };
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
-const endpointSecret = 'whsec_GzQtLWtFjcy1xHfeVU4dbgxCxvLfuCWa';
+const endpointSecret =
+  'whsec_08b9e29cc5e88eb0901b6eb8b104fe787120e26e059445cc7824e15ec1bc57f9';
 
 router.post(
   '/webhook',
   express.raw({ type: 'application/json' }),
   (request, response) => {
-    const sig = request.headers['stripe-signature'];
+    const sig = stripe.webhooks.generateTestHeaderString({
+      payload: JSON.stringify(request.body),
+      secret: endpointSecret,
+    });
     let event;
-
     try {
-      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+      event = stripe.webhooks.constructEvent(
+        JSON.stringify(request.body),
+        sig,
+        endpointSecret,
+      );
+      // Handle the event
+      switch (event.type) {
+        case 'checkout.session.completed':
+          const checkoutSessionAsyncCompleted = event.data.object;
+          // Then define and call a function to handle the event checkout.session.async_payment_succeeded
+          stripe.customers
+            .retrieve(checkoutSessionAsyncCompleted.customer)
+            .then((customer) => {
+              createOrder(customer, checkoutSessionAsyncCompleted);
+            })
+            .catch((err) => console.log(err.message));
+          break;
+        // ... handle other event types
+        default:
+          console.log(`Unhandled event type ${event.type}`);
+      }
+
+      // Return a 200 response to acknowledge receipt of the event
+      response.send();
     } catch (err) {
       console.log('====================================');
       console.log(`Webhook Error: ${err.message}`);
@@ -98,26 +124,6 @@ router.post(
       response.status(400).send(`Webhook Error: ${err.message}`);
       return;
     }
-
-    // Handle the event
-    switch (event.type) {
-      case 'checkout.session.completed':
-        const checkoutSessionAsyncCompleted = event.data.object;
-        // Then define and call a function to handle the event checkout.session.async_payment_succeeded
-        stripe.customers
-          .retrieve(checkoutSessionAsyncCompleted.customer)
-          .then((customer) => {
-            createOrder(customer, checkoutSessionAsyncCompleted);
-          })
-          .catch((err) => console.log(err.message));
-        break;
-      // ... handle other event types
-      default:
-        console.log(`Unhandled event type ${event.type}`);
-    }
-
-    // Return a 200 response to acknowledge receipt of the event
-    response.send();
   },
 );
 module.exports = router;
