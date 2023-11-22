@@ -5,7 +5,6 @@ import { User, Admin, Cart } from '../../types'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { axiosAdminInstance, axiosInstance } from '@/store/axios';
-import { persistor } from '@/store/store';
 
 interface AuthState {
   user: User | null;
@@ -79,15 +78,16 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      persistor.purge();
       // Reset the authentication state to its initial values
       localStorage.removeItem('userToken');
+      storage.removeItem('persist:root');
       state.user = null;
       state.loading = false;
       state.error = null;
     },
     adminLogout: (state) => {
       localStorage.removeItem('adminToken');
+      storage.removeItem('persist:root');
       state.admin = null;
       state.loading = false;
       state.error = null;
@@ -96,9 +96,6 @@ const authSlice = createSlice({
       state.cart = [];
     },
     addToCart: (state, action) => {
-      console.log('====================================');
-      console.log(action.payload);
-      console.log('====================================');
       const existingProductIndex = state.cart
         ? state.cart.findIndex((cart) => cart._id === action.payload._id)
         : -1;
@@ -135,9 +132,6 @@ const authSlice = createSlice({
       }
     },
     changeCartItemQuantity: (state, action) => {
-      console.log('====================================');
-      console.log(action.payload);
-      console.log('====================================');
       const updatedCart = state.cart.map(item => {
         if (item._id === action.payload._id) {
           return {
