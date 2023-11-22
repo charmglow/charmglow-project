@@ -1,21 +1,23 @@
 'use client'
 import {
     LogoutOutlined,
-    PieChartOutlined,
-    SettingOutlined,
     UserOutlined,
 } from '@ant-design/icons';
+
+import { CgLogOut } from "react-icons/cg";
+import { CiHome } from "react-icons/ci";
 import type { MenuProps } from 'antd';
 import { Layout, Menu, ConfigProvider, Avatar, Button, Dropdown, Space, Typography } from 'antd';
 import { useState } from 'react';
 import theme from '@/theme/themeConfig';
 const { Header, Content, Footer, Sider } = Layout;
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { FiUsers } from 'react-icons/fi'
 import { FaRegUserCircle } from 'react-icons/fa';
 import { PiShoppingCartLight } from 'react-icons/pi';
 import Link from 'next/link';
+import { logout } from '@/store/action/auth/authSlice';
 const { Title, Text } = Typography;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -35,14 +37,18 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem('Profile', '/', <FaRegUserCircle />),
-    getItem('Orders', '/orders', <PiShoppingCartLight />),
+    getItem('Profile', '/profile', <FaRegUserCircle />),
+    getItem('Orders', '/profile/orders', <PiShoppingCartLight />),
+    getItem('Home', '/', <CiHome />),
+    getItem('Logout', '/logout', <CgLogOut />)
 ];
 
 const NavBarAccount = ({ children }: { children: React.ReactNode }) => {
     const [collapsed, setCollapsed] = useState(true);
     const { user } = useAppSelector(state => state.auth);
+    const dispatch = useAppDispatch();
     const router = useRouter();
+    const pathname = usePathname();
     const itemsDropdown: MenuProps['items'] = [
         {
             key: '1',
@@ -76,7 +82,14 @@ const NavBarAccount = ({ children }: { children: React.ReactNode }) => {
             <Layout style={{ minHeight: '100vh', margin: 0 }}>
                 <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} style={{ backgroundClip: 'red' }} theme='light'>
                     <div className="demo-logo-vertical" />
-                    <Menu theme="dark" defaultSelectedKeys={['/profile']} mode="inline" items={items} onClick={({ key }) => router.replace(`/profile${key}`)} className='h-full' />
+                    <Menu theme="dark" defaultSelectedKeys={[pathname]} mode="inline" items={items} onClick={({ key, }) => {
+                        if (key == "/logout") {
+                            dispatch(logout())
+                            router.replace(`/`)
+                        } else {
+                            router.replace(`${key}`);
+                        }
+                    }} className='h-full' />
                 </Sider>
                 <Layout>
                     <Header style={{ padding: '0px 20px' }} >

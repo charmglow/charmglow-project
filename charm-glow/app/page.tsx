@@ -5,7 +5,7 @@ import NavBar from '@/components/navbar/NavBar';
 import Slider from '@/components/home/Slider';
 import Products from '@/components/home/Products';
 import Footer from '@/components/footer/Footer';
-import { Badge, Card, Flex, Image, List, Pagination, Typography } from 'antd';
+import { Badge, Layout, Card, Flex, Image, List, Pagination, Typography } from 'antd';
 
 const HomePage = () => {
   return (
