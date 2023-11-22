@@ -22,7 +22,7 @@ const CustomersTable: React.FC = () => {
     useEffect(() => {
         async function fetchCustomers() {
             await dispatch(fetchCustomersAsync()).unwrap().then((originalPromiseResult) => {
-                messageApi.success("Customers retrieved successfully")
+                // messageApi.success("Customers retrieved successfully")
             }).catch((rejectedValueOrSerializedError) => {
                 //   handle error here
                 messageApi.error(rejectedValueOrSerializedError?.error)

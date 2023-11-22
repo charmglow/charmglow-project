@@ -101,7 +101,8 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
                                         <Button key={item._id} type="primary" className='bg-[#876553]' onClick={() => handleAddToCartSimilar({
                                             _id: item._id,
                                             price: item.finalPrice,
-                                            productImage: item.productImage
+                                            productImage: item.productImage,
+                                            title: item.title
                                         })}>Add to Cart</Button>
                                     ]}
                                 >
@@ -149,7 +150,8 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
         dispatch(addToCart({
             _id: data?._id,
             price: data?.finalPrice,
-            productImage: data?.productImage
+            productImage: data?.productImage,
+            title: data?.title
         }))
     }
 
@@ -157,7 +159,8 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
 
         _id: string,
         price: number,
-        productImage: string[]
+        productImage: string[],
+        title: string,
 
     }) => {
 

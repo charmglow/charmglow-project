@@ -217,7 +217,7 @@ const ProductsPage = () => {
             dataIndex: 'description',
             ...getColumnSearchProps('description'),
             render: (text) => (
-                <Text>${text}</Text>
+                <Text>{text}</Text>
             )
 
         },
@@ -321,17 +321,6 @@ const ProductsPage = () => {
             strokeWidth: 3,
             format: (percent) => percent && `${parseFloat(percent.toFixed(2))}%`,
         },
-        // beforeUpload(file) {
-        //     return new Promise((resolve, reject) => {
-        //         if (file.size > 2) {
-        //             reject('File size exceed')
-        //             message.error("File size exceed")
-        //         }
-        //         else {
-        //             resolve('success')
-        //         }
-        //     })
-        // }
     };
     let productValue = Form.useWatch('price', form);
     let discountValue = Form.useWatch('discount', form)
@@ -419,7 +408,7 @@ const ProductsPage = () => {
                 </Button>
             </Space>
 
-            <Table columns={columns} dataSource={data} rowKey="_id" />
+            <Table columns={columns} dataSource={data} rowKey="_id" loading={loading} />
         </>
     );
 };

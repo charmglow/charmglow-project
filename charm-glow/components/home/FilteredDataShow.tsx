@@ -14,6 +14,7 @@ const FilteredDataShow = () => {
         _id: string,
         price: number,
         productImage: string[];
+        title: string
     }) => {
         message.success('Item added successfully')
         dispatch(addToCart(item))
@@ -43,7 +44,8 @@ const FilteredDataShow = () => {
                                 <Button key={item._id} type="primary" className='bg-[#876553]' onClick={() => handleAddToCart({
                                     _id: item._id,
                                     price: item.finalPrice,
-                                    productImage: item.productImage
+                                    productImage: item.productImage,
+                                    title: item.title
                                 })}>Add to Cart</Button>
                             ]}
                         >

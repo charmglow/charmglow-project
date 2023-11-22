@@ -44,10 +44,10 @@ export interface Analytics {
 }
 
 export interface Cart {
-
     _id: string,
     quantity: number,
     total: number,
     price: number,
+    title: string,
     productImage: string[],
 }

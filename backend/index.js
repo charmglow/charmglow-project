@@ -26,6 +26,8 @@ app.use('/api', routes.productRoutes);
 app.use('/api', routes.dashboardAdminRoutes);
 // home routes
 app.use('/api', routes.homeRoutes);
+// stripe routes
+app.use('/api', routes.stripeRoutes);
 
 app.get('/', (req, res) => {
   res.send('CHARM GLOW SERVER IS UP AND RUNNING. .....');
