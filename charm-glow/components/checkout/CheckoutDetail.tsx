@@ -9,7 +9,8 @@ import axios from "axios";
 import { axiosInstance } from "@/store/axios";
 
 const CheckoutDetail = () => {
-    const { cart } = useAppSelector(state => state.auth)
+    const { cart, user } = useAppSelector(state => state.auth)
+
     const dispatch = useAppDispatch();
     const handleChangeCartItemQuantity = (item: any) => {
         dispatch(changeCartItemQuantity(item));
@@ -23,7 +24,8 @@ const CheckoutDetail = () => {
     }
     const handlePayNow = () => {
         axiosInstance.post("/create-checkout-session", {
-            cartItems: cart
+            cartItems: cart,
+            userId: user?._id
         }).then((res) => {
             if (res.data.url) {
                 window.location.href = res.data.url
