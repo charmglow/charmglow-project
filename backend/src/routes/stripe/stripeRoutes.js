@@ -2,7 +2,13 @@ const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_KEY);
 router.post('/create-checkout-session', async (req, res) => {
-  const { cartItems } = req.body;
+  const { cartItems, userId } = req.body;
+  const customer = await stripe.customers.create({
+    metadata: {
+      userId: userId,
+      cart: JSON.stringify(cartItems),
+    },
+  });
   const line_items = cartItems.map((cart) => {
     return {
       price_data: {
@@ -39,6 +45,7 @@ router.post('/create-checkout-session', async (req, res) => {
     phone_number_collection: {
       enabled: true,
     },
+    customer: customer.id,
     line_items,
     mode: 'payment',
     success_url: 'http://charmglowjewelry.com/checkout',
@@ -47,4 +54,53 @@ router.post('/create-checkout-session', async (req, res) => {
 
   res.send({ url: session.url });
 });
+
+// This is your Stripe CLI webhook secret for testing your endpoint locally.
+const endpointSecret = 'whsec_GzQtLWtFjcy1xHfeVU4dbgxCxvLfuCWa';
+
+router.post(
+  '/webhook',
+  express.raw({ type: 'application/json' }),
+  (request, response) => {
+    const sig = request.headers['stripe-signature'];
+
+    let event;
+
+    try {
+      event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+      console.log('====================================');
+      console.log('webhook verified:', event);
+      console.log('====================================');
+    } catch (err) {
+      response.status(400).send(`Webhook Error: ${err.message}`);
+      return;
+    }
+
+    // Handle the event
+    switch (event.type) {
+      case 'checkout.session.async_payment_succeeded':
+        const checkoutSessionAsyncPaymentSucceeded = event.data.object;
+        // Then define and call a function to handle the event checkout.session.async_payment_succeeded
+        stripe.customers
+          .retrieve(checkoutSessionAsyncPaymentSucceeded.customer)
+          .then((customer) => {
+            console.log(customer);
+            console.log('====================================');
+            console.log(
+              'checkoutSessionAsyncPaymentSucceeded: ',
+              checkoutSessionAsyncPaymentSucceeded,
+            );
+            console.log('====================================');
+          })
+          .catch((err) => console.log(err.message));
+        break;
+      // ... handle other event types
+      default:
+        console.log(`Unhandled event type ${event.type}`);
+    }
+
+    // Return a 200 response to acknowledge receipt of the event
+    response.send();
+  },
+);
 module.exports = router;
