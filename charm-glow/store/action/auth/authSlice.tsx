@@ -5,6 +5,7 @@ import { User, Admin, Cart } from '../../types'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import { axiosAdminInstance, axiosInstance } from '@/store/axios';
+import { persistor } from '@/store/store';
 
 interface AuthState {
   user: User | null;
@@ -78,12 +79,15 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
+      persistor.purge();
       // Reset the authentication state to its initial values
+      localStorage.removeItem('userToken');
       state.user = null;
       state.loading = false;
       state.error = null;
     },
     adminLogout: (state) => {
+      localStorage.removeItem('adminToken');
       state.admin = null;
       state.loading = false;
       state.error = null;
