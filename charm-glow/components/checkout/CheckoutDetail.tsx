@@ -23,11 +23,12 @@ const CheckoutDetail = () => {
         message.success('Item removed from cart successfully');
     }
     const handlePayNow = () => {
-        axiosInstance.post("/create-checkout-session", {
+        let data = {
             cartItems: cart,
             userId: user?._id,
             name: user?.name
-        }).then((res) => {
+        };
+        axiosInstance.post("/create-checkout-session", data).then((res) => {
             if (res.data.url) {
                 window.location.href = res.data.url
             }
