@@ -28,21 +28,13 @@ const UserLogin = () => {
                 console.log('====================================');
                 console.log(originalPromiseResult);
                 console.log('====================================');
-                message.success({
-                    key: "updatable",
-                    type: 'success',
-                    content: originalPromiseResult.message,
-                });
+                message.success(`${originalPromiseResult.message}`);
 
                 push('/profile');
 
             }).catch((rejectedValueOrSerializedError) => {
                 //   handle error here
-                message.error({
-                    key: "updatable",
-                    type: 'error',
-                    content: rejectedValueOrSerializedError,
-                });
+                message.error(`${rejectedValueOrSerializedError}`);
             });
 
             // user && push('admin/dashboard');
