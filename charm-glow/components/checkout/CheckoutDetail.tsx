@@ -31,7 +31,10 @@ const CheckoutDetail = () => {
             if (res.data.url) {
                 window.location.href = res.data.url
             }
-        }).catch(error => console.log(error))
+        }).catch(error => {
+            console.log(error)
+            message.error("stripe error")
+        })
     }
     return <div className="px-4 py-10">
         <Typography.Title level={5}>
