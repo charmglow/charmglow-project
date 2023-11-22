@@ -1,5 +1,5 @@
 "use client"
-import NavBarAccount from "@/components/user/auth/NavBarAccount";
+import withUserAuth from "@/components/user/auth/withUserAuth";
 import { useAppSelector } from "@/store/hooks";
 import React from "react";
 
@@ -18,4 +18,4 @@ const ProfilePage = () => {
         </div>);
 };
 
-export default ProfilePage;
+export default withUserAuth(ProfilePage);
