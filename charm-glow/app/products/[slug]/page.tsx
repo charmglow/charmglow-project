@@ -4,7 +4,7 @@ import NavBar from "@/components/navbar/NavBar";
 import React from "react";
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { Product } from '@/store/types';
-import { fetchFiterProductsAsync, fetchProductByIdAsync } from '@/store/action/home/homeSlice';
+import { fetchFiterProductsAsync, fetchLatestDiscountedProductsAsync, fetchLatestProductsAsync, fetchProductByIdAsync } from '@/store/action/home/homeSlice';
 import { Spin, Carousel, Image, Tabs, Typography, Descriptions, Button, message, Card, List, Badge } from 'antd';
 import type { TabsProps } from 'antd';
 import type { DescriptionsProps } from 'antd';
@@ -13,7 +13,7 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
     const [data, setData] = React.useState<Product>();
     const [isNotfound, setIsNotFuond] = React.useState(false);
     const dispatch = useAppDispatch();
-    const { filterProducts, loading } = useAppSelector(state => state.home);
+    const { filterProducts, loading, latestProducts, discountedProducts } = useAppSelector(state => state.home);
     const { push } = useRouter();
     React.useEffect(() => {
         dispatch(fetchProductByIdAsync({
@@ -28,9 +28,20 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
         }).catch((rejectedValueOrSerializedError) => {
             setIsNotFuond(true);
         });
+
     }, [dispatch, params.slug])
     const onChange = (key: string) => {
         console.log(key);
+        switch (key) {
+            case "2":
+                dispatch(fetchLatestProductsAsync())
+                break;
+            case "3":
+                dispatch(fetchLatestDiscountedProductsAsync())
+                break;
+            default:
+                console.log("onChange")
+        }
     };
     const items_desc: DescriptionsProps['items'] = [
         {
@@ -75,7 +86,7 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
             label: 'Similar Products',
             children: <div>
                 <List
-                    className='m-0'
+                    className='p-4'
                     loading={loading}
                     grid={{
                         gutter: 0, xs: 1,
@@ -137,12 +148,130 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
         {
             key: '2',
             label: 'Latest Products',
-            children: 'Content of Tab Pane 2',
+            children: <div>
+                <List
+                    className='p-4'
+                    loading={loading}
+                    grid={{
+                        gutter: 0, xs: 1,
+                        sm: 2,
+                        md: 2,
+                        lg: 3,
+                        xl: 3,
+                        xxl: 3,
+                    }}
+                    dataSource={latestProducts}
+
+                    renderItem={(item: Product, index) => (
+                        <Badge.Ribbon text={`${item.discount}% OFF`} className={`p-1 mx-2 ${item?.discount == 0 && "hidden"}`}>
+
+                            <List.Item>
+
+                                <Card
+                                    hoverable
+                                    className='m-2'
+                                    title={item.title} key={index} cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} alt={item?.description} />}
+                                    actions={[
+                                        <Button key={item._id} type="link" onClick={() => push(`/products/${item._id}`)}>view detail</Button>,
+                                        <Button key={item._id} type="primary" className='bg-[#876553]' onClick={() => handleAddToCartSimilar({
+                                            _id: item._id,
+                                            price: item.finalPrice,
+                                            productImage: item.productImage,
+                                            title: item.title
+                                        })}>Add to Cart</Button>
+                                    ]}
+                                >
+                                    <Card.Meta
+                                        title={
+                                            <Typography.Paragraph className='w-full'>
+                                                Price: ${item?.finalPrice} {"  "}{
+                                                    item?.discount ? <Typography.Text delete type='danger'>
+                                                        ${item?.price}
+                                                    </Typography.Text>
+                                                        : null}
+                                            </Typography.Paragraph>
+                                        }
+                                        description={
+                                            <>
+                                                <Typography.Text className="capitalize">
+                                                    Category: <strong>{item?.category}</strong>
+                                                </Typography.Text>
+                                                <Typography.Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
+                                                    {item?.description}
+                                                </Typography.Paragraph>
+                                            </>
+                                        }
+                                    />
+                                </Card>
+                            </List.Item>
+                        </Badge.Ribbon>
+                    )}
+                />
+            </div>,
         },
         {
             key: '3',
             label: 'Latest Sale',
-            children: 'Content of Tab Pane 3',
+            children: <div>
+                <List
+                    className='p-4'
+                    loading={loading}
+                    grid={{
+                        gutter: 0, xs: 1,
+                        sm: 2,
+                        md: 2,
+                        lg: 3,
+                        xl: 3,
+                        xxl: 3,
+                    }}
+                    dataSource={discountedProducts}
+
+                    renderItem={(item: Product, index) => (
+                        <Badge.Ribbon text={`${item.discount}% OFF`} className={`p-1 mx-2 ${item?.discount == 0 && "hidden"}`}>
+
+                            <List.Item>
+
+                                <Card
+                                    hoverable
+                                    className='m-2'
+                                    title={item.title} key={index} cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} alt={item?.description} />}
+                                    actions={[
+                                        <Button key={item._id} type="link" onClick={() => push(`/products/${item._id}`)}>view detail</Button>,
+                                        <Button key={item._id} type="primary" className='bg-[#876553]' onClick={() => handleAddToCartSimilar({
+                                            _id: item._id,
+                                            price: item.finalPrice,
+                                            productImage: item.productImage,
+                                            title: item.title
+                                        })}>Add to Cart</Button>
+                                    ]}
+                                >
+                                    <Card.Meta
+                                        title={
+                                            <Typography.Paragraph className='w-full'>
+                                                Price: ${item?.finalPrice} {"  "}{
+                                                    item?.discount ? <Typography.Text delete type='danger'>
+                                                        ${item?.price}
+                                                    </Typography.Text>
+                                                        : null}
+                                            </Typography.Paragraph>
+                                        }
+                                        description={
+                                            <>
+                                                <Typography.Text className="capitalize">
+                                                    Category: <strong>{item?.category}</strong>
+                                                </Typography.Text>
+                                                <Typography.Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
+                                                    {item?.description}
+                                                </Typography.Paragraph>
+                                            </>
+                                        }
+                                    />
+                                </Card>
+                            </List.Item>
+                        </Badge.Ribbon>
+                    )}
+                />
+            </div>,
         },
     ];
     const handleAddToCart = () => {

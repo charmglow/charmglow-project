@@ -3,6 +3,7 @@ import { axiosInstance } from "@/store/axios";
 import { Product } from "@/store/types";
 interface HomeState {
     latestProducts: Product[];
+    discountedProducts: Product[];
     filterProducts: {
         currentPage?: number;
         totalPages?: number;
@@ -15,6 +16,7 @@ interface HomeState {
 
 const initialState: HomeState = {
     latestProducts: [],
+    discountedProducts: [],
     filterProducts: {
         currentPage: 1,
         totalPages: 1,
@@ -30,6 +32,14 @@ export const fetchLatestProductsAsync = createAsyncThunk('home/fetchlatestproduc
     try {
         const response = await axiosInstance.get(`/products/latest`);
         return response.data;
+    } catch (error: any) {
+        return rejectWithValue(error.response?.data?.error);
+    }
+})
+export const fetchLatestDiscountedProductsAsync = createAsyncThunk('home/fetchLatestDiscountedProducts', async (_, { rejectWithValue }) => {
+    try {
+        const response = await axiosInstance.get(`/products/discounted`);
+        return response.data?.discountedProducts;
     } catch (error: any) {
         return rejectWithValue(error.response?.data?.error);
     }
@@ -95,6 +105,20 @@ const homeSlice = createSlice({
             state.loading = false;
             state.error = action.payload?.error;
             state.filterProducts = initialState.filterProducts
+        })
+
+        builder.addCase(fetchLatestDiscountedProductsAsync.pending, (state) => {
+            state.error = null;
+            state.loading = true;
+        })
+        builder.addCase(fetchLatestDiscountedProductsAsync.fulfilled, (state, action: any) => {
+            state.loading = false;
+            state.error = null;
+            state.discountedProducts = action.payload;
+        }).addCase(fetchLatestDiscountedProductsAsync.rejected, (state, action: any) => {
+            state.loading = false;
+            state.error = action.payload?.error;
+            state.discountedProducts = initialState.discountedProducts
         })
     },
 });
