@@ -84,7 +84,7 @@ const NavBar = () => {
                     {
                         user ?
                             <Dropdown menu={{ items: profileItems }} placement="bottomRight" arrow>
-                                <Avatar className='cursor-pointer'>U</Avatar>
+                                <Avatar className='cursor-pointer uppercase'>{user?.name[0]}</Avatar>
                             </Dropdown>
                             : <div className='cursor-pointer text-blue-600' onClick={() => push('/login')}>LOGIN</div>
                     }
