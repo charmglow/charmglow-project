@@ -71,9 +71,6 @@ const createOrder = async (customer, data) => {
   });
   try {
     const savedOrder = await newOrder.save();
-    console.log('====================================');
-    console.log(savedOrder);
-    console.log('====================================');
   } catch (error) {
     return res.status(500).json({ error: 'Webhook error' });
   }
@@ -102,6 +99,9 @@ router.post(
         case 'checkout.session.completed':
           const checkoutSessionAsyncCompleted = event.data.object;
           // Then define and call a function to handle the event checkout.session.async_payment_succeeded
+          console.log('====================================');
+          console.log(checkoutSessionAsyncCompleted);
+          console.log('====================================');
           stripe.customers
             .retrieve(checkoutSessionAsyncCompleted.customer)
             .then((customer) => {
