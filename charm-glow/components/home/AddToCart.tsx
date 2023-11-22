@@ -5,13 +5,16 @@ import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { MdDeleteOutline } from 'react-icons/md'
 import { changeCartItemQuantity, removeItemFromCart } from "@/store/action/auth/authSlice";
+import { useRouter } from "next/navigation";
 const AddToCart = () => {
     const [cartDrawerOpen, setCartDrawerOpen] = React.useState(false);
     const { cart } = useAppSelector(state => state.auth)
+    const { user } = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch();
     const handleChangeCartItemQuantity = (item: any) => {
         dispatch(changeCartItemQuantity(item));
     }
+    const { push } = useRouter()
     const handleRemoveItemFromCart = (item: any) => {
         dispatch(removeItemFromCart({
             _id: item._id
@@ -56,7 +59,7 @@ const AddToCart = () => {
                             title: 'Total',
                             dataIndex: "total",
                             render: (value) => {
-                                return <span>${value}</span>
+                                return <span>${value.toFixed(2)}</span>
                             }
                         },
                         {
@@ -89,12 +92,6 @@ const AddToCart = () => {
                     ]}
                     dataSource={cart}
                     rowKey="_id"
-                // summary={(data) => {
-                //     const total = data.reduce((prev, current) => {
-                //         return prev + current.total;
-                //     }, 0)
-                //     return <span>Total: ${total}</span>;
-                // }}
                 />
                 {
                     cart.length > 0 &&
@@ -108,7 +105,7 @@ const AddToCart = () => {
                                 label: 'Subtotal',
                                 children: `$${cart.reduce((prev, current) => {
                                     return prev + current.total;
-                                }, 0)}`,
+                                }, 0).toFixed(2)}`,
                             },
                             {
                                 label: 'Shipping Cost',
@@ -116,15 +113,18 @@ const AddToCart = () => {
                             },
                             {
                                 label: 'Total',
-                                children: `$${cart.reduce((prev, current) => {
+                                children: `$${(cart.reduce((prev, current) => {
                                     return prev + current.total;
-                                }, 0) + 15}`,
+                                }, 0) + 15).toFixed(2)}`,
                             }]}
 
                         />
                         <div className="w-full items-center justify-end flex mt-4">
-
-                            <Button type="primary" className='bg-[#876553]'>PROCEED TO CHECKOUT</Button>
+                            {
+                                user ?
+                                    <Button type="primary" className='bg-[#876553]' onClick={() => push("/checkout")}>PROCEED TO CHECKOUT</Button>
+                                    : <Button type="link" onClick={() => push("/login")}>LOGIN TO CHECKOUT</Button>
+                            }
                         </div>
                     </>
                 }

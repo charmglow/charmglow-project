@@ -88,6 +88,9 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = null;
     },
+    emptyCart: (state) => {
+      state.cart = [];
+    },
     addToCart: (state, action) => {
       console.log('====================================');
       console.log(action.payload);
@@ -117,6 +120,7 @@ const authSlice = createSlice({
           total,
           price: action.payload.price,
           productImage: action.payload.productImage,
+          title: action.payload.title
           // Add other properties from your payload
         };
 
@@ -217,5 +221,5 @@ const rootPersistConfig = {
   storage: storage,
   blacklist: ['navigation', 'auth'],
 }
-export const { logout, adminLogout, addToCart, changeCartItemQuantity, removeItemFromCart } = authSlice.actions;
+export const { logout, adminLogout, addToCart, changeCartItemQuantity, removeItemFromCart, emptyCart } = authSlice.actions;
 export default persistReducer(rootPersistConfig, authSlice.reducer);

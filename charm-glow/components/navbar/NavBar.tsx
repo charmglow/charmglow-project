@@ -6,7 +6,7 @@ import type { MenuProps } from 'antd';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { logout } from '@/store/action/auth/authSlice';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import AddToCart from '../home/AddToCart';
 const items: MenuProps['items'] = [
 
@@ -23,15 +23,12 @@ const items: MenuProps['items'] = [
         key: '/contactus',
     },
 ];
-let activeTab = '/';
 const NavBar = () => {
-
+    const pathname = usePathname();
     const [openMenu, setOpenMenu] = useState(false);
     const { push } = useRouter();
     const onClick: MenuProps['onClick'] = (e) => {
-        console.log('click ', e);
         push(e.key)
-        activeTab = e.key;
     };
     const { user } = useAppSelector(state => state.auth)
     const dispatch = useAppDispatch();
@@ -41,7 +38,7 @@ const NavBar = () => {
     }
     const profileItems: MenuProps['items'] = [
         {
-            key: '1',
+            key: '/profile',
             label: (
                 <div onClick={() => push('/profile')}>
                     Profile
@@ -49,7 +46,7 @@ const NavBar = () => {
             ),
         },
         {
-            key: '2',
+            key: '/',
             label: (
                 <div onClick={handleLogout}>
                     Logout
@@ -81,7 +78,7 @@ const NavBar = () => {
                         />
                     </div>
                 </div>
-                <Menu onClick={onClick} selectedKeys={[activeTab]} mode="horizontal" items={items} style={{ borderWidth: 0, width: '100%' }} className='menuhide' />
+                <Menu onClick={onClick} selectedKeys={[pathname]} mode="horizontal" items={items} style={{ borderWidth: 0, width: '100%' }} className='menuhide' />
                 <Space style={{ width: '100%', justifyContent: 'end' }} className='pr-4'>
 
                     {
@@ -96,7 +93,7 @@ const NavBar = () => {
             </span>
 
             <Drawer open={openMenu} onClose={() => setOpenMenu(false)} closable={true}>
-                <Menu onClick={onClick} selectedKeys={[activeTab]} mode="inline" items={items} />
+                <Menu onClick={onClick} selectedKeys={[pathname]} mode="inline" items={items} />
             </Drawer>
         </div>
     );

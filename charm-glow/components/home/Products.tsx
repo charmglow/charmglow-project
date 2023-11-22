@@ -14,6 +14,7 @@ const Products = () => {
     const handleAddToCart = (item: {
         _id: string,
         price: number,
+        title: string,
         productImage: string[];
     }) => {
         message.success('Item added successfully')
@@ -47,7 +48,8 @@ const Products = () => {
                             <Button key={item._id} type="primary" className='bg-[#876553]' onClick={() => handleAddToCart({
                                 _id: item._id,
                                 price: item.finalPrice,
-                                productImage: item.productImage
+                                productImage: item.productImage,
+                                title: item.title
                             })}>Add to Cart</Button>
                         ]}
                     >
@@ -66,7 +68,7 @@ const Products = () => {
                                     <Typography.Text className="capitalize">
                                         Category: <strong>{item?.category}</strong>
                                     </Typography.Text>
-                                    <Typography.Paragraph>
+                                    <Typography.Paragraph ellipsis={{ rows: 2, expandable: false, symbol: 'more', }}>
                                         {item?.description}
                                     </Typography.Paragraph>
                                 </>
