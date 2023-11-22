@@ -6,6 +6,15 @@ const routes = require('./src/routes');
 const app = express();
 const mongoose = require('mongoose');
 // Node.js body parsing middleware
+app.use(
+  express.json({
+    limit: '5mb',
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  }),
+);
+app.use(bodyParser.raw({ type: 'application/json' }));
 app.use(bodyParser.json());
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
