@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 'use client'
-import { Form, Input, Button, Space, Col, Row, Card, ConfigProvider, Typography, Avatar, FormInstance, notification, message } from 'antd';
+import { Form, Input, Button, Space, Col, Row, Card, ConfigProvider, Typography, Avatar, FormInstance, message } from 'antd';
 import theme from '@/theme/themeConfig';
 import { AntDesignOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { useRef } from 'react';
 import SubmitBtn from '../../admin/auth/SubmitBtn';
-import React, { useEffect } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import React from 'react';
+import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { loginAsync } from "@/store/action/auth/authSlice"
 type NotificationType = 'success' | 'info' | 'warning' | 'error';
@@ -24,10 +24,6 @@ const UserLogin = () => {
     }) => {
         try {
             await dispatch(loginAsync(values)).unwrap().then((originalPromiseResult) => {
-                // handle result here
-                console.log('====================================');
-                console.log(originalPromiseResult);
-                console.log('====================================');
                 message.success(`${originalPromiseResult.message}`);
 
                 push('/profile');
@@ -47,9 +43,6 @@ const UserLogin = () => {
     const { Title, Text } = Typography;
     const onReset = () => {
         formRef.current?.resetFields();
-    };
-    const tailLayout = {
-        wrapperCol: { offset: 8, span: 16 },
     };
     return (
         <ConfigProvider theme={theme}>
