@@ -25,7 +25,8 @@ const CheckoutDetail = () => {
     const handlePayNow = () => {
         axiosInstance.post("/create-checkout-session", {
             cartItems: cart,
-            userId: user?._id
+            userId: user?._id,
+            name: user?.name
         }).then((res) => {
             if (res.data.url) {
                 window.location.href = res.data.url
