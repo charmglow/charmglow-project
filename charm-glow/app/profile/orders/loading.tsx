@@ -1,7 +1,10 @@
 import React from "react";
-
-const OrdersLoadings = () => {
-    return <div>OrdersLoadings</div>;
+import { Spin, Flex, Alert } from "antd"
+const OrdersLoading = () => {
+    return <Flex align="center" justify="center" gap="middle" className="min-h-screen min-w-screen" vertical>
+        <Spin size="large" />
+        <span>Loading...</span>
+    </Flex>;
 };
 
-export default OrdersLoadings;
+export default OrdersLoading;
