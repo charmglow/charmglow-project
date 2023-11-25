@@ -78,6 +78,7 @@ export interface Order {
 export interface Analytics {
     customerCount: number,
     productCount: number,
+    orderCount: number
 }
 
 export interface Cart {
