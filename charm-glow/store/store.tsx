@@ -10,6 +10,7 @@ import customersSlice from './action/customers/customersSlice';
 import dashboardSlice from './action/dashboard/dashboardSlice';
 import homeSlice from './action/home/homeSlice';
 import orderSlice from './action/order/orderSlice';
+import adminOrderSlice from './action/order/adminOrderSlice';
 const store = configureStore({
     reducer: {
         auth: authSlice,
@@ -18,7 +19,8 @@ const store = configureStore({
         customers: customersSlice,
         dashboardAdmin: dashboardSlice,
         home: homeSlice,
-        orders: orderSlice
+        orders: orderSlice,
+        adminorders: adminOrderSlice,
         // Add other reducers if you have more slices
     },
     middleware: (getDefaultMiddleware) =>

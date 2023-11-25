@@ -1,15 +1,17 @@
 const User = require('../../models/User');
 const Product = require('../../models/Product');
-
+const Order = require('../../models/Order');
 async function fetchDashboardAnalytics(req, res) {
   try {
     const customerCount = await User.countDocuments();
     const productCount = await Product.countDocuments();
+    const orderCount = await Order.countDocuments();
     res.status(200).json({
       message: 'Dashboard analytics retrieved successfully',
       analytics: {
         customerCount,
         productCount,
+        orderCount,
       },
     });
   } catch (error) {
