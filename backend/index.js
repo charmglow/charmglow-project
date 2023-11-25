@@ -39,6 +39,8 @@ app.use('/api', routes.homeRoutes);
 app.use('/api', routes.stripeRoutes);
 // order routes
 app.use('/api', routes.orderRoutes);
+// order routes
+app.use('/api', routes.orderAdminRoutes);
 app.get('/', (req, res) => {
   res.send('CHARM GLOW SERVER IS UP AND RUNNING. .....');
 });
