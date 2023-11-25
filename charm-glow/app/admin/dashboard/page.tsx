@@ -18,19 +18,19 @@ const DashboardPage = () => {
     }, [dispatch])
     return (<Row gutter={16} style={{ paddingTop: "20px" }}>
         <Col span={8}>
-            <Card bordered={false}>
+            <Card bordered={false} className="bg-pink-200">
                 <UserOutlined style={{ fontSize: 30 }} />
                 <Statistic title="Users" value={analytics.customerCount} />
             </Card>
         </Col>
         <Col span={8}>
-            <Card bordered={false}>
+            <Card bordered={false} className="bg-orange-200">
                 <Image alt="Orders_icon" src="/purchase-order.png" width={30} height={30} />
-                <Statistic title="Orders" value={25} />
+                <Statistic title="Orders" value={analytics.orderCount} />
             </Card>
         </Col>
         <Col span={8}>
-            <Card bordered={false}>
+            <Card bordered={false} className="bg-green-200">
                 <Image alt="Orders_icon" src="/box.png" width={30} height={30} />
                 <Statistic title="Products" value={analytics.productCount} />
             </Card>
