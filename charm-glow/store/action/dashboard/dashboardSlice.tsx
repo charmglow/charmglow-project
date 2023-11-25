@@ -6,6 +6,7 @@ interface AnalyticsState {
     analytics: Analytics | {
         customerCount: 0,
         productCount: 0,
+        orderCount: 0,
     };
     error: string | null;
     loading: boolean;
@@ -15,6 +16,7 @@ const initialState: AnalyticsState = {
     analytics: {
         customerCount: 0,
         productCount: 0,
+        orderCount: 0,
     },
     error: null,
     loading: false

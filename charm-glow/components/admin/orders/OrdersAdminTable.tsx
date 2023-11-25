@@ -1,34 +1,28 @@
-/* eslint-disable @next/next/no-img-element */
-"use client"
-import React, { useRef, useState, useEffect } from 'react';
-import Highlighter from 'react-highlight-words';
-import type { InputRef } from 'antd';
-import { Image, Table, Descriptions, Badge, Divider } from 'antd';
-import type { ColumnType, ColumnsType } from 'antd/es/table';
-import type { FilterConfirmProps } from 'antd/es/table/interface';
+import { fetchAdminOrdersAsync } from "@/store/action/order/adminOrderSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { Order, OrderProduct, Product } from '@/store/types';
-import { Typography } from 'antd';
-import { fetchUserOrdersAsync } from '@/store/action/order/orderSlice';
+import { Order, OrderProduct } from "@/store/types";
+import { Table, Descriptions, Image, Divider, Typography, Badge } from 'antd'
+import React from "react";
+import type { ColumnType, ColumnsType } from 'antd/es/table';
+import Highlighter from 'react-highlight-words';
 
 const { Text } = Typography;
-
-type DataIndex = keyof Order;
-
-const OrdersTable = () => {
-    const [searchText, setSearchText] = useState('');
-    const [searchedColumn, setSearchedColumn] = useState('');
-    const searchInput = useRef<InputRef>(null);
+const OrdersAdminTable = () => {
+    const [page, setPage] = React.useState(1);
+    const [pageSize, setPageSize] = React.useState(10);
+    const [deliveryStatus, setDeliveryStatus] = React.useState('');
+    const [searchedColumn, setSearchedColumn] = React.useState('');
+    const [searchText, setSearchText] = React.useState('');
     const dispatch = useAppDispatch();
-    const { orders, loading } = useAppSelector(state => state.orders);
-    var data: Order[] = orders;
-
-
-    useEffect(() => {
-        dispatch(fetchUserOrdersAsync())
-    }, [dispatch]);
-
-
+    const { loading, error, orders, total } = useAppSelector(state => state.adminorders);
+    type DataIndex = keyof Order;
+    React.useEffect(() => {
+        dispatch(fetchAdminOrdersAsync({
+            page,
+            limit: pageSize,
+            delivery_status: deliveryStatus
+        }))
+    }, [dispatch, page, pageSize, deliveryStatus])
     const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<Order> => ({
         render: (text) =>
             searchedColumn === dataIndex ? (
@@ -42,7 +36,7 @@ const OrdersTable = () => {
                 text
             ),
     });
-
+    var data: Order[] = orders;
     const columns: ColumnsType<Order> = [
         {
             title: "Order Details",
@@ -132,10 +126,19 @@ const OrdersTable = () => {
     ];
 
     return (
-        <>
-            <Table columns={columns} dataSource={data} rowKey="_id" loading={loading} className='py-5' />
-        </>
+        <div>
+
+            <Table
+                loading={loading}
+                columns={columns}
+                dataSource={data}
+                rowKey="_id"
+                className='py-5'
+            >
+
+            </Table>
+        </div>
     );
 };
 
-export default OrdersTable;
+export default OrdersAdminTable;
