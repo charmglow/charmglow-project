@@ -1,3 +1,4 @@
+"use client"
 import { Layout, Row, Col } from 'antd';
 import { GithubOutlined, TwitterOutlined, LinkedinOutlined } from '@ant-design/icons';
 import Link from 'next/link';
