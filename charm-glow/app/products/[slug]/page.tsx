@@ -8,6 +8,7 @@ import { fetchFiterProductsAsync, fetchLatestDiscountedProductsAsync, fetchLates
 import { Spin, Carousel, Image, Tabs, Typography, Descriptions, Button, message, Card, List, Badge } from 'antd';
 import type { TabsProps } from 'antd';
 import type { DescriptionsProps } from 'antd';
+import { FloatButton } from 'antd';
 import { addToCart } from '@/store/action/auth/authSlice';
 const ProductDetail = ({ params }: { params: { slug: string } }) => {
     const [data, setData] = React.useState<Product>();
@@ -341,6 +342,7 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
                         </Spin>
                     </div>
             }
+            <FloatButton.BackTop visibilityHeight={0} />
         </div>
     );
 };

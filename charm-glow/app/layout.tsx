@@ -7,7 +7,6 @@ import { ConfigProvider } from 'antd';
 import theme from '../theme/themeConfig';
 import NavBar from '@/components/navbar/NavBar';
 const inter = Inter({ subsets: ['latin'] });
-
 export const metadata = {
   title: 'Charm Glow',
   description: 'Jewelry and much more..',

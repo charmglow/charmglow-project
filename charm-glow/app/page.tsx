@@ -5,7 +5,8 @@ import NavBar from '@/components/navbar/NavBar';
 import Slider from '@/components/home/Slider';
 import Products from '@/components/home/Products';
 import Footer from '@/components/footer/Footer';
-import { Badge, Layout, Card, Flex, Image, List, Pagination, Typography } from 'antd';
+import { Flex, Typography } from 'antd';
+import { FloatButton } from 'antd';
 
 const HomePage = () => {
   return (
@@ -26,6 +27,7 @@ const HomePage = () => {
         </Flex>
         <Products />
       </div>
+      <FloatButton.BackTop visibilityHeight={0} />
       <Footer />
     </div>
   );
