@@ -1,40 +1,82 @@
-import { Divider } from 'antd';
-import React from 'react';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaPhone, FaEnvelope, FaMapMarker } from 'react-icons/fa';
+import { Layout, Row, Col } from 'antd';
+import { GithubOutlined, TwitterOutlined, LinkedinOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 
-const Footer = () => {
+const { Footer } = Layout;
+
+const AppFooter = () => {
     return (
-        <footer>
-            <Divider />
-            <div className="py-6 bg-[#876553] text-white">
-                <div className="container mx-auto flex flex-col items-center lg:flex-row justify-between">
-                    <div className="text-center lg:text-left mb-4 lg:mb-0">
-                        <p className="text-2xl font-bold">Connect with Us</p>
-                        <div className="flex space-x-4">
-                            <a href="#" className="text-3xl text-blue-500 hover:text-blue-600 transition duration-300"><FaFacebook /></a>
-                            <a href="#" className="text-3xl text-blue-500 hover:text-blue-600 transition duration-300"><FaTwitter /></a>
-                            <a href="#" className="text-3xl text-red-500 hover:text-red-600 transition duration-300"><FaInstagram /></a>
-                            <a href="#" className="text-3xl text-blue-500 hover:text-blue-600 transition duration-300"><FaLinkedin /></a>
-                        </div>
+        <Footer className="bg-[#70513d] text-white">
+            <Row justify="space-around" align="middle">
+                <Col xs={24} sm={12} md={8} lg={6} className="text-center py-4">
+                    <div>
+                        <Link href="/">
+                            <span className="text-lg font-bold text-white hover:text-blue-500">Charm Glow</span>
+                        </Link>
                     </div>
-                    <div className="text-center lg:text-left mb-4 lg:mb-0">
-                        <div>
-                            <p className="text-xl"><FaPhone /> +1 (123) 456-7890</p>
-                        </div>
-                        <div>
-                            <p className="text-xl"><FaEnvelope /> info@example.com</p>
-                        </div>
-                        <div>
-                            <p className="text-xl"><FaMapMarker /> 123 Main Street, City, Country</p>
-                        </div>
+                    <div>
+                        <Link href="/contactus">
+                            <span className="text-sm hover:text-blue-500">Contact Us</span>
+                        </Link>
                     </div>
-                    <div className="text-center lg:text-right">
-                        <p className="text-sm">© {new Date().getFullYear()} charmglowjewelry.com</p>
+                </Col>
+                <Col xs={24} sm={12} md={8} lg={6} className="text-center py-4">
+                    <h2 className="text-lg font-bold text-blue-500">Links</h2>
+                    <div>
+                        <Link href="/">
+                            <span className="text-sm hover:text-blue-500">Home</span>
+                        </Link>
                     </div>
-                </div>
+                    <div>
+                        <Link href="/products">
+                            <span className="text-sm hover:text-blue-500">Products</span>
+                        </Link>
+                    </div>
+                    <div>
+                        <Link href="/register">
+                            <span className="text-sm hover:text-blue-500">Register</span>
+                        </Link>
+                    </div>
+                </Col>
+                <Col xs={24} sm={12} md={8} lg={6} className="text-center py-4">
+                    <h2 className="text-lg font-bold text-blue-500">Connect</h2>
+                    <div>
+                        <a
+                            href="https://github.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm hover:text-blue-500"
+                        >
+                            <GithubOutlined /> GitHub
+                        </a>
+                    </div>
+                    <div>
+                        <a
+                            href="https://twitter.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm hover:text-blue-500"
+                        >
+                            <TwitterOutlined /> Twitter
+                        </a>
+                    </div>
+                    <div>
+                        <a
+                            href="https://www.linkedin.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm hover:text-blue-500"
+                        >
+                            <LinkedinOutlined /> LinkedIn
+                        </a>
+                    </div>
+                </Col>
+            </Row>
+            <div className="text-center py-2 text-sm">
+                Charm Glow © {new Date().getFullYear()}
             </div>
-        </footer>
+        </Footer>
     );
 };
 
-export default Footer;
+export default AppFooter;
