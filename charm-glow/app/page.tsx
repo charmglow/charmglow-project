@@ -4,7 +4,7 @@ import './globals.css';
 import NavBar from '@/components/navbar/NavBar';
 import Slider from '@/components/home/Slider';
 import Products from '@/components/home/Products';
-import Footer from '@/components/footer/Footer';
+import AppFooter from '@/components/footer/AppFooter';
 import { Flex, Typography } from 'antd';
 import { FloatButton } from 'antd';
 
@@ -28,7 +28,7 @@ const HomePage = () => {
         <Products />
       </div>
       <FloatButton.BackTop visibilityHeight={0} />
-      <Footer />
+      <AppFooter />
     </div>
   );
 }
