@@ -6,7 +6,7 @@ const { Footer } = Layout;
 
 const AppFooter = () => {
     return (
-        <Footer className="bg-gray-800 text-white">
+        <Footer className="bg-[#70513d] text-white">
             <Row justify="space-around" align="middle">
                 <Col xs={24} sm={12} md={8} lg={6} className="text-center py-4">
                     <div>
