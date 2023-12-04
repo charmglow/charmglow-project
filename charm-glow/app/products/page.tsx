@@ -1,5 +1,5 @@
 "use client"
-import Footer from "@/components/footer/Footer";
+import Footer from "@/components/footer/AppFooter";
 import FilteredDataShow from "@/components/home/FilteredDataShow";
 import SearchBar from "@/components/home/SearchBar";
 import NavBar from "@/components/navbar/NavBar";
