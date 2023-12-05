@@ -9,6 +9,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Form, Input, Row, Col, Select } from 'antd';
 import { FaMapMarkerAlt, FaCity, FaFlag, FaGlobe } from 'react-icons/fa';
 import { updateShippingAddressAsync } from "@/store/action/auth/authSlice";
+import Chart from "@/components/user/analytics/Chart";
 
 const { Option } = Select;
 
@@ -64,7 +65,7 @@ const ProfilePage = () => {
     };
 
     return (
-        <div>
+        <div className="min-h-screen bg-slate-50">
             <div className="m-5 rounded-md shadow-sm bg-slate-50 p-4">
                 <Avatar size={48} className="inline-block h-10 w-10 rounded-full ring-2 bg-[#876553]">U</Avatar>
                 <Descriptions layout="vertical" items={items} />
@@ -149,6 +150,7 @@ const ProfilePage = () => {
                     </Form.Item>
                 </Form>
             </Modal>
+            <Chart />
         </div>
 
     );

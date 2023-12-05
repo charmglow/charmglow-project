@@ -3,6 +3,7 @@ const {
   login,
   signup,
   updateShippingAddress,
+  barLineChartData,
 } = require('../../controllers/user/AuthUserController');
 const {
   authenticateUserToken,
@@ -16,4 +17,6 @@ router.post(
   authenticateUserToken,
   updateShippingAddress,
 );
+router.get('/user/chartdata', authenticateUserToken, barLineChartData);
+
 module.exports = router;
