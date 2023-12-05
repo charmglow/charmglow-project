@@ -30,7 +30,8 @@ const CheckoutDetail = () => {
         };
         axiosInstance.post("/create-checkout-session", data).then((res) => {
             if (res.data.url) {
-                window.location.href = res.data.url
+                dispatch(emptyCart())
+                window.location.href = res.data.url;
             }
         }).catch(error => {
             console.log(error)

@@ -50,8 +50,8 @@ router.post('/create-checkout-session', async (req, res) => {
     customer: customer.id,
     line_items,
     mode: 'payment',
-    success_url: 'http://charmglowjewelry.com/checkout',
-    cancel_url: 'http://charmglowjewelry.com/checkout',
+    success_url: 'http://charmglowjewelry.com',
+    cancel_url: 'http://charmglowjewelry.com',
   });
 
   res.send({ url: session.url });
