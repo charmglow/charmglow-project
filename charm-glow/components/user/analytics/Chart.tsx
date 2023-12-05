@@ -11,7 +11,6 @@ const Chart = () => {
     React.useEffect(() => {
         dispatch(getOrderAnalyticsAsync())
     }, [dispatch])
-    //getOrderAnalyticsAsync
     return <div className='h-[40vh] w-full my-4'>
         <Title level={3} italic className='uppercase mx-4'>Order Analytics</Title>
         <Card bordered={false} className='w-[50%] m-4'>
