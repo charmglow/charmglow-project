@@ -49,7 +49,7 @@ const ProfilePage = () => {
             children: (<Button type="primary" className="bg-[#876553]" onClick={showModal}>Edit</Button>),
         },
     ];
-    const onFinish = (values: any) => {
+    const onFinish = async (values: any) => {
         console.log('Received values:', values);
     };
 
