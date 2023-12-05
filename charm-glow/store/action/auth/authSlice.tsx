@@ -35,6 +35,26 @@ export const loginAsync = createAsyncThunk(
   }
 );
 
+export const updateShippingAddressAsync = createAsyncThunk(
+  'auth/update',
+  async (credentials: {
+    shippingAddress: {
+      street: string;
+      city: string;
+      state: string;
+      country: string;
+    }
+  }, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post('/user/updateaddress', credentials);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.error);
+    }
+  }
+);
+
+
 export const registerAsync = createAsyncThunk(
   'auth/register',
   async (credentials: { email: string; password: string, name: string }, { rejectWithValue }) => {
@@ -170,6 +190,20 @@ const authSlice = createSlice({
     }).addCase(loginAsync.rejected, (state, action: any) => {
       state.loading = false;
       state.user = null;
+      state.error = action.payload;
+    })
+    builder.addCase(updateShippingAddressAsync.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    builder.addCase(updateShippingAddressAsync.fulfilled, (state, action: any) => {
+      state.loading = false;
+      if (state.user) {
+        state.user.shippingAddress = action.payload.user.shippingAddress;
+      }
+      state.error = null;
+    }).addCase(updateShippingAddressAsync.rejected, (state, action: any) => {
+      state.loading = false;
       state.error = action.payload;
     })
     builder.addCase(registerAsync.pending, (state) => {

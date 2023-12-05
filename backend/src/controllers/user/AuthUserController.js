@@ -62,7 +62,9 @@ const updateShippingAddress = async (req, res) => {
     const user = await User.findById(req.userId);
 
     if (!user) {
-      return { success: false, message: 'User not found' };
+      return res
+        .status(404)
+        .json({ success: false, message: 'User not found' });
     }
 
     // Update the shipping address fields
@@ -76,9 +78,14 @@ const updateShippingAddress = async (req, res) => {
       shippingAddress.country || user.shippingAddress.country;
 
     // Save the updated user
-    await user.save();
 
-    return { success: true, message: 'Shipping address updated successfully' };
+    const savedUser = await user.save();
+    delete savedUser._doc.password;
+    return res.status(200).json({
+      success: true,
+      message: 'Shipping address updated successfully',
+      user: { ...user._doc },
+    });
   } catch (error) {
     return { success: false, message: error.message };
   }
