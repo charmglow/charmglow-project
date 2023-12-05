@@ -1,13 +1,14 @@
 "use client"
 import withUserAuth from "@/components/user/auth/withUserAuth";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import React from "react";
-import { Avatar } from 'antd'
+import { Avatar, message } from 'antd'
 import { Descriptions, Button, Modal } from 'antd';
 import type { DescriptionsProps } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Form, Input, Row, Col, Select } from 'antd';
 import { FaMapMarkerAlt, FaCity, FaFlag, FaGlobe } from 'react-icons/fa';
+import { updateShippingAddressAsync } from "@/store/action/auth/authSlice";
 
 const { Option } = Select;
 
@@ -42,15 +43,24 @@ const ProfilePage = () => {
             key: '4',
             label: 'Address',
             span: 2,
-            children: `${user?.shippingAddress.street == "" ? "Not Updated" : user?.shippingAddress.city}`,
+            children: <span className="uppercase">{user?.shippingAddress.street == "" ? "Not Updated" : `${user?.shippingAddress.street}, ${user?.shippingAddress.city}, ${user?.shippingAddress.state}, ${user?.shippingAddress.country}`}</span>,
         },
         {
             key: '5',
             children: (<Button type="primary" className="bg-[#876553]" onClick={showModal}>Edit</Button>),
         },
     ];
+    const dispatch = useAppDispatch()
     const onFinish = async (values: any) => {
         console.log('Received values:', values);
+        dispatch(updateShippingAddressAsync({
+            shippingAddress: values
+        })).unwrap().then((originalPromiseResult) => {
+            message.success(originalPromiseResult?.message)
+            setOpen(false);
+        }).catch((rejectedValueOrSerializedError) => {
+
+        });
     };
 
     return (
@@ -139,14 +149,6 @@ const ProfilePage = () => {
                     </Form.Item>
                 </Form>
             </Modal>
-            <div className="flex flex-col items-center justify-center">
-                User Information
-                <div>MongoDB ID:  {user?._id} </div>
-                <div>Name: {user?.name}</div>
-                <div>Email: {user?.email}</div>
-
-            </div>
-
         </div>
 
     );
