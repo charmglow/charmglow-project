@@ -55,4 +55,32 @@ async function signup(req, res) {
     res.status(422).json({ error: validationError });
   }
 }
-module.exports = { login, signup };
+const updateShippingAddress = async (req, res) => {
+  const { shippingAddress } = req.body;
+  try {
+    // Find the user by ID
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return { success: false, message: 'User not found' };
+    }
+
+    // Update the shipping address fields
+    user.shippingAddress.street =
+      shippingAddress.street || user.shippingAddress.street;
+    user.shippingAddress.city =
+      shippingAddress.city || user.shippingAddress.city;
+    user.shippingAddress.state =
+      shippingAddress.state || user.shippingAddress.state;
+    user.shippingAddress.country =
+      shippingAddress.country || user.shippingAddress.country;
+
+    // Save the updated user
+    await user.save();
+
+    return { success: true, message: 'Shipping address updated successfully' };
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
+module.exports = { login, signup, updateShippingAddress };
