@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body { margin: 0; padding: 0; }
+main {background: white;}
 @media (min-width:1280px) {
     .drawermenu {
     display: none;
@@ -42,4 +43,8 @@ body { margin: 0; padding: 0; }
 .ant-carousel .slick-dots li.slick-active button {
     opacity: 1;
     background: #ff4ef6;
+}
+
+main {
+    background: white;
 }
