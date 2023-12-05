@@ -4,7 +4,7 @@ import axios from 'axios';
 import { User, Admin, Cart } from '../../types'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import { axiosAdminInstance, axiosInstance } from '@/store/axios';
+import { axiosAdminInstance, axiosInstance, axiosUserInstance } from '@/store/axios';
 
 interface AuthState {
   user: User | null;
@@ -46,7 +46,7 @@ export const updateShippingAddressAsync = createAsyncThunk(
     }
   }, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post('/user/updateaddress', credentials);
+      const response = await axiosUserInstance.post('/user/updateaddress', credentials);
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.error);
