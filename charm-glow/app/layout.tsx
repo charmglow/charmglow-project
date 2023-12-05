@@ -5,14 +5,17 @@ import StyledComponentsRegistry from '../lib/AntdRegistry';
 import Providers from './Providers';
 import { ConfigProvider } from 'antd';
 import theme from '../theme/themeConfig';
-import NavBar from '@/components/navbar/NavBar';
 const inter = Inter({ subsets: ['latin'] });
 export const metadata = {
   title: 'Charm Glow',
   description: 'Jewelry and much more..',
 };
 
-const RootLayout = ({ children }: React.PropsWithChildren) => (
+const RootLayout = ({
+  children,
+}: {
+  children: React.ReactNode
+}) => (
   <html lang="en">
     <body className={inter.className}>
       <StyledComponentsRegistry>
