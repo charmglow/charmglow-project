@@ -122,7 +122,7 @@ const barLineChartData = async (req, res) => {
         month: 'long',
       });
       ordersByMonth[month].totalOrders += 1;
-      ordersByMonth[month].totalSpend += order.total;
+      ordersByMonth[month].totalSpend += order.total / 100;
     });
 
     // Transform data for chart

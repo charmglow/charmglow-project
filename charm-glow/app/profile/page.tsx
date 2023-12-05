@@ -65,91 +65,94 @@ const ProfilePage = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50">
-            <div className="m-5 rounded-md shadow-sm bg-slate-50 p-4">
-                <Avatar size={48} className="inline-block h-10 w-10 rounded-full ring-2 bg-[#876553]">U</Avatar>
-                <Descriptions layout="vertical" items={items} />
-            </div>
-            <Modal
-                title={`Update Profile`}
-                open={open}
-                onCancel={hideModal}
-                footer={null}
-                okButtonProps={{ disabled: true }}
-                cancelButtonProps={{ disabled: true }}
-                maskClosable={false}
+        <div>
 
-            >
-                <Form
-                    name="address-form"
-                    onFinish={onFinish}
-                    layout="vertical"
-                    style={{ maxWidth: '500px', margin: 'auto' }}
+            <div className="h-full mt-7">
+                <div className="px-4">
+                    <Avatar size={48} className="inline-block h-10 w-10 rounded-full ring-2 bg-[#876553]">U</Avatar>
+                    <Descriptions layout="vertical" items={items} />
+                </div>
+                <Modal
+                    title={`Update Profile`}
+                    open={open}
+                    onCancel={hideModal}
+                    footer={null}
+                    okButtonProps={{ disabled: true }}
+                    cancelButtonProps={{ disabled: true }}
+                    maskClosable={false}
+
                 >
-                    <Row gutter={16}>
-                        <Col xs={24} sm={12}>
-                            <Form.Item
-                                name="street"
-                                label="Street"
-                                rules={[{ required: true, message: 'Please enter your street!' }]}
-                            >
-                                <Input
-                                    prefix={<FaMapMarkerAlt />}
-                                    placeholder="Street"
-                                    size="large"
-                                />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12}>
-                            <Form.Item
-                                name="city"
-                                label="City"
-                                rules={[{ required: true, message: 'Please enter your city!' }]}
-                            >
-                                <Input prefix={<FaCity />} placeholder="City" size="large" />
-                            </Form.Item>
-                        </Col>
-                    </Row>
-
-                    <Row gutter={16}>
-                        <Col xs={24} sm={12}>
-                            <Form.Item
-                                name="state"
-                                label="State"
-                                rules={[{ required: true, message: 'Please enter your state!' }]}
-                            >
-                                <Input prefix={<FaFlag />} placeholder="State" size="large" />
-                            </Form.Item>
-                        </Col>
-                        <Col xs={24} sm={12}>
-                            <Form.Item
-                                name="country"
-                                label="Country"
-                                rules={[{ required: true, message: 'Please enter your country!' }]}
-                            >
-                                <Select
-                                    suffixIcon={<FaGlobe />}
-                                    placeholder="Select Country"
-                                    size="large"
+                    <Form
+                        name="address-form"
+                        onFinish={onFinish}
+                        layout="vertical"
+                        style={{ maxWidth: '500px', margin: 'auto' }}
+                    >
+                        <Row gutter={16}>
+                            <Col xs={24} sm={12}>
+                                <Form.Item
+                                    name="street"
+                                    label="Street"
+                                    rules={[{ required: true, message: 'Please enter your street!' }]}
                                 >
-                                    <Option value="usa">USA</Option>
-                                    <Option value="canada">Canada</Option>
-                                    {/* Add more countries as needed */}
-                                </Select>
-                            </Form.Item>
-                        </Col>
-                    </Row>
+                                    <Input
+                                        prefix={<FaMapMarkerAlt />}
+                                        placeholder="Street"
+                                        size="large"
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} sm={12}>
+                                <Form.Item
+                                    name="city"
+                                    label="City"
+                                    rules={[{ required: true, message: 'Please enter your city!' }]}
+                                >
+                                    <Input prefix={<FaCity />} placeholder="City" size="large" />
+                                </Form.Item>
+                            </Col>
+                        </Row>
 
-                    <Form.Item>
-                        <button
-                            type="submit"
-                            className="bg-[#876553] text-white px-4 py-2 rounded"
-                        >
-                            UPDATE
-                        </button>
-                    </Form.Item>
-                </Form>
-            </Modal>
+                        <Row gutter={16}>
+                            <Col xs={24} sm={12}>
+                                <Form.Item
+                                    name="state"
+                                    label="State"
+                                    rules={[{ required: true, message: 'Please enter your state!' }]}
+                                >
+                                    <Input prefix={<FaFlag />} placeholder="State" size="large" />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} sm={12}>
+                                <Form.Item
+                                    name="country"
+                                    label="Country"
+                                    rules={[{ required: true, message: 'Please enter your country!' }]}
+                                >
+                                    <Select
+                                        suffixIcon={<FaGlobe />}
+                                        placeholder="Select Country"
+                                        size="large"
+                                    >
+                                        <Option value="usa">USA</Option>
+                                        <Option value="canada">Canada</Option>
+                                        {/* Add more countries as needed */}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+
+                        <Form.Item>
+                            <button
+                                type="submit"
+                                className="bg-[#876553] text-white px-4 py-2 rounded"
+                            >
+                                UPDATE
+                            </button>
+                        </Form.Item>
+                    </Form>
+                </Modal>
+            </div>
             <Chart />
         </div>
 

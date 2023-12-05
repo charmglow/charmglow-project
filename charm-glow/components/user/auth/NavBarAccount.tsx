@@ -79,10 +79,10 @@ const NavBarAccount = ({ children }: { children: React.ReactNode }) => {
     ];
     return (
         <ConfigProvider theme={theme}>
-            <Layout style={{ minHeight: '100vh', margin: 0 }}>
+            <Layout style={{ minHeight: '100vh', margin: 0 }} className='bg-white'>
                 <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)} style={{ backgroundClip: 'red' }} theme='light'>
                     <div className="demo-logo-vertical" />
-                    <Menu theme="dark" defaultSelectedKeys={[pathname]} mode="inline" items={items} onClick={({ key, }) => {
+                    <Menu theme="light" defaultSelectedKeys={[pathname]} mode="inline" items={items} onClick={({ key, }) => {
                         if (key == "/logout") {
                             dispatch(logout())
                             router.replace(`/`)
@@ -91,20 +91,19 @@ const NavBarAccount = ({ children }: { children: React.ReactNode }) => {
                         }
                     }} className='h-full' />
                 </Sider>
-                <Layout>
-                    <Header style={{ padding: '0px 20px' }} >
+                <Layout className='bg-white'>
+                    <Header style={{ padding: '0px 20px' }} className='bg-slate-50'>
                         <Space style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <Title level={2} italic>Welcome {user?.name}</Title>
                             <Dropdown menu={{ items: itemsDropdown }} placement="bottom" arrow >
-                                <Avatar
-                                    size={{ xs: 24, sm: 30, md: 35, lg: 48, xl: 48, xxl: 48 }}
-                                    icon={<UserOutlined />}
-                                />
+                                <Avatar size={{ xs: 24, sm: 30, md: 35, lg: 48, xl: 48, xxl: 48 }}
+                                    className="inline-block h-10 w-10 rounded-full ring-2 bg-[#876553] uppercase">{user?.name[0]}</Avatar>
+
                             </Dropdown>
                         </Space>
                     </Header>
-                    <Content style={{ margin: '0 16px' }}>
-                        <div>{children}</div>
+                    <Content style={{ margin: '0 16px' }} className='bg-white'>
+                        <div className='bg-white'>{children}</div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}></Footer>
                 </Layout>

@@ -4,6 +4,8 @@ import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 import { Typography, Statistic, Card } from 'antd'
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { getOrderAnalyticsAsync } from '@/store/action/auth/authSlice';
+import { MdOutlineShoppingCart } from "react-icons/md";
+import { BsCurrencyDollar } from "react-icons/bs";
 const { Title } = Typography;
 const Chart = () => {
     const { OrderAnalytics } = useAppSelector(state => state.auth)
@@ -11,17 +13,29 @@ const Chart = () => {
     React.useEffect(() => {
         dispatch(getOrderAnalyticsAsync())
     }, [dispatch])
-    //getOrderAnalyticsAsync
+    let total = OrderAnalytics.reduce((acc, monthData) => ({
+        totalOrders: acc.totalOrders + monthData.totalOrders,
+        totalSpend: acc.totalSpend + monthData.totalSpend,
+    }), { totalOrders: 0, totalSpend: 0 });
     return <div className='h-[40vh] w-full my-4'>
         <Title level={3} italic className='uppercase mx-4'>Order Analytics</Title>
-        <Card bordered={false} className='w-[50%] m-4'>
-
+        <Card bordered={false} className='m-4 bg-blue-100'>
             <Statistic
                 title="Total Orders"
-                value={28}
+                value={total.totalOrders}
                 // precision={2}
-                valueStyle={{ color: '#3f8600' }}
-            // prefix={<ArrowUpOutlined />}
+                valueStyle={{ color: '#876553' }}
+                prefix={<MdOutlineShoppingCart />}
+            // suffix=""
+            />
+        </Card>
+        <Card bordered={false} className='m-4 bg-lime-100'>
+            <Statistic
+                title="Total Spent"
+                value={total.totalSpend}
+                precision={2}
+                valueStyle={{ color: '#876553' }}
+                prefix={<BsCurrencyDollar />}
             // suffix=""
             />
         </Card>
