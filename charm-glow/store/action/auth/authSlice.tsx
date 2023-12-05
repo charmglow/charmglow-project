@@ -1,13 +1,13 @@
 // authSlice.ts
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { User, Admin, Cart } from '../../types'
+import { User, Admin, Cart, OrderAnalytics } from '../../types'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import { axiosAdminInstance, axiosInstance, axiosUserInstance } from '@/store/axios';
+import { axiosInstance, axiosUserInstance } from '@/store/axios';
 
 interface AuthState {
   user: User | null;
+  OrderAnalytics: OrderAnalytics[] | [];
   admin: Admin | null;
   cart: Cart[] | [];
   loading: boolean;
@@ -19,7 +19,69 @@ const initialState: AuthState = {
   admin: null,
   loading: false,
   error: null,
-  cart: []
+  cart: [],
+  OrderAnalytics: [
+    {
+      month: "January",
+      totalOrders: 0,
+      totalSpend: 0
+    },
+    {
+      month: "February",
+      totalOrders: 0,
+      totalSpend: 0
+    },
+    {
+      month: "March",
+      totalOrders: 0,
+      totalSpend: 0
+    },
+    {
+      month: "April",
+      totalOrders: 0,
+      totalSpend: 0
+    },
+    {
+      month: "May",
+      totalOrders: 0,
+      totalSpend: 0
+    },
+    {
+      month: "June",
+      totalOrders: 0,
+      totalSpend: 0
+    },
+    {
+      month: "July",
+      totalOrders: 0,
+      totalSpend: 0
+    },
+    {
+      month: "August",
+      totalOrders: 0,
+      totalSpend: 0
+    },
+    {
+      month: "September",
+      totalOrders: 0,
+      totalSpend: 0
+    },
+    {
+      month: "October",
+      totalOrders: 0,
+      totalSpend: 0
+    },
+    {
+      month: "November",
+      totalOrders: 0,
+      totalSpend: 0
+    },
+    {
+      month: "December",
+      totalOrders: 0,
+      totalSpend: 0
+    }
+  ]
 };
 
 // Define your async action using Redux Thunk for user login
@@ -47,6 +109,19 @@ export const updateShippingAddressAsync = createAsyncThunk(
   }, { rejectWithValue }) => {
     try {
       const response = await axiosUserInstance.post('/user/updateaddress', credentials);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.error);
+    }
+  }
+);
+
+
+export const getOrderAnalyticsAsync = createAsyncThunk(
+  'auth/analyticsorder',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosUserInstance.get('/user/chartdata');
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.error);
@@ -192,6 +267,19 @@ const authSlice = createSlice({
       state.user = null;
       state.error = action.payload;
     })
+    builder.addCase(registerAsync.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    builder.addCase(registerAsync.fulfilled, (state, action: PayloadAction<User>) => {
+      state.loading = false;
+      state.user = null;
+      state.error = null;
+    }).addCase(registerAsync.rejected, (state, action: any) => {
+      state.loading = false;
+      state.user = null;
+      state.error = action.payload;
+    })
     builder.addCase(updateShippingAddressAsync.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -206,19 +294,21 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     })
-    builder.addCase(registerAsync.pending, (state) => {
+
+    builder.addCase(getOrderAnalyticsAsync.pending, (state) => {
       state.loading = true;
       state.error = null;
     })
-    builder.addCase(registerAsync.fulfilled, (state, action: PayloadAction<User>) => {
+    builder.addCase(getOrderAnalyticsAsync.fulfilled, (state, action: any) => {
       state.loading = false;
-      state.user = null;
+      state.OrderAnalytics = action.payload.chartData;
       state.error = null;
-    }).addCase(registerAsync.rejected, (state, action: any) => {
+    }).addCase(getOrderAnalyticsAsync.rejected, (state, action: any) => {
       state.loading = false;
       state.user = null;
       state.error = action.payload;
     })
+
     builder.addCase(adminLoginAsync.pending, (state) => {
       state.loading = true;
       state.error = null;

@@ -57,6 +57,8 @@ const orderSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
-
+orderSchema.statics.findOrdersByUserId = function (userId) {
+  return this.find({ userId });
+};
 const Order = mongoose.model('Order', orderSchema);
 module.exports = Order;

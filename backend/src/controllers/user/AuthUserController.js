@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../../models/User');
-
+const Order = require('../../models/Order');
 async function login(req, res) {
   const { password, email } = req.body;
   try {
@@ -90,4 +90,54 @@ const updateShippingAddress = async (req, res) => {
     return { success: false, message: error.message };
   }
 };
-module.exports = { login, signup, updateShippingAddress };
+
+const barLineChartData = async (req, res) => {
+  try {
+    const orders = await Order.findOrdersByUserId(req.userId);
+
+    // Create an object with all months initialized to default values
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    const ordersByMonth = months.reduce((acc, month) => {
+      acc[month] = { totalOrders: 0, totalSpend: 0 };
+      return acc;
+    }, {});
+
+    // Update ordersByMonth with actual data
+    orders.forEach((order) => {
+      const month = new Date(order.createdAt).toLocaleString('en-us', {
+        month: 'long',
+      });
+      ordersByMonth[month].totalOrders += 1;
+      ordersByMonth[month].totalSpend += order.total;
+    });
+
+    // Transform data for chart
+    const chartData = Object.keys(ordersByMonth).map((month) => ({
+      month,
+      totalOrders: ordersByMonth[month].totalOrders,
+      totalSpend: ordersByMonth[month].totalSpend,
+    }));
+
+    // Send the chartData as a JSON response
+    res.status(200).json({ success: true, chartData });
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
+
+module.exports = { login, signup, updateShippingAddress, barLineChartData };

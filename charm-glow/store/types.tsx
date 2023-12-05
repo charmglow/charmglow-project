@@ -16,6 +16,11 @@ export interface User {
     email: string;
     __v: number;
 }
+export interface OrderAnalytics {
+    month: string;
+    totalOrders: number;
+    totalSpend: number;
+}
 export interface Admin {
     message: string;
     token: string;
