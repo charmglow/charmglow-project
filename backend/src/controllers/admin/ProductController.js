@@ -2,9 +2,6 @@ const { deleteImageFile } = require('../../helpers/utils');
 const Product = require('../../models/Product');
 async function uploadImagesController(req, res) {
   try {
-    console.log('====================================');
-    console.log(req.files);
-    console.log('====================================');
     // Check if files were uploaded
     if (!req.files || req.files.length === 0) {
       return res.status(400).json({ message: 'No files were uploaded.' });
