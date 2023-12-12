@@ -7,13 +7,15 @@ import Products from '@/components/home/Products';
 import AppFooter from '@/components/footer/AppFooter';
 import { Flex, Typography } from 'antd';
 import { FloatButton } from 'antd';
+import Carousel from '@/components/home/Carousel';
 
 const HomePage = () => {
   return (
 
     <div className="App">
       <NavBar />
-      <Slider />
+      <Carousel />
+      {/* <Slider /> */}
       <div className=' bg-gray-50'>
         <Flex justify='center' align='center' vertical className='py-3'>
           <Typography.Title level={3} className='mx-2 my-3' >
