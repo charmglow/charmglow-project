@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import type { PaginationProps } from 'antd';
-import { Button, Card, Image, List, Pagination, TreeSelect, Typography } from 'antd';
+import { Button, Pagination, TreeSelect, Typography } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchFiterProductsAsync } from '@/store/action/home/homeSlice';
 import { jewelryCategories } from '@/utils/utils';

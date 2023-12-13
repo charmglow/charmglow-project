@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Modal } from 'antd';
 
 const Logout: React.FC = () => {
     const [open, setOpen] = useState(false);
@@ -17,7 +17,6 @@ const Logout: React.FC = () => {
     };
 
     const handleCancel = () => {
-        console.log('Clicked cancel button');
         setOpen(false);
     };
 

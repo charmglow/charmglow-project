@@ -1,19 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 'use client'
-import { Form, Input, Button, Space, Col, Row, Card, ConfigProvider, Typography, Avatar, FormInstance, notification, message } from 'antd';
+import { Form, Input, Button, Space, Col, Row, Card, ConfigProvider, Typography, Avatar } from 'antd';
 import theme from '@/theme/themeConfig';
 import { AntDesignOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
-import { useRef } from 'react';
 import SubmitBtn from './SubmitBtn';
-import React, { useEffect } from 'react';
-import { redirect, useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { adminLoginAsync, loginAsync } from "@/store/action/auth/authSlice"
-type NotificationType = 'success' | 'info' | 'warning' | 'error';
-
+import React from 'react';
+import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '@/store/hooks'
+import { adminLoginAsync } from "@/store/action/auth/authSlice"
 const Login = () => {
   const dispatch = useAppDispatch();
-  const { admin } = useAppSelector(state => state.auth)
   const [form] = Form.useForm();
   const { push } = useRouter();
   const onFinish = async (values: {
@@ -39,15 +35,7 @@ const Login = () => {
       console.log(error);
     }
   };
-
-  const formRef = useRef<FormInstance>(null);
-  const { Title, Text } = Typography;
-  const onReset = () => {
-    formRef.current?.resetFields();
-  };
-  const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-  };
+  const { Title } = Typography;
   return (
     <ConfigProvider theme={theme}>
       <Row style={{ display: 'flex', minHeight: '10vh', minWidth: '100vw', backgroundColor: '#876553', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>

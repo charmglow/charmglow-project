@@ -5,7 +5,6 @@ import { MdDeleteOutline } from 'react-icons/md'
 import { changeCartItemQuantity, emptyCart, removeItemFromCart } from "@/store/action/auth/authSlice";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import axios from "axios";
 import { axiosInstance } from "@/store/axios";
 
 const CheckoutDetail = () => {
@@ -15,7 +14,6 @@ const CheckoutDetail = () => {
     const handleChangeCartItemQuantity = (item: any) => {
         dispatch(changeCartItemQuantity(item));
     }
-    const { push } = useRouter()
     const handleRemoveItemFromCart = (item: any) => {
         dispatch(removeItemFromCart({
             _id: item._id

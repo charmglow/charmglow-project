@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { Badge, Button, Card, Image, List, Pagination, Typography, message } from 'antd';
+import { Badge, Button, Card, Image, List, Typography, message } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { addToCart } from '@/store/action/auth/authSlice';
 import { useRouter } from 'next/navigation';

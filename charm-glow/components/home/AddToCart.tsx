@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import { Badge, Drawer, InputNumber, Table, Image, Popconfirm, message, Descriptions, Typography, Button } from 'antd';
+import { Badge, Drawer, InputNumber, Table, Image, Popconfirm, message, Descriptions, Button } from 'antd';
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { MdDeleteOutline } from 'react-icons/md'

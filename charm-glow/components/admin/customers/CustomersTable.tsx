@@ -9,11 +9,7 @@ import { User } from '@/store/types';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchCustomersAsync } from '@/store/action/customers/customersSlice';
 
-
-
-
 const CustomersTable: React.FC = () => {
-    const [messageApi, contextHolder] = message.useMessage();
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef<InputRef>(null);
@@ -22,14 +18,12 @@ const CustomersTable: React.FC = () => {
     useEffect(() => {
         async function fetchCustomers() {
             await dispatch(fetchCustomersAsync()).unwrap().then((originalPromiseResult) => {
-                // messageApi.success("Customers retrieved successfully")
             }).catch((rejectedValueOrSerializedError) => {
-                //   handle error here
-                messageApi.error(rejectedValueOrSerializedError?.error)
+                message.error(rejectedValueOrSerializedError?.error)
             })
         }
         fetchCustomers()
-    }, [dispatch, messageApi])
+    }, [dispatch])
     type DataIndex = keyof User;
     var data: User[] = customers;
     const handleSearch = (
@@ -154,7 +148,6 @@ const CustomersTable: React.FC = () => {
     ];
 
     return (<>
-        {contextHolder}
         <Table columns={columns} dataSource={data} rowKey="_id" loading={loading} />
     </>
     );

@@ -3,7 +3,7 @@
 import { addToCart } from "@/store/action/auth/authSlice";
 import { fetchLatestProductsAsync } from "@/store/action/home/homeSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { Badge, Button, Card, Divider, Flex, Image, List, Typography, message } from "antd";
+import { Badge, Button, Card, Image, List, Typography, message } from "antd";
 import { useRouter } from "next/navigation";
 import React from "react";
 

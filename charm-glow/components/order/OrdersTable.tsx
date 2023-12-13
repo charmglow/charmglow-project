@@ -5,9 +5,8 @@ import Highlighter from 'react-highlight-words';
 import type { InputRef } from 'antd';
 import { Image, Table, Descriptions, Badge, Divider } from 'antd';
 import type { ColumnType, ColumnsType } from 'antd/es/table';
-import type { FilterConfirmProps } from 'antd/es/table/interface';
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { Order, OrderProduct, Product } from '@/store/types';
+import { Order, OrderProduct } from '@/store/types';
 import { Typography } from 'antd';
 import { fetchUserOrdersAsync } from '@/store/action/order/orderSlice';
 
@@ -18,7 +17,6 @@ type DataIndex = keyof Order;
 const OrdersTable = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
-    const searchInput = useRef<InputRef>(null);
     const dispatch = useAppDispatch();
     const { orders, loading } = useAppSelector(state => state.orders);
     var data: Order[] = orders;

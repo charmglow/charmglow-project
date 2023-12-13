@@ -23,10 +23,8 @@ const Chart = () => {
             <Statistic
                 title="Total Orders"
                 value={total.totalOrders}
-                // precision={2}
                 valueStyle={{ color: '#876553' }}
                 prefix={<MdOutlineShoppingCart />}
-            // suffix=""
             />
         </Card>
         <Card bordered={false} className='m-4 bg-lime-100'>
@@ -36,11 +34,9 @@ const Chart = () => {
                 precision={2}
                 valueStyle={{ color: '#876553' }}
                 prefix={<BsCurrencyDollar />}
-            // suffix=""
             />
         </Card>
         <ResponsiveContainer width="100%" height="100%">
-
             <BarChart
                 width={500}
                 height={300}

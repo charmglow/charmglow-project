@@ -1,8 +1,6 @@
-import { applyMiddleware, combineReducers, configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import authSlice from './action/auth/authSlice';
-import logger from 'redux-logger'
 import thunk from 'redux-thunk'; // Import Redux Thunk
-import coounterSlice from './action/counter/coounterSlice';
 import { persistStore } from 'redux-persist';
 
 import productsSlice from './action/products/productsSlice';
@@ -14,7 +12,6 @@ import adminOrderSlice from './action/order/adminOrderSlice';
 const store = configureStore({
     reducer: {
         auth: authSlice,
-        counter: coounterSlice,
         products: productsSlice,
         customers: customersSlice,
         dashboardAdmin: dashboardSlice,

@@ -1,5 +1,5 @@
 import { axiosUserInstance } from "@/store/axios";
-import { Order, OrderProduct } from "@/store/types";
+import { Order } from "@/store/types";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchUserOrdersAsync = createAsyncThunk('order/fetchUserOrdersAsync', async (_, { rejectWithValue }) => {

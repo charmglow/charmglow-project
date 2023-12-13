@@ -14,7 +14,7 @@ const OrdersAdminTable = () => {
     const [searchedColumn, setSearchedColumn] = React.useState('');
     const [searchText, setSearchText] = React.useState('');
     const dispatch = useAppDispatch();
-    const { loading, error, orders, total } = useAppSelector(state => state.adminorders);
+    const { loading, orders } = useAppSelector(state => state.adminorders);
     type DataIndex = keyof Order;
     React.useEffect(() => {
         dispatch(fetchAdminOrdersAsync({
@@ -41,7 +41,6 @@ const OrdersAdminTable = () => {
         {
             title: "Order Details",
             dataIndex: 'products',
-            // key: 'products._id',
             render: (text: OrderProduct[]) => (
                 <div>
                     <Descriptions size="small" layout="vertical" bordered items={[{

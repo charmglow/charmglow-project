@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
-import { Menu, ConfigProvider, Drawer, Space, Avatar, Divider, Badge, Dropdown } from 'antd';
-import { AntDesignOutlined, AppstoreOutlined, MailOutlined, MenuOutlined, SearchOutlined, SettingOutlined, ShoppingCartOutlined, UserOutlined } from '@ant-design/icons';
+import { Menu, Drawer, Space, Avatar, Dropdown } from 'antd';
+import { AntDesignOutlined, MenuOutlined, } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';

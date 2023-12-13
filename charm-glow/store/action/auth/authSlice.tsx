@@ -84,7 +84,6 @@ const initialState: AuthState = {
   ]
 };
 
-// Define your async action using Redux Thunk for user login
 export const loginAsync = createAsyncThunk(
   'auth/login',
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {

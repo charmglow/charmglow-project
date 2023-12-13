@@ -7,18 +7,17 @@ import {
 import { CgLogOut } from "react-icons/cg";
 import { CiHome } from "react-icons/ci";
 import type { MenuProps } from 'antd';
-import { Layout, Menu, ConfigProvider, Avatar, Button, Dropdown, Space, Typography } from 'antd';
+import { Layout, Menu, ConfigProvider, Avatar, Dropdown, Space, Typography } from 'antd';
 import { useState } from 'react';
 import theme from '@/theme/themeConfig';
 const { Header, Content, Footer, Sider } = Layout;
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { usePathname, useRouter } from 'next/navigation'
-import { FiUsers } from 'react-icons/fi'
 import { FaRegUserCircle } from 'react-icons/fa';
 import { PiShoppingCartLight } from 'react-icons/pi';
 import Link from 'next/link';
 import { logout } from '@/store/action/auth/authSlice';
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
