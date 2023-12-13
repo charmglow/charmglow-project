@@ -106,7 +106,7 @@ const NavBar = ({ children }: { children: React.ReactNode }) => {
 
                         </Space>
                     </Header>
-                    <Content style={{ margin: '0 16px' }}>
+                    <Content style={{ margin: '10px 10px' }} className='bg-slate-50'>
                         <div>{children}</div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}></Footer>
