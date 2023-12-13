@@ -24,17 +24,15 @@ const updateOrderStatus = async (req, res) => {
     }
 
     // Find the order by ID and update the status
-    const updatedOrder = await Order.findByIdAndUpdate(
-      orderId,
-      { delivery_status: newStatus },
-      { new: true },
-    );
+    const updatedOrder = await Order.findByIdAndUpdate(orderId, {
+      delivery_status: newStatus,
+    });
 
     if (!updatedOrder) {
       return res.status(404).json({ error: 'Order not found' });
     }
 
-    return res.json(updatedOrder);
+    return res.json({ message: 'Order delivery status updated successfully' });
   } catch (error) {
     console.error('Error updating order status:', error.message);
     return res.status(500).json({ error: 'Internal Server Error' });
