@@ -4,8 +4,10 @@ import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 import { Typography, Statistic, Card } from 'antd'
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { getOrderAnalyticsAsync } from '@/store/action/auth/authSlice';
-import { MdOutlineShoppingCart } from "react-icons/md";
-import { BsCurrencyDollar } from "react-icons/bs";
+import {
+    ShoppingCartOutlined, // Ant Design icon for shopping cart
+    DollarCircleOutlined, // Ant Design icon for dollar currency
+} from "@ant-design/icons";
 const { Title } = Typography;
 const Chart = () => {
     const { OrderAnalytics } = useAppSelector(state => state.auth)
@@ -25,7 +27,7 @@ const Chart = () => {
                 value={total.totalOrders}
                 // precision={2}
                 valueStyle={{ color: '#876553' }}
-                prefix={<MdOutlineShoppingCart />}
+                prefix={<ShoppingCartOutlined />}
             // suffix=""
             />
         </Card>
@@ -35,7 +37,7 @@ const Chart = () => {
                 value={total.totalSpend}
                 precision={2}
                 valueStyle={{ color: '#876553' }}
-                prefix={<BsCurrencyDollar />}
+                prefix={<DollarCircleOutlined />}
             // suffix=""
             />
         </Card>

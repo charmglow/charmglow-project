@@ -5,9 +5,10 @@ import React from "react";
 import { Avatar, message } from 'antd'
 import { Descriptions, Button, Modal } from 'antd';
 import type { DescriptionsProps } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+
 import { Form, Input, Row, Col, Select } from 'antd';
-import { FaMapMarkerAlt, FaCity, FaFlag, FaGlobe } from 'react-icons/fa';
+import { FlagOutlined, GlobalOutlined } from '@ant-design/icons';  // Import Ant Design icons
+
 import { updateShippingAddressAsync } from "@/store/action/auth/authSlice";
 import Chart from "@/components/user/analytics/Chart";
 
@@ -96,7 +97,6 @@ const ProfilePage = () => {
                                     rules={[{ required: true, message: 'Please enter your street!' }]}
                                 >
                                     <Input
-                                        prefix={<FaMapMarkerAlt />}
                                         placeholder="Street"
                                         size="large"
                                     />
@@ -108,7 +108,7 @@ const ProfilePage = () => {
                                     label="City"
                                     rules={[{ required: true, message: 'Please enter your city!' }]}
                                 >
-                                    <Input prefix={<FaCity />} placeholder="City" size="large" />
+                                    <Input placeholder="City" size="large" />
                                 </Form.Item>
                             </Col>
                         </Row>
@@ -120,7 +120,7 @@ const ProfilePage = () => {
                                     label="State"
                                     rules={[{ required: true, message: 'Please enter your state!' }]}
                                 >
-                                    <Input prefix={<FaFlag />} placeholder="State" size="large" />
+                                    <Input prefix={<FlagOutlined />} placeholder="State" size="large" />
                                 </Form.Item>
                             </Col>
                             <Col xs={24} sm={12}>
@@ -130,7 +130,7 @@ const ProfilePage = () => {
                                     rules={[{ required: true, message: 'Please enter your country!' }]}
                                 >
                                     <Select
-                                        suffixIcon={<FaGlobe />}
+                                        suffixIcon={<GlobalOutlined />}
                                         placeholder="Select Country"
                                         size="large"
                                     >
