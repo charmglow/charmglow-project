@@ -45,11 +45,11 @@ const SearchBar = () => {
         </div>
         <div className='w-[95vw] justify-between flex items-center p-4 '>
             <Typography.Text>
-                Total products: <strong>{filterProducts.totalProducts}</strong>
+                Products: <strong>{filterProducts.totalProducts}</strong>
             </Typography.Text>
             <Pagination current={current} onChange={onChange} total={filterProducts.totalProducts} />
             <Typography.Text>
-                Page: <strong>{filterProducts.currentPage} of {filterProducts.totalPages}</strong>
+                <strong>{filterProducts.currentPage} of {filterProducts.totalPages}</strong>
             </Typography.Text>
         </div>
     </div>;
