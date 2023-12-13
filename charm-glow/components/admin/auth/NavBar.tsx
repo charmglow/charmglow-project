@@ -1,7 +1,10 @@
 'use client'
 import {
     PieChartOutlined,
-    SettingOutlined,
+    TeamOutlined,  // Ant Design icon for users
+    ShoppingCartOutlined,  // Ant Design icon for shopping cart
+    SettingOutlined, // Ant Design icon for settings
+    AppstoreOutlined,  // Ant Design icon for box (assuming it represents products)
     UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
@@ -14,10 +17,7 @@ import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useRouter } from 'next/navigation'
 import { adminLogout } from '@/store/action/auth/authSlice';
-import { FiUsers } from 'react-icons/fi'
-import { PiShoppingCartLight } from 'react-icons/pi'
-import { SlSettings } from 'react-icons/sl'
-import { BsBoxSeam } from 'react-icons/bs'
+
 const { Title, Text } = Typography;
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -38,10 +38,10 @@ function getItem(
 
 const items: MenuItem[] = [
     getItem('Dashboard', '/dashboard', <PieChartOutlined />),
-    getItem('Customers', '/dashboard/customers', <FiUsers />),
-    getItem('Orders', '/dashboard/orders', <PiShoppingCartLight />),
-    getItem('Products', '/dashboard/products', <BsBoxSeam className="text-3xl" />),
-    getItem('Setting', '/dashboard/settings', <SlSettings />),
+    getItem('Customers', '/dashboard/customers', <TeamOutlined />),
+    getItem('Orders', '/dashboard/orders', <ShoppingCartOutlined />),
+    getItem('Products', '/dashboard/products', <AppstoreOutlined className="text-3xl" />),
+    getItem('Setting', '/dashboard/settings', <SettingOutlined />),
 ];
 
 

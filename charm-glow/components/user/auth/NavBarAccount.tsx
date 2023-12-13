@@ -2,10 +2,10 @@
 import {
     LogoutOutlined,
     UserOutlined,
+    HomeOutlined,
+    ShoppingCartOutlined
 } from '@ant-design/icons';
 
-import { CgLogOut } from "react-icons/cg";
-import { CiHome } from "react-icons/ci";
 import type { MenuProps } from 'antd';
 import { Layout, Menu, ConfigProvider, Avatar, Dropdown, Space, Typography } from 'antd';
 import { useState } from 'react';
@@ -13,8 +13,6 @@ import theme from '@/theme/themeConfig';
 const { Header, Content, Footer, Sider } = Layout;
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { usePathname, useRouter } from 'next/navigation'
-import { FaRegUserCircle } from 'react-icons/fa';
-import { PiShoppingCartLight } from 'react-icons/pi';
 import Link from 'next/link';
 import { logout } from '@/store/action/auth/authSlice';
 const { Title } = Typography;
@@ -36,10 +34,10 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-    getItem('Profile', '/profile', <FaRegUserCircle />),
-    getItem('Orders', '/profile/orders', <PiShoppingCartLight />),
-    getItem('Home', '/', <CiHome />),
-    getItem('Logout', '/logout', <CgLogOut />)
+    getItem('Profile', '/profile', <UserOutlined />),
+    getItem('Orders', '/profile/orders', <ShoppingCartOutlined />),
+    getItem('Home', '/', <HomeOutlined />),
+    getItem('Logout', '/logout', <LogoutOutlined />)
 ];
 
 const NavBarAccount = ({ children }: { children: React.ReactNode }) => {

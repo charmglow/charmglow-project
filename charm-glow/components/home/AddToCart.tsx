@@ -3,7 +3,7 @@ import React from "react";
 import { Badge, Drawer, InputNumber, Table, Image, Popconfirm, message, Descriptions, Button } from 'antd';
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { MdDeleteOutline } from 'react-icons/md'
+import { DeleteOutlined } from '@ant-design/icons'
 import { changeCartItemQuantity, removeItemFromCart } from "@/store/action/auth/authSlice";
 import { useRouter } from "next/navigation";
 const AddToCart = () => {
@@ -81,7 +81,7 @@ const AddToCart = () => {
 
                                     >
 
-                                        <MdDeleteOutline style={{ fontSize: 20, color: 'red' }} />
+                                        <DeleteOutlined style={{ fontSize: 20, color: 'red' }} />
                                     </Popconfirm>
 
                                 )

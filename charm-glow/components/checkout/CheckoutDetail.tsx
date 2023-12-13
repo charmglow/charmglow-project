@@ -1,12 +1,11 @@
 "use client"
 import React from "react";
 import { InputNumber, Table, Image, Popconfirm, message, Descriptions, Typography, Button } from 'antd';
-import { MdDeleteOutline } from 'react-icons/md'
 import { changeCartItemQuantity, emptyCart, removeItemFromCart } from "@/store/action/auth/authSlice";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { axiosInstance } from "@/store/axios";
-
+import { DeleteOutlined } from '@ant-design/icons'
 const CheckoutDetail = () => {
     const { cart, user } = useAppSelector(state => state.auth)
 
@@ -92,8 +91,7 @@ const CheckoutDetail = () => {
                                 }}
 
                             >
-
-                                <MdDeleteOutline style={{ fontSize: 20, color: 'red' }} />
+                                <DeleteOutlined style={{ fontSize: 20, color: 'red' }} />
                             </Popconfirm>
 
                         )
