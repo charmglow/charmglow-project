@@ -13,7 +13,6 @@ const CheckoutDetail = () => {
     const handleChangeCartItemQuantity = (item: any) => {
         dispatch(changeCartItemQuantity(item));
     }
-    const { push } = useRouter()
     const handleRemoveItemFromCart = (item: any) => {
         dispatch(removeItemFromCart({
             _id: item._id

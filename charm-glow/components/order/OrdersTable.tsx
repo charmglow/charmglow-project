@@ -17,7 +17,6 @@ type DataIndex = keyof Order;
 const OrdersTable = () => {
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
-    const searchInput = useRef<InputRef>(null);
     const dispatch = useAppDispatch();
     const { orders, loading } = useAppSelector(state => state.orders);
     var data: Order[] = orders;

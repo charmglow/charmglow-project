@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 import React from 'react';
-import { Button, Carousel, Flex, Typography } from 'antd';
+import { Button, Carousel, Typography } from 'antd';
 import { useRouter } from 'next/navigation';
 
 

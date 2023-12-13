@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import type { PaginationProps } from 'antd';
-import { Button, Card, Image, List, Pagination, TreeSelect, Typography } from 'antd';
+import { Button, Pagination, TreeSelect, Typography } from 'antd';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { fetchFiterProductsAsync } from '@/store/action/home/homeSlice';
 import { jewelryCategories } from '@/utils/utils';
@@ -45,11 +45,11 @@ const SearchBar = () => {
         </div>
         <div className='w-[95vw] justify-between flex items-center p-4 '>
             <Typography.Text>
-                Total products: <strong>{filterProducts.totalProducts}</strong>
+                Products: <strong>{filterProducts.totalProducts}</strong>
             </Typography.Text>
             <Pagination current={current} onChange={onChange} total={filterProducts.totalProducts} />
             <Typography.Text>
-                Page: <strong>{filterProducts.currentPage} of {filterProducts.totalPages}</strong>
+                <strong>{filterProducts.currentPage} of {filterProducts.totalPages}</strong>
             </Typography.Text>
         </div>
     </div>;

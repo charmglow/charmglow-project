@@ -96,7 +96,6 @@ const OrdersAdminTable = () => {
         {
             title: "Order Details",
             dataIndex: 'products',
-            // key: 'products._id',
             render: (text: OrderProduct[]) => (
                 <div>
                     <Descriptions size="small" layout="vertical" bordered items={[{

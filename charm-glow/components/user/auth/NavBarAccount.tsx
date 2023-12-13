@@ -13,10 +13,9 @@ import theme from '@/theme/themeConfig';
 const { Header, Content, Footer, Sider } = Layout;
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { usePathname, useRouter } from 'next/navigation'
-
 import Link from 'next/link';
 import { logout } from '@/store/action/auth/authSlice';
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 type MenuItem = Required<MenuProps>['items'][number];
 

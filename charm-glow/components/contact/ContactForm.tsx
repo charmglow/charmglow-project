@@ -1,7 +1,7 @@
 "use client"
 import React from "react";
 import { Form, Input, Button, Row, Col, Typography } from 'antd';
-import { UserOutlined, MailOutlined, MessageOutlined } from '@ant-design/icons';
+import { UserOutlined, MailOutlined } from '@ant-design/icons';
 
 const { Title, Paragraph } = Typography;
 

@@ -1,6 +1,5 @@
 import { axiosAdminInstance } from "@/store/axios";
-import { PayloadAction, createAsyncThunk, createSlice, isRejectedWithValue } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk, createSlice, isRejectedWithValue } from "@reduxjs/toolkit";
 interface Product {
     _id: string,
     title: string,

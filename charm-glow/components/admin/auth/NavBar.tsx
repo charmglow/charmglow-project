@@ -8,9 +8,8 @@ import {
     UserOutlined,
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Layout, Menu, ConfigProvider, Avatar, Button, Dropdown, Space, Typography } from 'antd';
-import { AntDesignOutlined, LogoutOutlined } from '@ant-design/icons';
-import Image from 'next/image';
+import { Layout, Menu, ConfigProvider, Avatar, Dropdown, Space, Typography } from 'antd';
+import { LogoutOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import theme from '@/theme/themeConfig';
 const { Header, Content, Footer, Sider } = Layout;

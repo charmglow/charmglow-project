@@ -1,20 +1,17 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 'use client'
-import { Form, Input, Button, Space, Col, Row, Card, ConfigProvider, Typography, Avatar, FormInstance, notification, message } from 'antd';
+import { Form, Input, Button, Space, Col, Row, Card, ConfigProvider, Typography, Avatar, FormInstance, message } from 'antd';
 import theme from '@/theme/themeConfig';
 import { AntDesignOutlined, LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { useRef } from 'react';
 import SubmitBtn from '../../admin/auth/SubmitBtn';
-import React, { useEffect } from 'react';
-import { redirect, useRouter } from 'next/navigation';
+import React from 'react';
+import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { loginAsync, registerAsync } from "@/store/action/auth/authSlice"
-type NotificationType = 'success' | 'info' | 'warning' | 'error';
+import { registerAsync } from "@/store/action/auth/authSlice"
 
 const UserRegister = () => {
-    const [messageApi, contextHolder] = message.useMessage();
     const dispatch = useAppDispatch();
-    const { loading, user, error } = useAppSelector(state => state.auth)
     const [form] = Form.useForm();
     const { push } = useRouter();
 
@@ -24,22 +21,16 @@ const UserRegister = () => {
         password: string,
         name: string
     }) => {
-        console.log("values: ", values)
         try {
             await dispatch(registerAsync(values)).unwrap().then((originalPromiseResult) => {
                 // handle result here
-
-                messageApi.open({
-                    key: "updatable",
-                    type: 'success',
-                    content: originalPromiseResult?.message,
-                });
+                message.success("User registration successful");
 
                 push('/login');
 
             }).catch((rejectedValueOrSerializedError) => {
                 //   handle error here
-                messageApi.open({
+                message.error({
                     key: "updatable",
                     type: 'error',
                     content: rejectedValueOrSerializedError,
@@ -52,17 +43,10 @@ const UserRegister = () => {
         }
     };
 
-    const formRef = useRef<FormInstance>(null);
-    const { Title, Text } = Typography;
-    const onReset = () => {
-        formRef.current?.resetFields();
-    };
-    const tailLayout = {
-        wrapperCol: { offset: 8, span: 16 },
-    };
+    const { Title } = Typography;
+
     return (
         <ConfigProvider theme={theme}>
-            {contextHolder}
             <Row style={{ display: 'flex', minHeight: '10vh', minWidth: '100vw', backgroundColor: '#876553', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
                 <Col xs={24} xl={8}>
                     <Title level={3} style={{ color: '#fff' }}>CHARM GLOW</Title>

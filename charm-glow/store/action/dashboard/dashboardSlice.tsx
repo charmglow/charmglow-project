@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Analytics } from '../../types';
-import axios from "axios";
 import { axiosAdminInstance } from "@/store/axios";
 interface AnalyticsState {
     analytics: Analytics | {

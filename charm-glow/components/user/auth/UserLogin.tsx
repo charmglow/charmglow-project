@@ -7,13 +7,10 @@ import { useRef } from 'react';
 import SubmitBtn from '../../admin/auth/SubmitBtn';
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { useAppDispatch } from '@/store/hooks'
 import { loginAsync } from "@/store/action/auth/authSlice"
-type NotificationType = 'success' | 'info' | 'warning' | 'error';
-
 const UserLogin = () => {
     const dispatch = useAppDispatch();
-    const { loading, user, error } = useAppSelector(state => state.auth)
     const [form] = Form.useForm();
     const { push } = useRouter();
 
@@ -29,21 +26,13 @@ const UserLogin = () => {
                 push('/profile');
 
             }).catch((rejectedValueOrSerializedError) => {
-                //   handle error here
                 message.error(`${rejectedValueOrSerializedError}`);
             });
-
-            // user && push('admin/dashboard');
         } catch (error: any) {
             console.log(error);
         }
     };
-
-    const formRef = useRef<FormInstance>(null);
-    const { Title, Text } = Typography;
-    const onReset = () => {
-        formRef.current?.resetFields();
-    };
+    const { Title } = Typography;
     return (
         <ConfigProvider theme={theme}>
             <Row style={{ display: 'flex', minHeight: '10vh', minWidth: '100vw', backgroundColor: '#876553', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
