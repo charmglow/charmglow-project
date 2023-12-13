@@ -95,7 +95,6 @@ const NavBar = ({ children }: { children: React.ReactNode }) => {
                 <Layout>
                     <Header style={{ padding: '0px 20px' }} >
                         <Space style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Title level={2} italic>Welcome {admin?.name}</Title>
                             <Dropdown menu={{ items: itemsDropdown }} placement="bottom" arrow>
                                 <Avatar
                                     size={{ xs: 24, sm: 30, md: 35, lg: 48, xl: 48, xxl: 48 }}

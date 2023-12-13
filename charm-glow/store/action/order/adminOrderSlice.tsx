@@ -23,15 +23,42 @@ export const updateDeliveryStatusAsync = createAsyncThunk('adminorders/updatedel
         return rejectWithValue(error.response?.data?.error);
     }
 })
+
+export const getDeliveryStatusCountAsync = createAsyncThunk('adminorders/getdeliveryStatusCount', async (_, { rejectWithValue }) => {
+    try {
+        const response = await axiosAdminInstance.get(`/status-count`);
+        console.log('====================================');
+        console.log(response.data);
+        console.log('====================================');
+        return response.data;
+    } catch (error: any) {
+        return rejectWithValue(error.response?.data?.error);
+    }
+})
+
+
+
 interface OrderState {
     orders: Order[];
     total: number | 0;
     error: string | null;
     loading: boolean;
+    statusAnalytics: {
+        totalPending: number | 0,
+        totalProcessing: number | 0,
+        totalShipped: number | 0,
+        totalDelivered: number | 0,
+    }
 }
 
 const initialState: OrderState = {
     orders: [],
+    statusAnalytics: {
+        totalPending: 0,
+        totalProcessing: 0,
+        totalShipped: 0,
+        totalDelivered: 0,
+    },
     total: 0,
     error: null,
     loading: false
@@ -64,6 +91,18 @@ const orderAdminSlice = createSlice({
             state.orders = action.payload?.orders;
             state.total = action.payload?.total;
         }).addCase(fetchAdminOrdersAsync.rejected, (state, action: any) => {
+            state.loading = false;
+            state.error = action.payload?.error;
+        })
+        builder.addCase(getDeliveryStatusCountAsync.pending, (state) => {
+            state.error = null;
+            state.loading = true;
+        })
+        builder.addCase(getDeliveryStatusCountAsync.fulfilled, (state, action: any) => {
+            state.loading = false;
+            state.error = null;
+            state.statusAnalytics = action.payload;
+        }).addCase(getDeliveryStatusCountAsync.rejected, (state, action: any) => {
             state.loading = false;
             state.error = action.payload?.error;
         })
