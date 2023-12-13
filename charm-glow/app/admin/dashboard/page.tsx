@@ -2,14 +2,12 @@
 import withAdminAuth from "@/components/admin/auth/withAdminAuth";
 import { fetchAnalyticsAsync } from "@/store/action/dashboard/dashboardSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { ArrowDownOutlined, ArrowUpOutlined, UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { Card, Col, Row, Statistic } from "antd";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 import CountUp from "react-countup";
 
-
-const formatter = (value: number) => <CountUp end={value} separator="," />;
 const DashboardPage = () => {
     const dispatch = useAppDispatch();
     const { analytics } = useAppSelector(state => state.dashboardAdmin);
@@ -31,7 +29,7 @@ const DashboardPage = () => {
         </Col>
         <Col span={8}>
             <Card bordered={false} className="bg-green-200">
-                <Image alt="Orders_icon" src="/box.png" width={30} height={30} />
+                <Image alt="Orders icon" src="/box.png" width={30} height={30} />
                 <Statistic title="Products" value={analytics.productCount} />
             </Card>
         </Col>

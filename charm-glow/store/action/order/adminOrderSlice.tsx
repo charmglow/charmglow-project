@@ -29,7 +29,19 @@ const initialState: OrderState = {
 const orderAdminSlice = createSlice({
     name: 'adminorders',
     initialState,
-    reducers: {},
+    reducers: {
+        updateDeliveryStatusAction: (state, action) => {
+            const { orderId, newStatus } = action.payload;
+
+            // Find the index of the order in the state.orders array
+            const orderIndex = state.orders.findIndex((order) => order._id === orderId);
+
+            // If found, update the delivery_status of the order
+            if (orderIndex !== -1) {
+                state.orders[orderIndex].delivery_status = newStatus;
+            }
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(fetchAdminOrdersAsync.pending, (state) => {
             state.error = null;
@@ -47,5 +59,5 @@ const orderAdminSlice = createSlice({
     }
 });
 
-
+export const { updateDeliveryStatusAction } = orderAdminSlice.actions;
 export default orderAdminSlice.reducer;
