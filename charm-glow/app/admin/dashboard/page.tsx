@@ -6,7 +6,6 @@ import { UserOutlined } from "@ant-design/icons";
 import { Card, Col, Row, Statistic } from "antd";
 import Image from "next/image";
 import React from "react";
-import CountUp from "react-countup";
 
 const DashboardPage = () => {
     const dispatch = useAppDispatch();

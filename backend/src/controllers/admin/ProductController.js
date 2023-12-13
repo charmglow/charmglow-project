@@ -105,14 +105,8 @@ async function deleteProductById(req, res) {
     if (!product) {
       return res.status(404).json({ error: 'Product not found.' });
     }
-    console.log('====================================');
-    console.log(product.productImage);
-    console.log('====================================');
     // Delete the associated image file
     if (product.productImage.length > 0) {
-      console.log('====================================');
-      console.log(product.productImage);
-      console.log('====================================');
       for (let i = 0; i < product.productImage.length; i++) {
         deleteImageFile(product.productImage[i]);
       }

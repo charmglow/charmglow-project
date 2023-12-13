@@ -1,5 +1,37 @@
 const Order = require('../../models/Order');
 const moment = require('moment');
+// Function to calculate order status
+async function getOrderStatus() {
+  try {
+    const [pendingCount, processingCount, shippedCount, deliveredCount] =
+      await Promise.all([
+        Order.countDocuments({ delivery_status: 'pending' }),
+        Order.countDocuments({ delivery_status: 'processing' }),
+        Order.countDocuments({ delivery_status: 'shipped' }),
+        Order.countDocuments({ delivery_status: 'delivered' }),
+      ]);
+
+    return {
+      totalPending: pendingCount,
+      totalProcessing: processingCount,
+      totalShipped: shippedCount,
+      totalDelivered: deliveredCount,
+    };
+  } catch (error) {
+    console.error('Error calculating order status:', error);
+    throw error;
+  }
+}
+
+const statusCountController = async (req, res) => {
+  try {
+    const orderStatus = await getOrderStatus();
+    res.json(orderStatus);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 const getOrders = async (req, res) => {
   try {
@@ -69,4 +101,4 @@ const getLatestThreeDaysOrders = async (req, res) => {
   }
 };
 
-module.exports = { getOrders, getLatestThreeDaysOrders };
+module.exports = { getOrders, getLatestThreeDaysOrders, statusCountController };
