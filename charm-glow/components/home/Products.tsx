@@ -40,7 +40,7 @@ const Products = () => {
                     <Card
                         hoverable
                         title={item?.title} className="m-2" key={index}
-                        cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} />
+                        cover={<Image alt="Card main Image" height={300} className="object-scale-down" src={`${item.productImage[0]}`} />
                         }
                         actions={[
                             <Button key={item._id} type="link" onClick={() => push(`/products/${item._id}`)}>view detail</Button>,

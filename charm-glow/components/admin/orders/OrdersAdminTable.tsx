@@ -1,7 +1,7 @@
-import { fetchAdminOrdersAsync } from "@/store/action/order/adminOrderSlice";
+import { fetchAdminOrdersAsync, updateDeliveryStatusAction } from "@/store/action/order/adminOrderSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Order, OrderProduct } from "@/store/types";
-import { Table, Descriptions, Image, Divider, Typography, Badge } from 'antd'
+import { Table, Descriptions, Image, Divider, Typography, Badge, Button, Modal, Form, Select } from 'antd'
 import React from "react";
 import type { ColumnType, ColumnsType } from 'antd/es/table';
 import Highlighter from 'react-highlight-words';
@@ -14,8 +14,9 @@ const OrdersAdminTable = () => {
     const [searchedColumn, setSearchedColumn] = React.useState('');
     const [searchText, setSearchText] = React.useState('');
     const dispatch = useAppDispatch();
-    const { loading, error, orders, total } = useAppSelector(state => state.adminorders);
+    const { loading, orders } = useAppSelector(state => state.adminorders);
     type DataIndex = keyof Order;
+    const [form] = Form.useForm();
     React.useEffect(() => {
         dispatch(fetchAdminOrdersAsync({
             page,
@@ -23,6 +24,54 @@ const OrdersAdminTable = () => {
             delivery_status: deliveryStatus
         }))
     }, [dispatch, page, pageSize, deliveryStatus])
+    const updateDeliveryStatus = (record: Order) => {
+        // Set the default value for the 'status' field
+        form.setFieldsValue({ status: record.delivery_status });
+
+        // Implement the logic to update the delivery status
+        // You may want to show a modal or use other UI components for updating the status
+        Modal.confirm({
+            title: 'Update Delivery Status',
+            content: (
+                <Form
+                    form={form}
+                    onFinish={(values) => {
+                        // Dispatch an action to update the delivery status in the store
+                        console.log('====================================');
+                        console.log(values?.status);
+                        console.log('====================================');
+                        const data = {
+                            orderId: record._id,
+                            newStatus: values?.status
+                        }
+                        dispatch(updateDeliveryStatusAction(data))
+                        // updateDeliveryStatus(record._id, newStatus);
+                        form.resetFields();
+                    }}
+                >
+                    <Form.Item name="status" label="Select the new delivery status:">
+                        <Select>
+                            <Select.Option value="pending">Pending</Select.Option>
+                            <Select.Option value="processing">Processing</Select.Option>
+                            <Select.Option value="shipped">Shipped</Select.Option>
+                            <Select.Option value="delivered">Delivered</Select.Option>
+                        </Select>
+                    </Form.Item>
+                </Form>
+            ),
+            onOk: () => {
+                // Manually trigger form submission when OK button is clicked
+                form.submit();
+            },
+            okButtonProps: {
+                style: {
+                    backgroundColor: '#876553'
+                }
+            }
+        });
+
+    };
+
     const getColumnSearchProps = (dataIndex: DataIndex): ColumnType<Order> => ({
         render: (text) =>
             searchedColumn === dataIndex ? (
@@ -37,6 +86,8 @@ const OrdersAdminTable = () => {
             ),
     });
     var data: Order[] = orders;
+
+
     const columns: ColumnsType<Order> = [
         {
             title: "Order Details",
@@ -90,7 +141,7 @@ const OrdersAdminTable = () => {
         },
 
         {
-            title: 'Order Date',
+            title: 'Date',
             dataIndex: 'createdAt',
             ...getColumnSearchProps('createdAt'),
             render: (text) => (
@@ -111,18 +162,70 @@ const OrdersAdminTable = () => {
 
         },
         {
-            title: 'Delivery Status',
+            title: 'Status',
             dataIndex: 'delivery_status',
             ...getColumnSearchProps('delivery_status'),
             sortDirections: ['descend', 'ascend'],
-            render: (text) => (
+            render: (text) => {
+                let badgeStatus;
+                let badgeColor;
 
-                <Badge status="processing" text={text} />
-            )
+                switch (text) {
+                    case 'pending':
+                        badgeStatus = 'Pending';
+                        badgeColor = '#ff9800'; // Orange color for 'Pending'
+                        break;
+                    case 'processing':
+                        badgeStatus = 'Processing';
+                        badgeColor = '#2196f3'; // Blue color for 'Processing'
+                        break;
+                    case 'shipped':
+                        badgeStatus = 'Shipped';
+                        badgeColor = '#ffeb3b'; // Yellow color for 'Shipped'
+                        break;
+                    case 'delivered':
+                        badgeStatus = 'Delivered';
+                        badgeColor = '#4caf50'; // Green color for 'Delivered'
+                        break;
+                    default:
+                        badgeStatus = text;
+                        badgeColor = '#000'; // Default color for unknown status
+                }
 
-
+                return <Badge color={badgeColor} text={badgeStatus} />;
+            },
+            filters: [
+                {
+                    text: 'Pending',
+                    value: 'pending',
+                },
+                {
+                    text: 'Processing',
+                    value: 'processing',
+                },
+                {
+                    text: 'Shipped',
+                    value: 'shipped',
+                },
+                {
+                    text: 'Delivered',
+                    value: 'delivered',
+                },
+            ],
+            // onFilter: (value: string, record) => record.delivery_status.indexOf(value) === 0,
+            onFilter: (value, record) => record.delivery_status === value,
+            filterMode: 'tree'
         },
-
+        {
+            title: 'Action',
+            dataIndex: '',
+            key: 'action',
+            render: (_, record) => (
+                <Button type="primary" onClick={() => updateDeliveryStatus(record)} className='uppercase bg-[#876553]'>
+                    Update Status
+                </Button>
+            ),
+        },
     ];
 
     return (
