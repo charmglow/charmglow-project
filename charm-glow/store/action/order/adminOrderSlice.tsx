@@ -12,6 +12,17 @@ export const fetchAdminOrdersAsync = createAsyncThunk('adminorders/getordersbyad
         return rejectWithValue(error.response?.data?.error);
     }
 })
+export const updateDeliveryStatusAsync = createAsyncThunk('adminorders/updatedeliveryStatus', async (credientials: {
+    orderId: any,
+    newStatus: string
+}, { rejectWithValue }) => {
+    try {
+        const response = await axiosAdminInstance.post(`/update-status`, credientials);
+        return response.data;
+    } catch (error: any) {
+        return rejectWithValue(error.response?.data?.error);
+    }
+})
 interface OrderState {
     orders: Order[];
     total: number | 0;

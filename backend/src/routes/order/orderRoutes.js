@@ -10,6 +10,6 @@ const {
 const router = express.Router();
 
 router.get('/user-orders', authenticateUserToken, getOrdersByCustomer);
-router.post('/update-status', authenticateUserToken, updateOrderStatus);
+router.post('/admin/update-status', authenticateUserToken, updateOrderStatus);
 
 module.exports = router;

@@ -1,7 +1,7 @@
-import { fetchAdminOrdersAsync, updateDeliveryStatusAction } from "@/store/action/order/adminOrderSlice";
+import { fetchAdminOrdersAsync, updateDeliveryStatusAction, updateDeliveryStatusAsync } from "@/store/action/order/adminOrderSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { Order, OrderProduct } from "@/store/types";
-import { Table, Descriptions, Image, Divider, Typography, Badge, Button, Modal, Form, Select } from 'antd'
+import { Table, Descriptions, Image, Divider, Typography, Badge, Button, Modal, Form, Select, message } from 'antd'
 import React from "react";
 import type { ColumnType, ColumnsType } from 'antd/es/table';
 import Highlighter from 'react-highlight-words';
@@ -35,18 +35,22 @@ const OrdersAdminTable = () => {
             content: (
                 <Form
                     form={form}
-                    onFinish={(values) => {
+                    onFinish={async (values) => {
                         // Dispatch an action to update the delivery status in the store
-                        console.log('====================================');
-                        console.log(values?.status);
-                        console.log('====================================');
                         const data = {
                             orderId: record._id,
                             newStatus: values?.status
                         }
                         dispatch(updateDeliveryStatusAction(data))
                         // updateDeliveryStatus(record._id, newStatus);
-                        form.resetFields();
+                        dispatch(updateDeliveryStatusAsync({
+                            orderId: record._id,
+                            newStatus: values?.status
+                        })).unwrap().then((originalPromiseResult) => {
+                            message.success(originalPromiseResult?.message)
+                            form.resetFields()
+                        }).catch((rejectedValueOrSerializedError) => {
+                        });
                     }}
                 >
                     <Form.Item name="status" label="Select the new delivery status:">

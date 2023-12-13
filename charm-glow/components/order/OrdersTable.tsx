@@ -5,9 +5,8 @@ import Highlighter from 'react-highlight-words';
 import type { InputRef } from 'antd';
 import { Image, Table, Descriptions, Badge, Divider } from 'antd';
 import type { ColumnType, ColumnsType } from 'antd/es/table';
-import type { FilterConfirmProps } from 'antd/es/table/interface';
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { Order, OrderProduct, Product } from '@/store/types';
+import { Order, OrderProduct } from '@/store/types';
 import { Typography } from 'antd';
 import { fetchUserOrdersAsync } from '@/store/action/order/orderSlice';
 
@@ -121,12 +120,55 @@ const OrdersTable = () => {
             dataIndex: 'delivery_status',
             ...getColumnSearchProps('delivery_status'),
             sortDirections: ['descend', 'ascend'],
-            render: (text) => (
+            render: (text) => {
+                let badgeStatus;
+                let badgeColor;
 
-                <Badge status="processing" text={text} />
-            )
+                switch (text) {
+                    case 'pending':
+                        badgeStatus = 'Pending';
+                        badgeColor = '#ff9800'; // Orange color for 'Pending'
+                        break;
+                    case 'processing':
+                        badgeStatus = 'Processing';
+                        badgeColor = '#2196f3'; // Blue color for 'Processing'
+                        break;
+                    case 'shipped':
+                        badgeStatus = 'Shipped';
+                        badgeColor = '#ffeb3b'; // Yellow color for 'Shipped'
+                        break;
+                    case 'delivered':
+                        badgeStatus = 'Delivered';
+                        badgeColor = '#4caf50'; // Green color for 'Delivered'
+                        break;
+                    default:
+                        badgeStatus = text;
+                        badgeColor = '#000'; // Default color for unknown status
+                }
 
-
+                return <Badge color={badgeColor} text={badgeStatus} />;
+            },
+            filters: [
+                {
+                    text: 'Pending',
+                    value: 'pending',
+                },
+                {
+                    text: 'Processing',
+                    value: 'processing',
+                },
+                {
+                    text: 'Shipped',
+                    value: 'shipped',
+                },
+                {
+                    text: 'Delivered',
+                    value: 'delivered',
+                },
+            ],
+            // onFilter: (value: string, record) => record.delivery_status.indexOf(value) === 0,
+            onFilter: (value, record) => record.delivery_status === value,
+            filterMode: 'tree'
         },
 
     ];

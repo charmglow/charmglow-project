@@ -10,6 +10,7 @@ export const fetchUserOrdersAsync = createAsyncThunk('order/fetchUserOrdersAsync
         return rejectWithValue(error.response?.data?.error);
     }
 })
+
 interface OrderState {
     orders: Order[];
     error: string | null;
