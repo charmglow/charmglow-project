@@ -45,8 +45,8 @@ const CheckoutDetail = () => {
                 {
                     title: 'Product',
                     dataIndex: "productImage",
-                    render: (value) => {
-                        return <Image src={value[0]} alt={"Cart Item"} height={100} width={100} />
+                    render: (value, record) => {
+                        return <Image src={value[0]} alt={record?.title} height={100} width={100} />
                     }
                 },
                 {

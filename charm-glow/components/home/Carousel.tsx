@@ -38,7 +38,7 @@ const Carousel = () => {
                     <h1>Charm Glow Jewelry</h1>
                     <hr />
                     <p>Discover Timeless Elegance: Explore Our Exquisite Handcrafted Jewelry Collection for Every Occasion</p>
-                    <Link className='slider-btn' href="/products">EXPLORE MORE</Link>
+                    <Link className='slider-btn my-4' href="/products">EXPLORE MORE</Link>
                 </div>
             </div>
 
