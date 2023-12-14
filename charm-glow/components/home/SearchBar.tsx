@@ -30,17 +30,18 @@ const SearchBar = () => {
         }))
     }, [current, dispatch, value])
     return <div>
-        <div >
-            <span> Category</span>
-            <TreeSelect
-                style={{ width: '20%' }}
-                dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
-                treeData={jewelryCategories}
-                placeholder="Please select"
-                treeDefaultExpandAll
-                onChange={onChangeCategory}
-                value={value}
-            />
+        <div className='flex justify-between w-full align-middle p-4'>
+            <div>
+                <TreeSelect
+                    style={{ width: '180px' }}
+                    dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                    treeData={jewelryCategories}
+                    placeholder="Please select"
+                    treeDefaultExpandAll
+                    onChange={onChangeCategory}
+                    value={value}
+                />
+            </div>
             <Button type='primary' className='bg-[#876553]' onClick={() => handleReset()}>RESET</Button>
         </div>
         <div className='w-[95vw] justify-between flex items-center p-4 '>

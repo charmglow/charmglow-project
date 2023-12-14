@@ -38,7 +38,7 @@ const FilteredDataShow = () => {
                         <Card
                             hoverable
                             className='m-2'
-                            title={item?.title} key={index} cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} alt={item?.description} />}
+                            title={item?.title} key={index} cover={<Image height={300} className="object-scale-down" src={`${item.productImage[0]}`} alt={item?.title} />}
                             actions={[
                                 <Button key={item._id} type="link" onClick={() => push(`/products/${item._id}`)}>view detail</Button>,
                                 <Button key={item._id} type="primary" className='bg-[#876553]' onClick={() => handleAddToCart({

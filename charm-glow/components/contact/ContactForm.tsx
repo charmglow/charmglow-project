@@ -15,7 +15,7 @@ const ContactForm = () => {
         form.resetFields();
     };
     return (
-        <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
+        <Row justify="center" align="middle" style={{ minHeight: '100vh' }} className="mx-4">
             <Col xs={24} sm={20} md={16} lg={12} xl={10}>
                 <Title level={2} style={{ textAlign: 'center', marginBottom: '2rem' }}>
                     Contact Us
